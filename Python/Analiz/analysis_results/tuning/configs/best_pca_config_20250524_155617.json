@@ -1,0 +1,6 @@
+{
+  "componentCount": 25,
+  "anomalyThreshold": 3.5,
+  "scaleFeatures": true,
+  "randomState": 42
+}

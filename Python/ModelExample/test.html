@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performans Sonuçları</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(66, 153, 225, 0.4);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(247, 250, 252, 0.5);
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.1), rgba(102, 126, 234, 0.1));
+            transform: scale(1.01);
+        }
+
+        .success {
+            color: #38a169;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .error {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .best-score {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .duration {
+            color: #718096;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Fraud Detection Model Results</h1>
+
+        <div class="summary">
+            <div class="summary-card">
+                <h3>En İyi Accuracy</h3>
+                <p class="value">99.95%</p>
+                <small>LightGBM</small>
+            </div>
+            <div class="summary-card">
+                <h3>En İyi F1 Skoru</h3>
+                <p class="value">84.15%</p>
+                <small>LightGBM</small>
+            </div>
+            <div class="summary-card">
+                <h3>En İyi AUC</h3>
+                <p class="value">97.67%</p>
+                <small>LightGBM</small>
+            </div>
+            <div class="summary-card">
+                <h3>En Hızlı Eğitim</h3>
+                <p class="value">5s</p>
+                <small>Isolation Forest</small>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Durum</th>
+                    <th>Süre (s)</th>
+                    <th>Accuracy</th>
+                    <th>F1 Score</th>
+                    <th>AUC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="model-name">LightGBM</td>
+                    <td>
+                        <span class="success">✅ Başarılı</span>
+                    </td>
+                    <td class="duration">42</td>
+                    <td class="metric-value best-score">0.9995</td>
+                    <td class="metric-value best-score">0.8415</td>
+                    <td class="metric-value best-score">0.9767</td>
+                </tr>
+
+                <tr>
+                    <td class="model-name">Attention</td>
+                    <td>
+                        <span class="success">✅ Başarılı</span>
+                    </td>
+                    <td class="duration">156</td>
+                    <td class="metric-value">0.5028</td>
+                    <td class="metric-value">0.0043</td>
+                    <td class="metric-value">0.5851</td>
+                </tr>
+
+                <tr>
+                    <td class="model-name">AutoEncoder</td>
+                    <td>
+                        <span class="success">✅ Başarılı</span>
+                    </td>
+                    <td class="duration">81</td>
+                    <td class="metric-value">0.9014</td>
+                    <td class="metric-value">0.0307</td>
+                    <td class="metric-value">0.9593</td>
+                </tr>
+
+                <tr>
+                    <td class="model-name">Isolation Forest</td>
+                    <td>
+                        <span class="success">✅ Başarılı</span>
+                    </td>
+                    <td class="duration">5</td>
+                    <td class="metric-value">0.9002</td>
+                    <td class="metric-value">0.0304</td>
+                    <td class="metric-value">0.9552</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 30px; padding: 20px; background: rgba(66, 153, 225, 0.1); border-radius: 10px; border-left: 4px solid #4299e1;">
+            <h3 style="margin-top: 0; color: #2d3748;">📊 Analiz Özeti</h3>
+            <ul style="color: #4a5568; line-height: 1.6;">
+                <li><strong>LightGBM</strong> en yüksek performansı gösterdi (Accuracy: 99.95%, F1: 84.15%, AUC: 97.67%)</li>
+                <li><strong>AutoEncoder</strong> ve <strong>Isolation Forest</strong> benzer anomali tespiti performansı sergiledi</li>
+                <li><strong>Attention</strong> modeli en düşük performans gösterdi, muhtemelen parametre ayarlaması gerekiyor</li>
+                <li><strong>Isolation Forest</strong> en hızlı eğitim süresine sahip (5 saniye)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "Örnek Model Deneyi",
+  "description": "Özel model parametreleri ile deneyim",
+  "models": {
+    "Custom_LightGBM_HighAccuracy": {
+      "type": "lightgbm",
+      "config": {
+        "numberOfTrees": 1200,
+        "numberOfLeaves": 150,
+        "learningRate": 0.005,
+        "classWeights": {
+          "0": 1.0,
+          "1": 80.0
+        }
+      }
+    },
+    "Custom_PCA_Sensitive": {
+      "type": "pca",
+      "config": {
+        "componentCount": 20,
+        "anomalyThreshold": 2.0
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+
+        <h2>🔄 Model Karşılaştırması</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Genel Skor</th>
+                <th>Not</th>
+                <th>Doğruluk</th>
+                <th>Kesinlik</th>
+                <th>Duyarlılık</th>
+                <th>F1-Skoru</th>
+                <th>AUC</th>
+            </tr>
+
+            <tr>
+                <td>CreditCard_FraudDetection_LightGBM_20250524</td>
+                <td>0.9390</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.8454</td>
+                <td>0.8367</td>
+                <td>0.8410</td>
+                <td>0.9767</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_AnomalyDetection_PCA_20250524</td>
+                <td>0.7317</td>
+                <td>B</td>
+                <td>0.9937</td>
+                <td>0.1584</td>
+                <td>0.6224</td>
+                <td>0.2526</td>
+                <td>0.9488</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_Ensemble_20250524</td>
+                <td>0.9355</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.9167</td>
+                <td>0.7857</td>
+                <td>0.8462</td>
+                <td>0.9609</td>
+            </tr>
+
+        </table>
+
+        <div class="success">
+            <h3>🏆 En İyi Model: CreditCard_FraudDetection_LightGBM_20250524</h3>
+            <p>Genel Skor: 0.9390</p>
+            <p>Öneriler:</p>
+            <ul>
+                <li>En iyi performans gösteren modeli production ortamında kullanın</li>
+                <li>Diğer modelleri yedek veya özel durumlar için saklayın</li>
+                <li>Düzenli olarak model performansını izleyin ve gerekirse yeniden eğitin</li>
+            </ul>
+        </div>
+
+        <div class="timestamp">
+            <p>Bu rapor otomatik olarak oluşturulmuştur.</p>
+            <p>Rapor Tarihi: {report_data.get('timestamp', 'N/A')}</p>
+        </div>
+    </div>
+</body>
+</html>

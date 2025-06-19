@@ -1,0 +1,8 @@
+{
+  "model_type": "fraud_model_pca",
+  "created_at": "2025-05-25T12:52:00.239228",
+  "status": "placeholder",
+  "message": "Bu dosya e\u011fitilmi\u015f PCA modelini i\u00e7ermelidir",
+  "required_format": "joblib",
+  "training_required": true
+}

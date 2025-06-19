@@ -1,0 +1,278 @@
+[
+  {
+    "userId": "59414b42-d98f-490d-83d2-aa00d2ff9e1f",
+    "amount": 2847.91,
+    "merchantId": "MERCHANT_SUSPICIOUS_001",
+    "type": 0,
+    "location": {
+      "latitude": 40.7589,
+      "longitude": -73.9851,
+      "country": "US",
+      "city": "New York"
+    },
+    "deviceInfo": {
+      "deviceId": "SUSPICIOUS_DEVICE_001",
+      "deviceType": "Mobile",
+      "ipAddress": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X)",
+      "additionalInfo": {
+        "ipChanged": "true"
+      }
+    },
+    "additionalDataRequest": {
+      "cardType": "Visa",
+      "cardBin": "424242",
+      "cardLast4": "4242",
+      "cardExpiryMonth": 12,
+      "cardExpiryYear": 2025,
+      "bankName": "Suspicious Bank",
+      "bankCountry": "US",
+      "vFactors": {
+        "V1": -1.3598071336738,
+        "V2": -0.0727811733098497,
+        "V3": 2.53634673796914,
+        "V4": 1.37815522427443,
+        "V5": -0.338320769942518,
+        "V6": 0.462387777762292,
+        "V7": 0.239598554061257,
+        "V8": 0.0986979012610507,
+        "V9": 0.363786969611213,
+        "V10": 0.0907941719789316,
+        "V11": -0.551599533260813,
+        "V12": -0.617800855762348,
+        "V13": -0.991389847235408,
+        "V14": -0.311169353699879,
+        "V15": 1.46817697209427,
+        "V16": -0.470400525259478,
+        "V17": 0.207971241929242,
+        "V18": 0.0257905801985591,
+        "V19": 0.403992960255733,
+        "V20": 0.251412098239705,
+        "V21": -0.018306777944153,
+        "V22": 0.277837575558899,
+        "V23": -0.110473910188767,
+        "V24": 0.0669280749146731,
+        "V25": 0.128539358273528,
+        "V26": -0.189114843888824,
+        "V27": 0.133558376740387,
+        "V28": -0.0210530534538215
+      },
+      "daysSinceFirstTransaction": 1,
+      "transactionVelocity24h": 10,
+      "averageTransactionAmount": 50.0,
+      "isNewPaymentMethod": true,
+      "isInternational": false,
+      "customValues": {
+        "isHighRiskRegion": "true"
+      }
+    },
+    "transactionId": "BATCH_001_20250525_204516"
+  },
+  {
+    "userId": "80ed5568-ec7f-472b-8d16-fea1cfcd41e9",
+    "amount": 89959.5,
+    "merchantId": "MERCHANT_TRUSTED_001",
+    "type": 0,
+    "location": {
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "country": "US",
+      "city": "San Francisco"
+    },
+    "deviceInfo": {
+      "deviceId": "TRUSTED_DEVICE_001",
+      "deviceType": "Desktop",
+      "ipAddress": "192.168.1.50",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "additionalInfo": {
+        "ipChanged": "false"
+      }
+    },
+    "additionalDataRequest": {
+      "cardType": "MasterCard",
+      "cardBin": "555555",
+      "cardLast4": "5555",
+      "cardExpiryMonth": 6,
+      "cardExpiryYear": 2026,
+      "bankName": "Chase Bank",
+      "bankCountry": "US",
+      "vFactors": {
+        "V1": 0.1234567890123,
+        "V2": -0.234567890123,
+        "V3": 0.345678901234,
+        "V4": -0.456789012345,
+        "V5": 0.567890123456,
+        "V6": -0.678901234567,
+        "V7": 0.789012345678,
+        "V8": -0.890123456789,
+        "V9": 0.012345678901,
+        "V10": -0.123456789012,
+        "V11": 0.234567890123,
+        "V12": -0.345678901234,
+        "V13": 0.456789012345,
+        "V14": -0.567890123456,
+        "V15": 0.678901234567,
+        "V16": -0.789012345678,
+        "V17": 0.890123456789,
+        "V18": -0.90123456789,
+        "V19": 0.123456789012,
+        "V20": -0.234567890123,
+        "V21": 0.345678901234,
+        "V22": -0.456789012345,
+        "V23": 0.567890123456,
+        "V24": -0.678901234567,
+        "V25": 0.789012345678,
+        "V26": -0.890123456789,
+        "V27": 0.90123456789,
+        "V28": -0.012345678901
+      },
+      "daysSinceFirstTransaction": 365,
+      "transactionVelocity24h": 1,
+      "averageTransactionAmount": 95.0,
+      "isNewPaymentMethod": false,
+      "isInternational": false,
+      "customValues": {
+        "isHighRiskRegion": "false"
+      }
+    },
+    "transactionId": "BATCH_002_20250525_204516"
+  },
+  {
+    "userId": "0457d106-e0d4-4393-8181-d31590622a18",
+    "amount": 2847.91,
+    "merchantId": "MERCHANT_SUSPICIOUS_001",
+    "type": 0,
+    "location": {
+      "latitude": 40.7589,
+      "longitude": -73.9851,
+      "country": "US",
+      "city": "New York"
+    },
+    "deviceInfo": {
+      "deviceId": "SUSPICIOUS_DEVICE_001",
+      "deviceType": "Mobile",
+      "ipAddress": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X)",
+      "additionalInfo": {
+        "ipChanged": "true"
+      }
+    },
+    "additionalDataRequest": {
+      "cardType": "Visa",
+      "cardBin": "424242",
+      "cardLast4": "4242",
+      "cardExpiryMonth": 12,
+      "cardExpiryYear": 2025,
+      "bankName": "Suspicious Bank",
+      "bankCountry": "US",
+      "vFactors": {
+        "V1": -1.3598071336738,
+        "V2": -0.0727811733098497,
+        "V3": 2.53634673796914,
+        "V4": 1.37815522427443,
+        "V5": -0.338320769942518,
+        "V6": 0.462387777762292,
+        "V7": 0.239598554061257,
+        "V8": 0.0986979012610507,
+        "V9": 0.363786969611213,
+        "V10": 0.0907941719789316,
+        "V11": -0.551599533260813,
+        "V12": -0.617800855762348,
+        "V13": -0.991389847235408,
+        "V14": -0.311169353699879,
+        "V15": 1.46817697209427,
+        "V16": -0.470400525259478,
+        "V17": 0.207971241929242,
+        "V18": 0.0257905801985591,
+        "V19": 0.403992960255733,
+        "V20": 0.251412098239705,
+        "V21": -0.018306777944153,
+        "V22": 0.277837575558899,
+        "V23": -0.110473910188767,
+        "V24": 0.0669280749146731,
+        "V25": 0.128539358273528,
+        "V26": -0.189114843888824,
+        "V27": 0.133558376740387,
+        "V28": -0.0210530534538215
+      },
+      "daysSinceFirstTransaction": 1,
+      "transactionVelocity24h": 10,
+      "averageTransactionAmount": 50.0,
+      "isNewPaymentMethod": true,
+      "isInternational": false,
+      "customValues": {
+        "isHighRiskRegion": "true"
+      }
+    },
+    "transactionId": "BATCH_003_20250525_204516"
+  },
+  {
+    "userId": "a35e3e45-04bd-4a77-9d29-9ade18e610ce",
+    "amount": 89959.5,
+    "merchantId": "MERCHANT_TRUSTED_001",
+    "type": 0,
+    "location": {
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "country": "US",
+      "city": "San Francisco"
+    },
+    "deviceInfo": {
+      "deviceId": "TRUSTED_DEVICE_001",
+      "deviceType": "Desktop",
+      "ipAddress": "192.168.1.50",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "additionalInfo": {
+        "ipChanged": "false"
+      }
+    },
+    "additionalDataRequest": {
+      "cardType": "MasterCard",
+      "cardBin": "555555",
+      "cardLast4": "5555",
+      "cardExpiryMonth": 6,
+      "cardExpiryYear": 2026,
+      "bankName": "Chase Bank",
+      "bankCountry": "US",
+      "vFactors": {
+        "V1": 0.1234567890123,
+        "V2": -0.234567890123,
+        "V3": 0.345678901234,
+        "V4": -0.456789012345,
+        "V5": 0.567890123456,
+        "V6": -0.678901234567,
+        "V7": 0.789012345678,
+        "V8": -0.890123456789,
+        "V9": 0.012345678901,
+        "V10": -0.123456789012,
+        "V11": 0.234567890123,
+        "V12": -0.345678901234,
+        "V13": 0.456789012345,
+        "V14": -0.567890123456,
+        "V15": 0.678901234567,
+        "V16": -0.789012345678,
+        "V17": 0.890123456789,
+        "V18": -0.90123456789,
+        "V19": 0.123456789012,
+        "V20": -0.234567890123,
+        "V21": 0.345678901234,
+        "V22": -0.456789012345,
+        "V23": 0.567890123456,
+        "V24": -0.678901234567,
+        "V25": 0.789012345678,
+        "V26": -0.890123456789,
+        "V27": 0.90123456789,
+        "V28": -0.012345678901
+      },
+      "daysSinceFirstTransaction": 365,
+      "transactionVelocity24h": 1,
+      "averageTransactionAmount": 95.0,
+      "isNewPaymentMethod": false,
+      "isInternational": false,
+      "customValues": {
+        "isHighRiskRegion": "false"
+      }
+    },
+    "transactionId": "BATCH_004_20250525_204516"
+  }
+]

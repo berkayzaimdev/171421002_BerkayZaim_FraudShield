@@ -1,0 +1,1131 @@
+{
+  "timestamp": "2025-05-24T16:49:23.237232",
+  "models": {
+    "LightGBM_Fast": {
+      "training_result": {
+        "modelId": "b2adf44e-f1de-4d22-908c-4c389db284ed",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994557775359011,
+          "precision": 0.845360824742268,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8410256410256411,
+          "auc": 0.9766523132888496,
+          "aucpr": 0.8704151858194851
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56849,
+          "falsePositive": 15,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9997362127180641,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9182354532978076,
+          "matthewsCorrCoef": 0.8407641638407611
+        },
+        "performanceSummary": {
+          "overallScore": 0.939044577283464,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.305615,
+        "recommendations": [],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9994557775359011,
+            "precision": 0.845360824742268,
+            "recall": 0.8367346938775511,
+            "f1Score": 0.8410256410256411,
+            "auc": 0.9766523132888496,
+            "aucpr": 0.8704151858194851
+          },
+          "confusionMatrix": {
+            "truePositive": 82,
+            "trueNegative": 56849,
+            "falsePositive": 15,
+            "falseNegative": 16
+          },
+          "extendedMetrics": {
+            "specificity": 0.9997362127180641,
+            "sensitivity": 0.8367346938775511,
+            "balancedAccuracy": 0.9182354532978076,
+            "matthewsCorrCoef": 0.8407641638407611
+          },
+          "performanceSummary": {
+            "overallScore": 0.939044577283464,
+            "isGoodModel": true,
+            "primaryWeakness": "Genel performans kabul edilebilir",
+            "modelGrade": "A+"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+          "overallScore": 0.939044577283464,
+          "grade": "A+",
+          "keyMetrics": {
+            "accuracy": 0.9994557775359011,
+            "precision": 0.845360824742268,
+            "recall": 0.8367346938775511,
+            "f1Score": 0.8410256410256411,
+            "auc": 0.9766523132888496,
+            "aucpr": 0.8704151858194851
+          }
+        },
+        "ActualModelName": "CreditCard_FraudDetection_LightGBM_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9994557775359011,
+          "precision": 0.845360824742268,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8410256410256411,
+          "auc": 0.9766523132888496,
+          "aucpr": 0.8704151858194851
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56849,
+          "falsePositive": 15,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9997362127180641,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9182354532978076,
+          "matthewsCorrCoef": 0.8407641638407611
+        },
+        "performanceSummary": {
+          "overallScore": 0.939044577283464,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        }
+      },
+      "config": {
+        "type": "lightgbm",
+        "config": {
+          "numberOfLeaves": 64,
+          "minDataInLeaf": 20,
+          "learningRate": 0.01,
+          "numberOfTrees": 500,
+          "featureFraction": 0.9,
+          "baggingFraction": 0.9,
+          "baggingFrequency": 3,
+          "l1Regularization": 0.001,
+          "l2Regularization": 0.001,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 50.0
+          }
+        }
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524"
+    },
+    "LightGBM_Accurate": {
+      "training_result": {
+        "modelId": "b502576b-694a-4476-b93e-5f9f90e81e49",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994733330992591,
+          "precision": 0.8953488372093024,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8369565217391304,
+          "auc": 0.982894202278548,
+          "aucpr": 0.8648884710939173
+        },
+        "confusionMatrix": {
+          "truePositive": 77,
+          "trueNegative": 56855,
+          "falsePositive": 9,
+          "falseNegative": 21
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998417276308385,
+          "sensitivity": 0.7857142857142857,
+          "balancedAccuracy": 0.8927780066725621,
+          "matthewsCorrCoef": 0.8384847146847502
+        },
+        "performanceSummary": {
+          "overallScore": 0.9397746857056458,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.145929,
+        "recommendations": [],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9994733330992591,
+            "precision": 0.8953488372093024,
+            "recall": 0.7857142857142857,
+            "f1Score": 0.8369565217391304,
+            "auc": 0.982894202278548,
+            "aucpr": 0.8648884710939173
+          },
+          "confusionMatrix": {
+            "truePositive": 77,
+            "trueNegative": 56855,
+            "falsePositive": 9,
+            "falseNegative": 21
+          },
+          "extendedMetrics": {
+            "specificity": 0.9998417276308385,
+            "sensitivity": 0.7857142857142857,
+            "balancedAccuracy": 0.8927780066725621,
+            "matthewsCorrCoef": 0.8384847146847502
+          },
+          "performanceSummary": {
+            "overallScore": 0.9397746857056458,
+            "isGoodModel": true,
+            "primaryWeakness": "Genel performans kabul edilebilir",
+            "modelGrade": "A+"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+          "overallScore": 0.9397746857056458,
+          "grade": "A+",
+          "keyMetrics": {
+            "accuracy": 0.9994733330992591,
+            "precision": 0.8953488372093024,
+            "recall": 0.7857142857142857,
+            "f1Score": 0.8369565217391304,
+            "auc": 0.982894202278548,
+            "aucpr": 0.8648884710939173
+          }
+        },
+        "ActualModelName": "CreditCard_FraudDetection_LightGBM_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9994733330992591,
+          "precision": 0.8953488372093024,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8369565217391304,
+          "auc": 0.982894202278548,
+          "aucpr": 0.8648884710939173
+        },
+        "confusionMatrix": {
+          "truePositive": 77,
+          "trueNegative": 56855,
+          "falsePositive": 9,
+          "falseNegative": 21
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998417276308385,
+          "sensitivity": 0.7857142857142857,
+          "balancedAccuracy": 0.8927780066725621,
+          "matthewsCorrCoef": 0.8384847146847502
+        },
+        "performanceSummary": {
+          "overallScore": 0.9397746857056458,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        }
+      },
+      "config": {
+        "type": "lightgbm",
+        "config": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        }
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524"
+    },
+    "LightGBM_Balanced": {
+      "training_result": {
+        "modelId": "7afa600b-a715-4e81-9f81-eac8f1331892",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995611109160493,
+          "precision": 0.9195402298850575,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8648648648648648,
+          "auc": 0.9802547144350143,
+          "aucpr": 0.8777111114072523
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081017149403374,
+          "matthewsCorrCoef": 0.8661833377604268
+        },
+        "performanceSummary": {
+          "overallScore": 0.9482268967386428,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.135257,
+        "recommendations": [],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9995611109160493,
+            "precision": 0.9195402298850575,
+            "recall": 0.8163265306122449,
+            "f1Score": 0.8648648648648648,
+            "auc": 0.9802547144350143,
+            "aucpr": 0.8777111114072523
+          },
+          "confusionMatrix": {
+            "truePositive": 80,
+            "trueNegative": 56857,
+            "falsePositive": 7,
+            "falseNegative": 18
+          },
+          "extendedMetrics": {
+            "specificity": 0.9998768992684299,
+            "sensitivity": 0.8163265306122449,
+            "balancedAccuracy": 0.9081017149403374,
+            "matthewsCorrCoef": 0.8661833377604268
+          },
+          "performanceSummary": {
+            "overallScore": 0.9482268967386428,
+            "isGoodModel": true,
+            "primaryWeakness": "Genel performans kabul edilebilir",
+            "modelGrade": "A+"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+          "overallScore": 0.9482268967386428,
+          "grade": "A+",
+          "keyMetrics": {
+            "accuracy": 0.9995611109160493,
+            "precision": 0.9195402298850575,
+            "recall": 0.8163265306122449,
+            "f1Score": 0.8648648648648648,
+            "auc": 0.9802547144350143,
+            "aucpr": 0.8777111114072523
+          }
+        },
+        "ActualModelName": "CreditCard_FraudDetection_LightGBM_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9995611109160493,
+          "precision": 0.9195402298850575,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8648648648648648,
+          "auc": 0.9802547144350143,
+          "aucpr": 0.8777111114072523
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081017149403374,
+          "matthewsCorrCoef": 0.8661833377604268
+        },
+        "performanceSummary": {
+          "overallScore": 0.9482268967386428,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        }
+      },
+      "config": {
+        "type": "lightgbm",
+        "config": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        }
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524"
+    },
+    "PCA_Default": {
+      "training_result": {
+        "modelId": "1ad7eaad-3054-4fd6-97a8-d1741e7e89a4",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 61,
+          "trueNegative": 56540,
+          "falsePositive": 324,
+          "falseNegative": 37
+        },
+        "extendedMetrics": {
+          "specificity": 0.9943021947101857,
+          "sensitivity": 0.6224489795918368,
+          "balancedAccuracy": 0.8083755871510112,
+          "matthewsCorrCoef": 0.3119546068946014
+        },
+        "performanceSummary": {
+          "overallScore": 0.7316764677636458,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.142156,
+        "recommendations": [
+          "Class weights ayarlarını gözden geçirin",
+          "Fraud sınıfı için daha fazla özellik mühendisliği yapın"
+        ],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9936624416277519,
+            "precision": 0.15844155844155844,
+            "recall": 0.6224489795918368,
+            "f1Score": 0.2525879917184265,
+            "auc": 0.948778969944759,
+            "aucpr": 0.2580769444322298
+          },
+          "confusionMatrix": {
+            "truePositive": 61,
+            "trueNegative": 56540,
+            "falsePositive": 324,
+            "falseNegative": 37
+          },
+          "extendedMetrics": {
+            "specificity": 0.9943021947101857,
+            "sensitivity": 0.6224489795918368,
+            "balancedAccuracy": 0.8083755871510112,
+            "matthewsCorrCoef": 0.3119546068946014
+          },
+          "performanceSummary": {
+            "overallScore": 0.7316764677636458,
+            "isGoodModel": false,
+            "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+            "modelGrade": "B"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+          "overallScore": 0.7316764677636458,
+          "grade": "B",
+          "keyMetrics": {
+            "accuracy": 0.9936624416277519,
+            "precision": 0.15844155844155844,
+            "recall": 0.6224489795918368,
+            "f1Score": 0.2525879917184265,
+            "auc": 0.948778969944759,
+            "aucpr": 0.2580769444322298
+          }
+        },
+        "ActualModelName": "CreditCard_AnomalyDetection_PCA_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 61,
+          "trueNegative": 56540,
+          "falsePositive": 324,
+          "falseNegative": 37
+        },
+        "extendedMetrics": {
+          "specificity": 0.9943021947101857,
+          "sensitivity": 0.6224489795918368,
+          "balancedAccuracy": 0.8083755871510112,
+          "matthewsCorrCoef": 0.3119546068946014
+        },
+        "performanceSummary": {
+          "overallScore": 0.7316764677636458,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        }
+      },
+      "config": {
+        "type": "pca",
+        "config": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524"
+    },
+    "PCA_Sensitive": {
+      "training_result": {
+        "modelId": "146344d9-48f7-4e93-824a-7077b345a027",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9932059969804431,
+          "precision": 0.15012106537530268,
+          "recall": 0.6326530612244898,
+          "f1Score": 0.2426614481409002,
+          "auc": 0.9558195781126182,
+          "aucpr": 0.27136259790688727
+        },
+        "confusionMatrix": {
+          "truePositive": 62,
+          "trueNegative": 56513,
+          "falsePositive": 351,
+          "falseNegative": 36
+        },
+        "extendedMetrics": {
+          "specificity": 0.9938273776027012,
+          "sensitivity": 0.6326530612244898,
+          "balancedAccuracy": 0.8132402194135955,
+          "matthewsCorrCoef": 0.3060213773943938
+        },
+        "performanceSummary": {
+          "overallScore": 0.7305623410779871,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.142922,
+        "recommendations": [
+          "Class weights ayarlarını gözden geçirin",
+          "Fraud sınıfı için daha fazla özellik mühendisliği yapın"
+        ],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9932059969804431,
+            "precision": 0.15012106537530268,
+            "recall": 0.6326530612244898,
+            "f1Score": 0.2426614481409002,
+            "auc": 0.9558195781126182,
+            "aucpr": 0.27136259790688727
+          },
+          "confusionMatrix": {
+            "truePositive": 62,
+            "trueNegative": 56513,
+            "falsePositive": 351,
+            "falseNegative": 36
+          },
+          "extendedMetrics": {
+            "specificity": 0.9938273776027012,
+            "sensitivity": 0.6326530612244898,
+            "balancedAccuracy": 0.8132402194135955,
+            "matthewsCorrCoef": 0.3060213773943938
+          },
+          "performanceSummary": {
+            "overallScore": 0.7305623410779871,
+            "isGoodModel": false,
+            "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+            "modelGrade": "B"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+          "overallScore": 0.7305623410779871,
+          "grade": "B",
+          "keyMetrics": {
+            "accuracy": 0.9932059969804431,
+            "precision": 0.15012106537530268,
+            "recall": 0.6326530612244898,
+            "f1Score": 0.2426614481409002,
+            "auc": 0.9558195781126182,
+            "aucpr": 0.27136259790688727
+          }
+        },
+        "ActualModelName": "CreditCard_AnomalyDetection_PCA_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9932059969804431,
+          "precision": 0.15012106537530268,
+          "recall": 0.6326530612244898,
+          "f1Score": 0.2426614481409002,
+          "auc": 0.9558195781126182,
+          "aucpr": 0.27136259790688727
+        },
+        "confusionMatrix": {
+          "truePositive": 62,
+          "trueNegative": 56513,
+          "falsePositive": 351,
+          "falseNegative": 36
+        },
+        "extendedMetrics": {
+          "specificity": 0.9938273776027012,
+          "sensitivity": 0.6326530612244898,
+          "balancedAccuracy": 0.8132402194135955,
+          "matthewsCorrCoef": 0.3060213773943938
+        },
+        "performanceSummary": {
+          "overallScore": 0.7305623410779871,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        }
+      },
+      "config": {
+        "type": "pca",
+        "config": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524"
+    },
+    "PCA_Conservative": {
+      "training_result": {
+        "modelId": "7cba75e7-7928-41b6-b010-687fe933efe5",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9948562199360977,
+          "precision": 0.1782178217821782,
+          "recall": 0.5510204081632653,
+          "f1Score": 0.26932668329177056,
+          "auc": 0.9553323791531244,
+          "aucpr": 0.22135747616111323
+        },
+        "confusionMatrix": {
+          "truePositive": 54,
+          "trueNegative": 56615,
+          "falsePositive": 249,
+          "falseNegative": 44
+        },
+        "extendedMetrics": {
+          "specificity": 0.9956211311198649,
+          "sensitivity": 0.5510204081632653,
+          "balancedAccuracy": 0.7733207696415652,
+          "matthewsCorrCoef": 0.3114430219408215
+        },
+        "performanceSummary": {
+          "overallScore": 0.7398384274603309,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.137092,
+        "recommendations": [
+          "Class weights ayarlarını gözden geçirin",
+          "Fraud sınıfı için daha fazla özellik mühendisliği yapın"
+        ],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9948562199360977,
+            "precision": 0.1782178217821782,
+            "recall": 0.5510204081632653,
+            "f1Score": 0.26932668329177056,
+            "auc": 0.9553323791531244,
+            "aucpr": 0.22135747616111323
+          },
+          "confusionMatrix": {
+            "truePositive": 54,
+            "trueNegative": 56615,
+            "falsePositive": 249,
+            "falseNegative": 44
+          },
+          "extendedMetrics": {
+            "specificity": 0.9956211311198649,
+            "sensitivity": 0.5510204081632653,
+            "balancedAccuracy": 0.7733207696415652,
+            "matthewsCorrCoef": 0.3114430219408215
+          },
+          "performanceSummary": {
+            "overallScore": 0.7398384274603309,
+            "isGoodModel": false,
+            "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+            "modelGrade": "B"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+          "overallScore": 0.7398384274603309,
+          "grade": "B",
+          "keyMetrics": {
+            "accuracy": 0.9948562199360977,
+            "precision": 0.1782178217821782,
+            "recall": 0.5510204081632653,
+            "f1Score": 0.26932668329177056,
+            "auc": 0.9553323791531244,
+            "aucpr": 0.22135747616111323
+          }
+        },
+        "ActualModelName": "CreditCard_AnomalyDetection_PCA_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9948562199360977,
+          "precision": 0.1782178217821782,
+          "recall": 0.5510204081632653,
+          "f1Score": 0.26932668329177056,
+          "auc": 0.9553323791531244,
+          "aucpr": 0.22135747616111323
+        },
+        "confusionMatrix": {
+          "truePositive": 54,
+          "trueNegative": 56615,
+          "falsePositive": 249,
+          "falseNegative": 44
+        },
+        "extendedMetrics": {
+          "specificity": 0.9956211311198649,
+          "sensitivity": 0.5510204081632653,
+          "balancedAccuracy": 0.7733207696415652,
+          "matthewsCorrCoef": 0.3114430219408215
+        },
+        "performanceSummary": {
+          "overallScore": 0.7398384274603309,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        }
+      },
+      "config": {
+        "type": "pca",
+        "config": {
+          "componentCount": 10,
+          "anomalyThreshold": 3.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524"
+    },
+    "Ensemble_Balanced": {
+      "training_result": {
+        "modelId": "78195b20-c68e-4225-829c-165f59dfa03a",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9606145848885418,
+          "aucpr": 0.8211972727171829
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9448425822740059,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.142848,
+        "recommendations": [],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9995962220427653,
+            "precision": 0.9411764705882353,
+            "recall": 0.8163265306122449,
+            "f1Score": 0.8743169398907105,
+            "auc": 0.9606145848885418,
+            "aucpr": 0.8211972727171829
+          },
+          "confusionMatrix": {
+            "truePositive": 80,
+            "trueNegative": 56859,
+            "falsePositive": 5,
+            "falseNegative": 18
+          },
+          "extendedMetrics": {
+            "specificity": 0.9999120709060214,
+            "sensitivity": 0.8163265306122449,
+            "balancedAccuracy": 0.9081193007591332,
+            "matthewsCorrCoef": 0.8763368354437778
+          },
+          "performanceSummary": {
+            "overallScore": 0.9448425822740059,
+            "isGoodModel": true,
+            "primaryWeakness": "Genel performans kabul edilebilir",
+            "modelGrade": "A+"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_Ensemble_20250524",
+          "overallScore": 0.9448425822740059,
+          "grade": "A+",
+          "keyMetrics": {
+            "accuracy": 0.9995962220427653,
+            "precision": 0.9411764705882353,
+            "recall": 0.8163265306122449,
+            "f1Score": 0.8743169398907105,
+            "auc": 0.9606145848885418,
+            "aucpr": 0.8211972727171829
+          }
+        },
+        "ActualModelName": "CreditCard_Ensemble_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9606145848885418,
+          "aucpr": 0.8211972727171829
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9448425822740059,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        }
+      },
+      "config": {
+        "type": "ensemble",
+        "config": {
+          "lightgbmWeight": 0.6,
+          "pcaWeight": 0.4,
+          "threshold": 0.45,
+          "lightgbm": {
+            "numberOfLeaves": 100,
+            "minDataInLeaf": 15,
+            "learningRate": 0.01,
+            "numberOfTrees": 1500,
+            "featureFraction": 0.8,
+            "baggingFraction": 0.8,
+            "baggingFrequency": 5,
+            "l1Regularization": 0.02,
+            "l2Regularization": 0.02,
+            "useClassWeights": true,
+            "classWeights": {
+              "0": 1.0,
+              "1": 80.0
+            }
+          },
+          "pca": {
+            "componentCount": 20,
+            "anomalyThreshold": 2.0,
+            "scaleFeatures": true,
+            "randomState": 42
+          }
+        }
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524"
+    },
+    "Ensemble_LGBMHeavy": {
+      "training_result": {
+        "modelId": "fbfa5e25-affb-4bb0-b3db-1e6ce123dc1c",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994908886626171,
+          "precision": 0.9156626506024096,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.839779005524862,
+          "auc": 0.9674857949651443,
+          "aucpr": 0.8054445333293307
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876935516750313,
+          "matthewsCorrCoef": 0.842432846838532
+        },
+        "performanceSummary": {
+          "overallScore": 0.9355852297175411,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.144023,
+        "recommendations": [],
+        "metrics": {
+          "basicMetrics": {
+            "accuracy": 0.9994908886626171,
+            "precision": 0.9156626506024096,
+            "recall": 0.7755102040816326,
+            "f1Score": 0.839779005524862,
+            "auc": 0.9674857949651443,
+            "aucpr": 0.8054445333293307
+          },
+          "confusionMatrix": {
+            "truePositive": 76,
+            "trueNegative": 56857,
+            "falsePositive": 7,
+            "falseNegative": 22
+          },
+          "extendedMetrics": {
+            "specificity": 0.9998768992684299,
+            "sensitivity": 0.7755102040816326,
+            "balancedAccuracy": 0.8876935516750313,
+            "matthewsCorrCoef": 0.842432846838532
+          },
+          "performanceSummary": {
+            "overallScore": 0.9355852297175411,
+            "isGoodModel": true,
+            "primaryWeakness": "Genel performans kabul edilebilir",
+            "modelGrade": "A+"
+          }
+        },
+        "comparison_data": {
+          "modelName": "CreditCard_Ensemble_20250524",
+          "overallScore": 0.9355852297175411,
+          "grade": "A+",
+          "keyMetrics": {
+            "accuracy": 0.9994908886626171,
+            "precision": 0.9156626506024096,
+            "recall": 0.7755102040816326,
+            "f1Score": 0.839779005524862,
+            "auc": 0.9674857949651443,
+            "aucpr": 0.8054445333293307
+          }
+        },
+        "ActualModelName": "CreditCard_Ensemble_20250524"
+      },
+      "detailed_metrics": {
+        "basicMetrics": {
+          "accuracy": 0.9994908886626171,
+          "precision": 0.9156626506024096,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.839779005524862,
+          "auc": 0.9674857949651443,
+          "aucpr": 0.8054445333293307
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876935516750313,
+          "matthewsCorrCoef": 0.842432846838532
+        },
+        "performanceSummary": {
+          "overallScore": 0.9355852297175411,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        }
+      },
+      "config": {
+        "type": "ensemble",
+        "config": {
+          "lightgbmWeight": 0.85,
+          "pcaWeight": 0.15,
+          "threshold": 0.5,
+          "lightgbm": {
+            "numberOfLeaves": 256,
+            "minDataInLeaf": 5,
+            "learningRate": 0.002,
+            "numberOfTrees": 2000,
+            "featureFraction": 0.7,
+            "baggingFraction": 0.7,
+            "baggingFrequency": 7,
+            "l1Regularization": 0.05,
+            "l2Regularization": 0.05,
+            "useClassWeights": true,
+            "classWeights": {
+              "0": 1.0,
+              "1": 100.0
+            }
+          },
+          "pca": {
+            "componentCount": 10,
+            "anomalyThreshold": 3.0,
+            "scaleFeatures": true,
+            "randomState": 42
+          }
+        }
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524"
+    }
+  },
+  "comparisons": {
+    "comparedModels": [
+      {
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "error": "Model CreditCard_FraudDetection_LightGBM_20250524 not found",
+        "available": false
+      },
+      {
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "error": "Model CreditCard_FraudDetection_LightGBM_20250524 not found",
+        "available": false
+      },
+      {
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "error": "Model CreditCard_FraudDetection_LightGBM_20250524 not found",
+        "available": false
+      },
+      {
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "overallScore": 0.7316764677636458,
+        "grade": "B",
+        "keyMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "balancedAccuracy": 0
+        },
+        "strengths": [
+          "Çok yüksek doğruluk",
+          "Mükemmel ayırt etme"
+        ],
+        "weaknesses": [
+          "Yüksek yanlış alarm",
+          "Düşük fraud yakalama",
+          "Normal işlem tanıma sorunu"
+        ]
+      },
+      {
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "overallScore": 0.7316764677636458,
+        "grade": "B",
+        "keyMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "balancedAccuracy": 0
+        },
+        "strengths": [
+          "Çok yüksek doğruluk",
+          "Mükemmel ayırt etme"
+        ],
+        "weaknesses": [
+          "Yüksek yanlış alarm",
+          "Düşük fraud yakalama",
+          "Normal işlem tanıma sorunu"
+        ]
+      },
+      {
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "overallScore": 0.7316764677636458,
+        "grade": "B",
+        "keyMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "balancedAccuracy": 0
+        },
+        "strengths": [
+          "Çok yüksek doğruluk",
+          "Mükemmel ayırt etme"
+        ],
+        "weaknesses": [
+          "Yüksek yanlış alarm",
+          "Düşük fraud yakalama",
+          "Normal işlem tanıma sorunu"
+        ]
+      },
+      {
+        "modelName": "CreditCard_Ensemble_20250524",
+        "overallScore": 0.9355164851532324,
+        "grade": "A+",
+        "keyMetrics": {
+          "accuracy": 0.9995084442259752,
+          "precision": 0.9166666666666666,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8461538461538461,
+          "auc": 0.9608871650798755,
+          "balancedAccuracy": 0
+        },
+        "strengths": [
+          "Çok yüksek doğruluk",
+          "Düşük yanlış alarm",
+          "Mükemmel ayırt etme"
+        ],
+        "weaknesses": [
+          "Normal işlem tanıma sorunu"
+        ]
+      },
+      {
+        "modelName": "CreditCard_Ensemble_20250524",
+        "overallScore": 0.9355164851532324,
+        "grade": "A+",
+        "keyMetrics": {
+          "accuracy": 0.9995084442259752,
+          "precision": 0.9166666666666666,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8461538461538461,
+          "auc": 0.9608871650798755,
+          "balancedAccuracy": 0
+        },
+        "strengths": [
+          "Çok yüksek doğruluk",
+          "Düşük yanlış alarm",
+          "Mükemmel ayırt etme"
+        ],
+        "weaknesses": [
+          "Normal işlem tanıma sorunu"
+        ]
+      }
+    ],
+    "bestModel": "CreditCard_Ensemble_20250524",
+    "recommendation": "Ensemble modelini production'da, LightGBM'i hızlı tahmin için kullanın"
+  },
+  "recommendations": [
+    "Ensemble modelini production ortamında kullanmayı düşünün",
+    "Performans izleme sistemini kurun"
+  ]
+}

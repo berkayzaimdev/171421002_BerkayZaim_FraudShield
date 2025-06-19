@@ -1,0 +1,2 @@
+namespace Analiz.Domain.Entities;
+

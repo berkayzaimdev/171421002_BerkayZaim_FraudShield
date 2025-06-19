@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Analiz Raporu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2, h3 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; }
+        tr:hover { background-color: #f5f5f5; }
+        .success { background-color: #d4edda; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .error { background-color: #f8d7da; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .warning { background-color: #fff3cd; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .info { background-color: #e2f3f5; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .chart-container { margin: 20px 0; text-align: center; }
+        .chart-container img { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timestamp { color: #6c757d; font-size: 0.9em; margin-top: 20px; }
+        .model-section { margin: 30px 0; padding: 20px; border: 1px solid #dee2e6; border-radius: 8px; }
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0; }
+        .metric-card { background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .metric-value { font-size: 1.2em; font-weight: bold; color: #2c3e50; }
+        .metric-label { color: #6c757d; font-size: 0.9em; }
+        .config-table { font-size: 0.9em; }
+        .config-table td { padding: 8px; }
+        .config-table tr:nth-child(even) { background-color: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Model Analiz Raporu</h1>
+
+        <div class="model-section">
+            <h2>📊 CreditCard_FraudDetection_LightGBM_20250524 Detaylı Analiz</h2>
+            
+            <h3>🎯 Performans Özeti</h3>
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">Genel Skor</div>
+                    <div class="metric-value">0.9390</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Model Notu</div>
+                    <div class="metric-value">A+</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Doğruluk</div>
+                    <div class="metric-value">0.9995</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Kesinlik</div>
+                    <div class="metric-value">0.8454</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Duyarlılık</div>
+                    <div class="metric-value">0.8367</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">F1-Skoru</div>
+                    <div class="metric-value">0.8410</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">AUC</div>
+                    <div class="metric-value">0.9767</div>
+                </div>
+            </div>
+
+            <h3>⚙️ Model Konfigürasyonu</h3>
+            <table class="config-table">
+                <tr>
+                    <th>Parametre</th>
+                    <th>Değer</th>
+                </tr>
+
+                <tr>
+                    <td>numberOfLeaves</td>
+                    <td>64</td>
+                </tr>
+                <tr>
+                    <td>minDataInLeaf</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>learningRate</td>
+                    <td>0.01</td>
+                </tr>
+                <tr>
+                    <td>numberOfTrees</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>featureFraction</td>
+                    <td>0.9</td>
+                </tr>
+                <tr>
+                    <td>baggingFraction</td>
+                    <td>0.9</td>
+                </tr>
+                <tr>
+                    <td>baggingFrequency</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>l1Regularization</td>
+                    <td>0.001</td>
+                </tr>
+                <tr>
+                    <td>l2Regularization</td>
+                    <td>0.001</td>
+                </tr>
+                <tr>
+                    <td>useClassWeights</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td>classWeights</td>
+                    <td>{'0': 1.0, '1': 50.0}</td>
+                </tr>
+            </table>
+
+            <h3>📈 Detaylı Metrikler</h3>
+
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">specificity</div>
+                    <div class="metric-value">0.9997</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">sensitivity</div>
+                    <div class="metric-value">0.8367</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">balancedAccuracy</div>
+                    <div class="metric-value">0.9182</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">matthewsCorrCoef</div>
+                    <div class="metric-value">0.8408</div>
+                </div>
+            </div>
+
+            <h3>⚠️ Geliştirme Alanları</h3>
+            <div class="warning">
+                <p>Genel performans kabul edilebilir</p>
+            </div>
+
+        </div>
+
+        <div class="model-section">
+            <h2>📊 CreditCard_AnomalyDetection_PCA_20250524 Detaylı Analiz</h2>
+            
+            <h3>🎯 Performans Özeti</h3>
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">Genel Skor</div>
+                    <div class="metric-value">0.7317</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Model Notu</div>
+                    <div class="metric-value">B</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Doğruluk</div>
+                    <div class="metric-value">0.9937</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Kesinlik</div>
+                    <div class="metric-value">0.1584</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Duyarlılık</div>
+                    <div class="metric-value">0.6224</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">F1-Skoru</div>
+                    <div class="metric-value">0.2526</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">AUC</div>
+                    <div class="metric-value">0.9488</div>
+                </div>
+            </div>
+
+            <h3>⚙️ Model Konfigürasyonu</h3>
+            <table class="config-table">
+                <tr>
+                    <th>Parametre</th>
+                    <th>Değer</th>
+                </tr>
+
+                <tr>
+                    <td>componentCount</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>anomalyThreshold</td>
+                    <td>2.5</td>
+                </tr>
+                <tr>
+                    <td>scaleFeatures</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td>randomState</td>
+                    <td>42</td>
+                </tr>
+            </table>
+
+            <h3>📈 Detaylı Metrikler</h3>
+
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">specificity</div>
+                    <div class="metric-value">0.9943</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">sensitivity</div>
+                    <div class="metric-value">0.6224</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">balancedAccuracy</div>
+                    <div class="metric-value">0.8084</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">matthewsCorrCoef</div>
+                    <div class="metric-value">0.3120</div>
+                </div>
+            </div>
+
+            <h3>💡 Model Önerileri</h3>
+            <div class="info">
+                <ul>
+                    <li>Class weights ayarlarını gözden geçirin</li>
+                    <li>Fraud sınıfı için daha fazla özellik mühendisliği yapın</li>
+
+                </ul>
+            </div>
+
+            <h3>⚠️ Geliştirme Alanları</h3>
+            <div class="warning">
+                <p>Yüksek False Positive oranı - Precision düşük</p>
+            </div>
+
+        </div>
+
+        <div class="model-section">
+            <h2>📊 CreditCard_Ensemble_20250524 Detaylı Analiz</h2>
+            
+            <h3>🎯 Performans Özeti</h3>
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">Genel Skor</div>
+                    <div class="metric-value">0.9355</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Model Notu</div>
+                    <div class="metric-value">A+</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Doğruluk</div>
+                    <div class="metric-value">0.9995</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Kesinlik</div>
+                    <div class="metric-value">0.9167</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Duyarlılık</div>
+                    <div class="metric-value">0.7857</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">F1-Skoru</div>
+                    <div class="metric-value">0.8462</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">AUC</div>
+                    <div class="metric-value">0.9609</div>
+                </div>
+            </div>
+
+            <h3>⚙️ Model Konfigürasyonu</h3>
+            <table class="config-table">
+                <tr>
+                    <th>Parametre</th>
+                    <th>Değer</th>
+                </tr>
+
+                <tr>
+                    <td>lightgbmWeight</td>
+                    <td>0.7</td>
+                </tr>
+                <tr>
+                    <td>pcaWeight</td>
+                    <td>0.3</td>
+                </tr>
+                <tr>
+                    <td>threshold</td>
+                    <td>0.5</td>
+                </tr>
+                <tr>
+                    <td>minConfidenceThreshold</td>
+                    <td>0.8</td>
+                </tr>
+                <tr>
+                    <td>enableCrossValidation</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td>crossValidationFolds</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>combinationStrategy</td>
+                    <td>WeightedAverage</td>
+                </tr>
+                <tr>
+                    <td>lightgbm</td>
+                    <td>{'numberOfLeaves': 128, 'minDataInLeaf': 10, 'learningRate': 0.005, 'numberOfTrees': 1000, 'featureFraction': 0.8, 'baggingFraction': 0.8, 'baggingFrequency': 5, 'l1Regularization': 0.01, 'l2Regularization': 0.01, 'earlyStoppingRound': 100, 'minGainToSplit': 0.0005, 'useClassWeights': True, 'classWeights': {'0': 1.0, '1': 75.0}, 'predictionThreshold': 0.5}</td>
+                </tr>
+                <tr>
+                    <td>pca</td>
+                    <td>{'componentCount': 15, 'anomalyThreshold': 2.5, 'scaleFeatures': True, 'randomState': 42}</td>
+                </tr>
+            </table>
+
+            <h3>📈 Detaylı Metrikler</h3>
+
+            <div class="metric-grid">
+
+                <div class="metric-card">
+                    <div class="metric-label">specificity</div>
+                    <div class="metric-value">0.9999</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">sensitivity</div>
+                    <div class="metric-value">0.7857</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">balancedAccuracy</div>
+                    <div class="metric-value">0.8928</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">matthewsCorrCoef</div>
+                    <div class="metric-value">0.8484</div>
+                </div>
+            </div>
+
+            <h3>⚠️ Geliştirme Alanları</h3>
+            <div class="warning">
+                <p>Genel performans kabul edilebilir</p>
+            </div>
+
+        </div>
+
+        <h2>🔄 Model Karşılaştırması</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Genel Skor</th>
+                <th>Not</th>
+                <th>Doğruluk</th>
+                <th>Kesinlik</th>
+                <th>Duyarlılık</th>
+                <th>F1-Skoru</th>
+                <th>AUC</th>
+            </tr>
+
+            <tr>
+                <td>CreditCard_FraudDetection_LightGBM_20250524</td>
+                <td>0.9390</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.8454</td>
+                <td>0.8367</td>
+                <td>0.8410</td>
+                <td>0.9767</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_AnomalyDetection_PCA_20250524</td>
+                <td>0.7317</td>
+                <td>B</td>
+                <td>0.9937</td>
+                <td>0.1584</td>
+                <td>0.6224</td>
+                <td>0.2526</td>
+                <td>0.9488</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_Ensemble_20250524</td>
+                <td>0.9355</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.9167</td>
+                <td>0.7857</td>
+                <td>0.8462</td>
+                <td>0.9609</td>
+            </tr>
+
+        </table>
+
+        <div class="success">
+            <h3>🏆 En İyi Model: CreditCard_FraudDetection_LightGBM_20250524</h3>
+            <p>Genel Skor: 0.9390</p>
+            <p>Öneriler:</p>
+            <ul>
+                <li>En iyi performans gösteren modeli production ortamında kullanın</li>
+                <li>Diğer modelleri yedek veya özel durumlar için saklayın</li>
+                <li>Düzenli olarak model performansını izleyin ve gerekirse yeniden eğitin</li>
+            </ul>
+        </div>
+
+        <h2>💡 Genel Öneriler</h2>
+        <div class="info">
+            <ul>
+                <li>Ensemble modelini production ortamında kullanmayı düşünün</li>
+                <li>Performans izleme sistemini kurun</li>
+
+            </ul>
+        </div>
+
+        <h2>📊 Görselleştirmeler</h2>
+
+        <h3>LightGBM_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/LightGBM_Quick_basic_metrics.png" alt="LightGBM_Quick_basic_metrics.png">
+            <img src="charts/LightGBM_Quick_confusion_matrix.png" alt="LightGBM_Quick_confusion_matrix.png">
+            <img src="charts/LightGBM_Quick_extended_metrics.png" alt="LightGBM_Quick_extended_metrics.png">
+            <img src="charts/LightGBM_Quick_roc_curve.png" alt="LightGBM_Quick_roc_curve.png">
+        </div>
+
+        <h3>PCA_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/PCA_Quick_basic_metrics.png" alt="PCA_Quick_basic_metrics.png">
+            <img src="charts/PCA_Quick_confusion_matrix.png" alt="PCA_Quick_confusion_matrix.png">
+            <img src="charts/PCA_Quick_extended_metrics.png" alt="PCA_Quick_extended_metrics.png">
+            <img src="charts/PCA_Quick_roc_curve.png" alt="PCA_Quick_roc_curve.png">
+        </div>
+
+        <h3>Ensemble_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/Ensemble_Quick_basic_metrics.png" alt="Ensemble_Quick_basic_metrics.png">
+            <img src="charts/Ensemble_Quick_confusion_matrix.png" alt="Ensemble_Quick_confusion_matrix.png">
+            <img src="charts/Ensemble_Quick_extended_metrics.png" alt="Ensemble_Quick_extended_metrics.png">
+            <img src="charts/Ensemble_Quick_roc_curve.png" alt="Ensemble_Quick_roc_curve.png">
+        </div>
+
+        <div class="timestamp">
+            <p>Bu rapor otomatik olarak oluşturulmuştur.</p>
+            <p>Rapor Tarihi: 2025-05-24T16:43:29.933797</p>
+        </div>
+    </div>
+</body>
+</html>

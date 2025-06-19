@@ -1,0 +1,889 @@
+{
+  "model_type": "Ensemble",
+  "optimization_metric": "f1_score",
+  "total_experiments": 12,
+  "best_score": 0.8743169398907105,
+  "worst_score": 0.826086956521739,
+  "mean_score": 0.8502019482062245,
+  "std_score": 0.02411499168448572,
+  "best_config": {
+    "lightgbmWeight": 0.6,
+    "pcaWeight": 0.2,
+    "threshold": 0.4,
+    "lightgbm": {
+      "numberOfLeaves": 100,
+      "minDataInLeaf": 15,
+      "learningRate": 0.01,
+      "numberOfTrees": 1500,
+      "featureFraction": 0.8,
+      "baggingFraction": 0.8,
+      "baggingFrequency": 5,
+      "l1Regularization": 0.02,
+      "l2Regularization": 0.02,
+      "useClassWeights": true,
+      "classWeights": {
+        "0": 1.0,
+        "1": 80.0
+      }
+    },
+    "pca": {
+      "componentCount": 15,
+      "anomalyThreshold": 2.5,
+      "scaleFeatures": true,
+      "randomState": 42
+    }
+  },
+  "best_parameters": {
+    "lightgbm_weight": 0.6,
+    "pca_weight": 0.2,
+    "threshold": 0.4
+  },
+  "all_results": [
+    {
+      "experiment_id": 1,
+      "parameters": {
+        "lightgbm_weight": 0.6,
+        "pca_weight": 0.2,
+        "threshold": 0.4
+      },
+      "config": {
+        "lightgbmWeight": 0.6,
+        "pcaWeight": 0.2,
+        "threshold": 0.4,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "2fbcc66f-9868-4eff-93c9-fdfdc8c0853b",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.135526,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T15:56:49.193936"
+    },
+    {
+      "experiment_id": 2,
+      "parameters": {
+        "lightgbm_weight": 0.6,
+        "pca_weight": 0.15,
+        "threshold": 0.45
+      },
+      "config": {
+        "lightgbmWeight": 0.6,
+        "pcaWeight": 0.15,
+        "threshold": 0.45,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "da167f99-0fb7-4202-b1ca-1d0d5fe229ae",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.143724,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T15:57:35.272297"
+    },
+    {
+      "experiment_id": 3,
+      "parameters": {
+        "lightgbm_weight": 0.7,
+        "pca_weight": 0.2,
+        "threshold": 0.55
+      },
+      "config": {
+        "lightgbmWeight": 0.7,
+        "pcaWeight": 0.2,
+        "threshold": 0.55,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "460c4e83-1957-4968-b424-edef54076974",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.144997,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T15:58:08.754473"
+    },
+    {
+      "experiment_id": 4,
+      "parameters": {
+        "lightgbm_weight": 0.7,
+        "pca_weight": 0.15,
+        "threshold": 0.45
+      },
+      "config": {
+        "lightgbmWeight": 0.7,
+        "pcaWeight": 0.15,
+        "threshold": 0.45,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "c3cd4037-63ce-4461-86d0-37181264c73c",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.143754,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T15:58:53.064596"
+    },
+    {
+      "experiment_id": 5,
+      "parameters": {
+        "lightgbm_weight": 0.8,
+        "pca_weight": 0.4,
+        "threshold": 0.4
+      },
+      "config": {
+        "lightgbmWeight": 0.8,
+        "pcaWeight": 0.4,
+        "threshold": 0.4,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "fe894b9f-946e-4971-857a-ebe9870ad087",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.147141,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T15:59:28.961530"
+    },
+    {
+      "experiment_id": 6,
+      "parameters": {
+        "lightgbm_weight": 0.8,
+        "pca_weight": 0.4,
+        "threshold": 0.45
+      },
+      "config": {
+        "lightgbmWeight": 0.8,
+        "pcaWeight": 0.4,
+        "threshold": 0.45,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "9ecc8299-9d56-413d-900c-46007aa3f600",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.14272,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T16:00:13.310063"
+    },
+    {
+      "experiment_id": 7,
+      "parameters": {
+        "lightgbm_weight": 0.85,
+        "pca_weight": 0.4,
+        "threshold": 0.55
+      },
+      "config": {
+        "lightgbmWeight": 0.85,
+        "pcaWeight": 0.4,
+        "threshold": 0.55,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "2368bb83-c80f-4d99-ae08-3e9439bdb6c6",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141315,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T16:00:47.082213"
+    },
+    {
+      "experiment_id": 8,
+      "parameters": {
+        "lightgbm_weight": 0.6,
+        "pca_weight": 0.4,
+        "threshold": 0.5
+      },
+      "config": {
+        "lightgbmWeight": 0.6,
+        "pcaWeight": 0.4,
+        "threshold": 0.5,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "aa4f01c3-2ead-4748-91d0-f03f5b85def7",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.142299,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T16:01:30.784069"
+    },
+    {
+      "experiment_id": 9,
+      "parameters": {
+        "lightgbm_weight": 0.6,
+        "pca_weight": 0.3,
+        "threshold": 0.5
+      },
+      "config": {
+        "lightgbmWeight": 0.6,
+        "pcaWeight": 0.3,
+        "threshold": 0.5,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "5bd950de-b2bd-48aa-acfc-d3f942c46474",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141901,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T16:02:03.775895"
+    },
+    {
+      "experiment_id": 10,
+      "parameters": {
+        "lightgbm_weight": 0.6,
+        "pca_weight": 0.2,
+        "threshold": 0.5
+      },
+      "config": {
+        "lightgbmWeight": 0.6,
+        "pcaWeight": 0.2,
+        "threshold": 0.5,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "453f4b1d-7579-4d13-b22d-30bfe4fbc8c9",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.139926,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T16:02:47.414756"
+    },
+    {
+      "experiment_id": 11,
+      "parameters": {
+        "lightgbm_weight": 0.7,
+        "pca_weight": 0.3,
+        "threshold": 0.55
+      },
+      "config": {
+        "lightgbmWeight": 0.7,
+        "pcaWeight": 0.3,
+        "threshold": 0.55,
+        "lightgbm": {
+          "numberOfLeaves": 100,
+          "minDataInLeaf": 15,
+          "learningRate": 0.01,
+          "numberOfTrees": 1500,
+          "featureFraction": 0.8,
+          "baggingFraction": 0.8,
+          "baggingFrequency": 5,
+          "l1Regularization": 0.02,
+          "l2Regularization": 0.02,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 80.0
+          }
+        },
+        "pca": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "345391b0-7581-4ebd-80ce-4a31702197a8",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995962220427653,
+          "precision": 0.9411764705882353,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8743169398907105,
+          "auc": 0.9551331928381932,
+          "aucpr": 0.8226603106147097
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56859,
+          "falsePositive": 5,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9999120709060214,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9081193007591332,
+          "matthewsCorrCoef": 0.8763368354437778
+        },
+        "performanceSummary": {
+          "overallScore": 0.9430154515905563,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141437,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.8743169398907105,
+      "timestamp": "2025-05-24T16:03:20.615417"
+    },
+    {
+      "experiment_id": 12,
+      "parameters": {
+        "lightgbm_weight": 0.8,
+        "pca_weight": 0.2,
+        "threshold": 0.45
+      },
+      "config": {
+        "lightgbmWeight": 0.8,
+        "pcaWeight": 0.2,
+        "threshold": 0.45,
+        "lightgbm": {
+          "numberOfLeaves": 256,
+          "minDataInLeaf": 5,
+          "learningRate": 0.002,
+          "numberOfTrees": 2000,
+          "featureFraction": 0.7,
+          "baggingFraction": 0.7,
+          "baggingFrequency": 7,
+          "l1Regularization": 0.05,
+          "l2Regularization": 0.05,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 100.0
+          }
+        },
+        "pca": {
+          "componentCount": 20,
+          "anomalyThreshold": 2.0,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      },
+      "training_result": {
+        "modelId": "311415ef-ff86-46b2-88d9-4e0f6fc6e8fa",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.8837209302325582,
+          "recall": 0.7755102040816326,
+          "f1Score": 0.826086956521739,
+          "auc": 0.9662827814018123,
+          "aucpr": 0.805990915144329
+        },
+        "confusionMatrix": {
+          "truePositive": 76,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 22
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.7755102040816326,
+          "balancedAccuracy": 0.8876671729468377,
+          "matthewsCorrCoef": 0.8275743381221243
+        },
+        "performanceSummary": {
+          "overallScore": 0.9306026532986982,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.13931,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_Ensemble_20250524",
+      "score": 0.826086956521739,
+      "timestamp": "2025-05-24T16:04:05.062836"
+    }
+  ],
+  "timestamp": "2025-05-24T16:04:08.069646",
+  "parameter_importance": {
+    "pca_weight": 0.25264557631995554,
+    "threshold": 0.2409657986707498,
+    "lightgbm_weight": 0.13538810472195717
+  }
+}

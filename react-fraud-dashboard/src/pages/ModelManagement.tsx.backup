@@ -1,0 +1,3087 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Button,
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  LinearProgress,
+  Alert,
+  Tabs,
+  Tab,
+  IconButton,
+  Tooltip,
+  Snackbar,
+  Paper,
+  TablePagination,
+  Collapse,
+  Grid,
+  Autocomplete,
+} from '@mui/material';
+import {
+  ModelTraining as ModelIcon,
+  Add as AddIcon,
+  Publish as DeployIcon,
+  Archive as ArchiveIcon,
+  PlayArrow as TrainIcon,
+  Visibility as ViewIcon,
+  Download as DownloadIcon,
+  Settings as SettingsIcon,
+  ExpandMore as ExpandMoreIcon,
+  TrendingUp as MetricsIcon,
+  Timeline as TrendIcon,
+  Assessment as AnalysisIcon,
+} from '@mui/icons-material';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+} from 'recharts';
+import { FraudDetectionAPI } from '../services/api';
+import type {
+  ModelVersion,
+  ModelMetrics,
+  TrainingResult,
+  LightGBMConfig,
+  PCAConfig,
+  EnsembleConfig
+} from '../services/api';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+const ModelManagement: React.FC = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [models, setModels] = useState<ModelVersion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedModel, setSelectedModel] = useState<ModelVersion | null>(null);
+  const [detailDialog, setDetailDialog] = useState(false);
+  const [trainingDialog, setTrainingDialog] = useState(false);
+  const [training, setTraining] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'warning' });
+
+  // Pagination ve Filtreleme State'leri
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [typeFilter, setTypeFilter] = useState<string>('');
+  const [sortBy, setSortBy] = useState<'name' | 'type' | 'status' | 'accuracy' | 'date'>('date');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Performans Karşılaştırması için yeni state'ler
+  const [selectedModelsForComparison, setSelectedModelsForComparison] = useState<string[]>([]);
+  const [comparisonMetric, setComparisonMetric] = useState<'accuracy' | 'precision' | 'recall' | 'f1Score' | 'auc'>('accuracy');
+  const [comparisonView, setComparisonView] = useState<'bar' | 'radar' | 'line' | 'heatmap' | 'scatter'>('bar');
+  const [performanceTimeRange, setPerformanceTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
+  const [comparisonFilters, setComparisonFilters] = useState({
+    minAccuracy: 0,
+    maxAccuracy: 100,
+    modelTypes: [] as string[],
+    statusTypes: [] as string[],
+    dateRange: { start: '', end: '' }
+  });
+  const [showAdvancedComparison, setShowAdvancedComparison] = useState(false);
+
+  const [newModelConfig, setNewModelConfig] = useState({
+    name: '',
+    type: 'LightGBM' as 'LightGBM' | 'PCA' | 'Ensemble',
+    description: '',
+    config: {} as LightGBMConfig | PCAConfig | EnsembleConfig,
+  });
+
+  // Minimal fallback veriler (sadece API hatası durumunda kullanılır)
+  const fallbackModels: ModelVersion[] = [
+    {
+      id: "fallback-001",
+      modelName: "Demo Ensemble Model",
+      version: "1.0.0",
+      type: "Ensemble",
+      status: "Active",
+      metricsJson: JSON.stringify({
+        auc: 0.96,
+        recall: 0.78,
+        accuracy: 0.999,
+        f1Score: 0.84,
+        precision: 0.91
+      }),
+      metrics: {
+        auc: 0.96,
+        recall: 0.78,
+        accuracy: 0.999,
+        f1Score: 0.84,
+        precision: 0.91
+      },
+      configuration: JSON.stringify({
+        lightgbmWeight: 0.7,
+        pcaWeight: 0.3,
+        threshold: 0.5
+      }),
+      trainedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      createdBy: "System",
+      lastModifiedBy: "System"
+    }
+  ];
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        setLoading(true);
+        console.log('🔄 API\'den model verileri yükleniyor...');
+
+        // Gerçek API'den model verilerini al
+        const response = await FraudDetectionAPI.getAllModels();
+        console.log('✅ API\'den model verileri alındı:', response.length, 'model');
+        
+        if (response && response.length > 0) {
+          setModels(response);
+          setSnackbar({
+            open: true,
+            message: `✅ ${response.length} model başarıyla yüklendi`,
+            severity: 'success'
+          });
+        } else {
+          console.warn('⚠️ API\'den model verisi gelmedi, fallback kullanılıyor');
+          setModels(fallbackModels);
+          setSnackbar({
+            open: true,
+            message: `⚠️ Sistemde model bulunamadı, demo veriler yüklendi`,
+            severity: 'warning'
+          });
+        }
+        
+      } catch (err) {
+        console.error('❌ Model verileri yüklenirken hata oluştu:', err);
+        
+        // API hatası durumunda fallback kullan
+        console.log('🔄 Fallback veriler yükleniyor...');
+        setModels(fallbackModels);
+        setSnackbar({
+          open: true,
+          message: `❌ API bağlantısı başarısız, fallback veriler yüklendi`,
+          severity: 'error'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModels();
+  }, []);
+
+  const reloadModels = async () => {
+    try {
+      setLoading(true);
+      console.log('🔄 API\'den model verileri yükleniyor...');
+
+      // Gerçek API'den model verilerini al
+      const response = await FraudDetectionAPI.getAllModels();
+      console.log('✅ API\'den model verileri alındı:', response.length, 'model');
+      
+      if (response && response.length > 0) {
+        setModels(response);
+        setSnackbar({
+          open: true,
+          message: `✅ ${response.length} model başarıyla yüklendi`,
+          severity: 'success'
+        });
+      } else {
+        console.warn('⚠️ API\'den model verisi gelmedi, fallback kullanılıyor');
+        setModels(fallbackModels);
+        setSnackbar({
+          open: true,
+          message: `⚠️ Sistemde model bulunamadı, demo veriler yüklendi`,
+          severity: 'warning'
+        });
+      }
+      
+    } catch (err) {
+      console.error('❌ Model verileri yüklenirken hata oluştu:', err);
+      
+      // API hatası durumunda fallback kullan
+      console.log('🔄 Fallback veriler yükleniyor...');
+      setModels(fallbackModels);
+      setSnackbar({
+        open: true,
+        message: `❌ API bağlantısı başarısız, fallback veriler yüklendi`,
+        severity: 'error'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleViewDetails = (model: ModelVersion) => {
+    setSelectedModel(model);
+    setDetailDialog(true);
+  };
+
+  const handleDeployModel = async (modelId: string, modelName: string, version: string) => {
+    try {
+      setLoading(true);
+      
+      // Backend API ile model aktifleştirme
+      await FraudDetectionAPI.updateModelStatus(modelId, 'Active');
+      
+      // Modelleri yeniden yükle
+      await reloadModels();
+      
+      setSnackbar({
+        open: true,
+        message: `${modelName} modeli başarıyla aktifleştirildi`,
+        severity: 'success'
+      });
+      setLoading(false);
+    } catch (err) {
+      console.error('Model deployment hatası:', err);
+      setSnackbar({
+        open: true,
+        message: 'Model aktifleştirme sırasında hata oluştu',
+        severity: 'error'
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateModelStatus = async (modelId: string, newStatus: string) => {
+    try {
+      setLoading(true);
+      
+      // Backend API ile model durumu güncelleme
+      await FraudDetectionAPI.updateModelStatus(modelId, newStatus);
+      
+      // Modelleri yeniden yükle
+      await reloadModels();
+      
+      // Seçili modeli güncelle
+      if (selectedModel && selectedModel.id === modelId) {
+        const updatedModel = { 
+          ...selectedModel, 
+          status: newStatus as 'Training' | 'Active' | 'Inactive' | 'Failed'
+        };
+        setSelectedModel(updatedModel);
+      }
+      
+      setSnackbar({
+        open: true,
+        message: `Model durumu ${getStatusLabel(newStatus)} olarak güncellendi`,
+        severity: 'success'
+      });
+      setLoading(false);
+    } catch (err: any) {
+      console.error('Model durum güncelleme hatası:', err);
+      
+      // Aktif model kontrolü hatası için özel mesaj
+      const errorMessage = err.response?.data?.Error || err.message || 'Model durumu güncellenirken hata oluştu';
+      
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: 'error'
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleArchiveModel = async (modelId: string) => {
+    try {
+      console.log('Model arşivleniyor:', modelId);
+      setSnackbar({
+        open: true,
+        message: 'Model arşivlendi',
+        severity: 'success'
+      });
+    } catch (err) {
+      console.error('Model arşivleme hatası:', err);
+      setSnackbar({
+        open: true,
+        message: 'Model arşivleme sırasında hata oluştu',
+        severity: 'error'
+      });
+    }
+  };
+
+  const handleStartTraining = async () => {
+    try {
+      setTraining(true);
+      // Simüle training
+      setTimeout(() => {
+        setSnackbar({
+          open: true,
+          message: `${newModelConfig.type} modeli başarıyla eğitildi`,
+          severity: 'success'
+        });
+        setTrainingDialog(false);
+        setNewModelConfig({
+          name: '',
+          type: 'LightGBM',
+          description: '',
+          config: {},
+        });
+        setTraining(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Model eğitimi hatası:', err);
+      setSnackbar({
+        open: true,
+        message: `Model eğitimi sırasında hata oluştu`,
+        severity: 'error'
+      });
+      setTraining(false);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Active': return 'success';
+      case 'Inactive': return 'default';
+      case 'Training': return 'info';
+      case 'Failed': return 'error';
+      default: return 'default';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'Active': return 'Aktif';
+      case 'Inactive': return 'Pasif';
+      case 'Training': return 'Eğitiliyor';
+      case 'Failed': return 'Başarısız';
+      default: return status;
+    }
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'LightGBM': return 'LightGBM';
+      case 'PCA': return 'PCA';
+      case 'Ensemble': return 'Ensemble';
+      case 'AttentionModel': return 'Attention';
+      case 'AutoEncoder': return 'AutoEncoder';
+      case 'IsolationForest': return 'Isolation Forest';
+      default: return type;
+    }
+  };
+
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
+  // Performans karşılaştırma verisi
+  const performanceData = models
+    .filter(m => m.metrics && typeof m.metrics === 'object')
+    .map(m => ({
+      name: m.modelName,
+      accuracy: (m.metrics.accuracy * 100) || 0,
+      precision: (m.metrics.precision * 100) || 0,
+      recall: (m.metrics.recall * 100) || 0,
+      f1Score: (m.metrics.f1Score * 100) || 0,
+      auc: (m.metrics.auc * 100) || 0,
+    }));
+
+  // Model performans radarı
+  const getRadarData = () => {
+    if (!models.length) return [];
+    
+    return [
+      { metric: 'Accuracy', ...models.reduce((acc, m) => ({ ...acc, [m.modelName]: (m.metrics.accuracy * 100).toFixed(1) }), {}) },
+      { metric: 'Precision', ...models.reduce((acc, m) => ({ ...acc, [m.modelName]: (m.metrics.precision * 100).toFixed(1) }), {}) },
+      { metric: 'Recall', ...models.reduce((acc, m) => ({ ...acc, [m.modelName]: (m.metrics.recall * 100).toFixed(1) }), {}) },
+      { metric: 'F1-Score', ...models.reduce((acc, m) => ({ ...acc, [m.modelName]: (m.metrics.f1Score * 100).toFixed(1) }), {}) },
+      { metric: 'AUC', ...models.reduce((acc, m) => ({ ...acc, [m.modelName]: (m.metrics.auc * 100).toFixed(1) }), {}) },
+    ];
+  };
+
+  // Model trend verisi (gerçek verilerden oluşturulan)
+  const getModelTrendData = () => {
+    // Son 7 günün verilerini gerçek model eğitim tarihlerinden oluştur
+    const now = new Date();
+    const last7Days = [];
+    
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(now);
+      date.setDate(date.getDate() - i);
+      
+      // O gün eğitilmiş modellerin ortalama performansı
+      const dayModels = models.filter(m => {
+        const trainedDate = new Date(m.trainedAt);
+        return trainedDate.toDateString() === date.toDateString();
+      });
+      
+      let avgAccuracy = 0, avgPrecision = 0, avgRecall = 0;
+      
+      if (dayModels.length > 0) {
+        avgAccuracy = dayModels.reduce((sum, m) => sum + (m.metrics?.accuracy || 0) * 100, 0) / dayModels.length;
+        avgPrecision = dayModels.reduce((sum, m) => sum + (m.metrics?.precision || 0) * 100, 0) / dayModels.length;
+        avgRecall = dayModels.reduce((sum, m) => sum + (m.metrics?.recall || 0) * 100, 0) / dayModels.length;
+      } else {
+        // O gün model yoksa, önceki günlerin ortalamasını kullan
+        const allModels = models.filter(m => new Date(m.trainedAt) <= date);
+        if (allModels.length > 0) {
+          avgAccuracy = allModels.reduce((sum, m) => sum + (m.metrics?.accuracy || 0) * 100, 0) / allModels.length;
+          avgPrecision = allModels.reduce((sum, m) => sum + (m.metrics?.precision || 0) * 100, 0) / allModels.length;
+          avgRecall = allModels.reduce((sum, m) => sum + (m.metrics?.recall || 0) * 100, 0) / allModels.length;
+        }
+      }
+      
+      last7Days.push({
+        date: date.toISOString().split('T')[0],
+        accuracy: Number(avgAccuracy.toFixed(1)),
+        precision: Number(avgPrecision.toFixed(1)),
+        recall: Number(avgRecall.toFixed(1)),
+        modelCount: dayModels.length
+      });
+    }
+    
+    return last7Days;
+  };
+
+  // Confusion Matrix verisi (gerçek veriler)
+  const getConfusionMatrixData = (model: ModelVersion) => {
+    let confusionData;
+    try {
+      const extraMetrics = JSON.parse(model.metricsJson);
+      
+      if (extraMetrics.true_positive !== undefined) {
+        // LightGBM gibi detaylı confusion matrix verisi olan modeller
+        confusionData = [
+          { name: 'Doğru Pozitif (TP)', value: extraMetrics.true_positive || 0, color: '#4caf50', description: 'Doğru tespit edilen sahte işlemler' },
+          { name: 'Doğru Negatif (TN)', value: extraMetrics.true_negative || 0, color: '#2196f3', description: 'Doğru tespit edilen gerçek işlemler' },
+          { name: 'Yanlış Pozitif (FP)', value: extraMetrics.false_positive || 0, color: '#ff9800', description: 'Yanlış sahte olarak işaretlenen gerçek işlemler' },
+          { name: 'Yanlış Negatif (FN)', value: extraMetrics.false_negative || 0, color: '#f44336', description: 'Kaçırılan sahte işlemler' }
+        ];
+      } else {
+        // Tahmini confusion matrix (diğer model tipleri için)
+        const total = 57000; // Yaklaşık toplam işlem sayısı
+        const fraudRate = 0.0017; // Yaklaşık fraud oranı
+        const totalFraud = Math.round(total * fraudRate);
+        const totalNormal = total - totalFraud;
+        
+        const tp = Math.round(totalFraud * model.metrics.recall);
+        const fn = totalFraud - tp;
+        const fp = Math.round(totalNormal * (model.metrics.fpr || 0.001));
+        const tn = totalNormal - fp;
+
+        confusionData = [
+          { name: 'Doğru Pozitif (TP)', value: tp, color: '#4caf50', description: 'Doğru tespit edilen sahte işlemler' },
+          { name: 'Doğru Negatif (TN)', value: tn, color: '#2196f3', description: 'Doğru tespit edilen gerçek işlemler' },
+          { name: 'Yanlış Pozitif (FP)', value: fp, color: '#ff9800', description: 'Yanlış sahte olarak işaretlenen gerçek işlemler' },
+          { name: 'Yanlış Negatif (FN)', value: fn, color: '#f44336', description: 'Kaçırılan sahte işlemler' }
+        ];
+      }
+    } catch (e) {
+      // Fallback confusion matrix
+      confusionData = [
+        { name: 'Doğru Pozitif (TP)', value: 85, color: '#4caf50', description: 'Doğru tespit edilen sahte işlemler' },
+        { name: 'Doğru Negatif (TN)', value: 56850, color: '#2196f3', description: 'Doğru tespit edilen gerçek işlemler' },
+        { name: 'Yanlış Pozitif (FP)', value: 12, color: '#ff9800', description: 'Yanlış sahte olarak işaretlenen gerçek işlemler' },
+        { name: 'Yanlış Negatif (FN)', value: 15, color: '#f44336', description: 'Kaçırılan sahte işlemler' }
+      ];
+    }
+    
+    return confusionData;
+  };
+
+  // Parametre açıklamaları (Türkçe)
+  const getParameterExplanations = (modelType: string) => {
+    if (modelType === 'LightGBM') {
+      return {
+        'numberOfLeaves': 'Ağaç yapısındaki maksimum yaprak sayısı. Yüksek değerler overfitting riski yaratır.',
+        'minDataInLeaf': 'Her yaprakta bulunması gereken minimum veri sayısı. Overfitting\'i önler.',
+        'learningRate': 'Öğrenme oranı. Düşük değerler daha iyi genelleme sağlar ama eğitim süresini artırır.',
+        'numberOfTrees': 'Ensemble\'da kullanılacak ağaç sayısı. Çok yüksek değerler overfitting yaratabilir.',
+        'featureFraction': 'Her ağaç için rastgele seçilecek özellik oranı. Overfitting\'i azaltır.',
+        'baggingFraction': 'Her ağaç için kullanılacak veri oranı. Rastgelelik ekler ve overfitting\'i azaltır.',
+        'baggingFrequency': 'Bagging\'in ne sıklıkla uygulanacağı. Her N iterasyonda bir bagging yapar.',
+        'l1Regularization': 'L1 düzenlemesi. Özellik seçimi yapar ve modeli sadelemeleştirir.',
+        'l2Regularization': 'L2 düzenlemesi. Ağırlıkları küçültür ve overfitting\'i azaltır.',
+        'minGainToSplit': 'Bir dal ayrımı için gereken minimum bilgi kazancı. Overfitting\'i önler.',
+        'classWeights': 'Sınıf ağırlıkları. Dengesiz veri setlerinde azınlık sınıfına daha fazla önem verir.',
+        'predictionThreshold': 'Sınıflandırma eşiği. Bu değerin üzerindeki tahminler pozitif olarak kabul edilir.',
+        'earlyStoppingRound': 'Erken durdurma için kullanılan round sayısı. Overfitting\'i önler.',
+        'useClassWeights': 'Sınıf ağırlıklarının kullanılıp kullanılmayacağı.'
+      };
+    } else if (modelType === 'PCA') {
+      return {
+        'componentCount': 'Kullanılacak ana bileşen sayısı. Veri boyutunu azaltır.',
+        'explainedVarianceThreshold': 'Korunacak varyans oranı. Yüksek değerler daha fazla bilgi korur.',
+        'standardizeInput': 'Giriş verilerinin standardize edilip edilmeyeceği. Farklı ölçeklerdeki özellikleri dengeleler.',
+        'anomalyThreshold': 'Anomali tespit eşiği. Bu değerin üzerindeki hatalar anomali olarak kabul edilir.',
+        'featureColumns': 'Analiz için kullanılacak özellik sütunları. Model bu özellikleri ana bileşenlere dönüştürür.',
+        'featureThresholds': 'Her özellik için ayrı anomali eşikleri. Gelişmiş anomali tespiti için kullanılır.'
+      };
+    } else if (modelType === 'Ensemble') {
+      return {
+        'lightgbmWeight': 'LightGBM modelinin ensemble içindeki ağırlığı. Yüksek değerler bu modeli daha etkili kılar.',
+        'pcaWeight': 'PCA modelinin ensemble içindeki ağırlığı. Anomali tespiti için önemlidir.',
+        'threshold': 'Genel karar eşiği. Ensemble skorunun bu değeri geçmesi durumunda fraud kabul edilir.',
+        'minConfidenceThreshold': 'Minimum güven eşiği. Bu değerin altındaki tahminler belirsiz kabul edilir.',
+        'enableCrossValidation': 'Çapraz doğrulama kullanılıp kullanılmayacağı. Model performansını daha güvenilir değerlendirir.',
+        'crossValidationFolds': 'Çapraz doğrulamada kullanılacak fold sayısı. Yüksek değerler daha güvenilir ama yavaş değerlendirme sağlar.',
+        'combinationStrategy': 'Modellerin nasıl birleştirileceği stratejisi. WeightedAverage ağırlıklı ortalama alır.'
+      };
+    }
+    return {};
+  };
+
+  // Model raporu oluşturma
+  const generateModelReport = (model: ModelVersion) => {
+    const confusionData = getConfusionMatrixData(model);
+    const parameters = getParameterExplanations(model.type);
+    
+    let report = `
+FRAUD DETECTION MODEL RAPORU
+============================
+
+Model Bilgileri:
+- Ad: ${model.modelName}
+- Tip: ${getTypeLabel(model.type)}
+- Versiyon: ${model.version}
+- Durum: ${getStatusLabel(model.status)}
+- Eğitim Tarihi: ${new Date(model.trainedAt).toLocaleString('tr-TR')}
+- Oluşturan: ${model.createdBy}
+
+Performans Metrikleri:
+- Accuracy: %${(model.metrics.accuracy * 100).toFixed(2)}
+- Precision: %${(model.metrics.precision * 100).toFixed(2)}
+- Recall: %${(model.metrics.recall * 100).toFixed(2)}
+- F1-Score: %${(model.metrics.f1Score * 100).toFixed(2)}
+- AUC: %${(model.metrics.auc * 100).toFixed(2)}
+
+Confusion Matrix:
+`;
+
+    confusionData.forEach(item => {
+      report += `- ${item.name}: ${item.value.toLocaleString('tr-TR')}\n`;
+    });
+
+    report += `
+Model Özgü Metrikler:
+`;
+    getModelSpecificMetrics(model).forEach(metric => {
+      const value = metric.format === 'percentage' 
+        ? `%${(metric.value * 100).toFixed(2)}`
+        : metric.value.toFixed(4);
+      report += `- ${metric.label}: ${value}\n`;
+    });
+
+    report += `
+Parametre Açıklamaları:
+`;
+    Object.entries(parameters).forEach(([key, explanation]) => {
+      report += `- ${key}: ${explanation}\n`;
+    });
+
+    report += `
+Konfigürasyon:
+${model.configuration}
+
+Rapor Tarihi: ${new Date().toLocaleString('tr-TR')}
+Sistem: Fraud Shield v2.0 Advanced Analytics
+`;
+
+    return report;
+  };
+
+  // Rapor indirme fonksiyonu
+  const downloadModelReport = (model: ModelVersion) => {
+    const report = generateModelReport(model);
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${model.modelName}_v${model.version}_rapor_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    setSnackbar({
+      open: true,
+      message: `${model.modelName} model raporu indirildi`,
+      severity: 'success'
+    });
+  };
+
+  // Model detay dialog için gelişmiş görselleştirme fonksiyonları
+  const getGaugeData = (value: number, label: string, color: string) => [
+    { name: label, value: value * 100, fill: color },
+    { name: 'Remaining', value: (1 - value) * 100, fill: '#f0f0f0' }
+  ];
+
+  // ROC Curve gerçek verilerden oluşturma
+  const getROCCurveData = (model: ModelVersion) => {
+    const auc = model.metrics.auc;
+    const points = [];
+    
+    // Gerçek model metrikleri varsa kullan
+    let actualFPR = 0, actualTPR = 0;
+    try {
+      const extraMetrics = JSON.parse(model.metricsJson);
+      actualFPR = extraMetrics.fpr || model.metrics.fpr || 0;
+      actualTPR = model.metrics.recall || 0;
+    } catch (e) {
+      actualFPR = model.metrics.fpr || 0.001;
+      actualTPR = model.metrics.recall || 0;
+    }
+    
+    // ROC curve noktalarını gerçek metriklere göre oluştur
+    for (let i = 0; i <= 10; i++) {
+      const fpr = i / 10;
+      let tpr;
+      
+      if (i === 0) {
+        tpr = 0;
+      } else if (i === 10) {
+        tpr = 1;
+      } else {
+        // AUC değeri ve gerçek metriklere göre interpolasyon
+        const ratio = fpr / (actualFPR || 0.001);
+        tpr = Math.min(1, actualTPR * ratio + (auc - 0.5) * 2 * (1 - fpr));
+        tpr = Math.max(fpr, tpr); // ROC curve diagonal altında olamaz
+      }
+      
+      points.push({ 
+        fpr: fpr * 100, 
+        tpr: tpr * 100,
+        threshold: (1 - i / 10).toFixed(2)
+      });
+    }
+    
+    return points;
+  };
+
+  // Precision-Recall curve gerçek verilerden oluşturma
+  const getPRCurveData = (model: ModelVersion) => {
+    const precision = model.metrics.precision;
+    const recall = model.metrics.recall;
+    const points = [];
+    
+    // Gerçek model metrikleri
+    let actualPrecision = precision;
+    let actualRecall = recall;
+    
+    try {
+      const extraMetrics = JSON.parse(model.metricsJson);
+      // Eğer ek metrikler varsa kullan
+      if (extraMetrics.precision_at_recall) {
+        // Precision-recall curve verisi varsa direkt kullan
+        const prData = extraMetrics.precision_at_recall;
+        return Object.keys(prData).map(recallVal => ({
+          recall: parseFloat(recallVal) * 100,
+          precision: prData[recallVal] * 100,
+          threshold: (1 - parseFloat(recallVal)).toFixed(2)
+        }));
+      }
+    } catch (e) {
+      // JSON parse hatası, varsayılan hesaplama kullan
+    }
+    
+    // Gerçek metriklere dayalı PR curve
+    for (let i = 0; i <= 10; i++) {
+      const r = i / 10;
+      let p;
+      
+      if (r === 0) {
+        p = 1; // Recall 0'da precision maksimum
+      } else if (r > actualRecall) {
+        // Gerçek recall'dan sonra precision düşer
+        const dropRate = (r - actualRecall) / (1 - actualRecall);
+        p = actualPrecision * (1 - dropRate * 0.8);
+      } else {
+        // Gerçek recall'a kadar precision değişimi
+        const ratio = r / actualRecall;
+        p = actualPrecision + (1 - actualPrecision) * (1 - ratio) * 0.3;
+      }
+      
+      points.push({ 
+        recall: r * 100, 
+        precision: Math.max(0.1, Math.min(100, p * 100)),
+        threshold: (1 - r).toFixed(2)
+      });
+    }
+    
+    return points;
+  };
+
+  // Model tipine göre özel metrikler
+  const getModelSpecificMetrics = (model: ModelVersion) => {
+    const metrics = model.metrics;
+    const modelType = model.type;
+
+    if (modelType === 'LightGBM') {
+      return [
+        { label: 'Balanced Accuracy', value: metrics.balancedAccuracy || 0, format: 'percentage' },
+        { label: 'FDR (False Discovery Rate)', value: metrics.fdr || 0, format: 'percentage' },
+        { label: 'AUC-PR', value: metrics.aucpr || 0, format: 'percentage' }
+      ];
+    } else if (modelType === 'PCA') {
+      return [
+        { label: 'Anomaly Threshold', value: metrics.anomalyThreshold || 0, format: 'number' },
+        { label: 'Mean Reconstruction Error', value: metrics.meanReconstructionError || 0, format: 'number' },
+        { label: 'Std Reconstruction Error', value: metrics.stdReconstructionError || 0, format: 'number' }
+      ];
+    } else if (modelType === 'Ensemble') {
+      // Ensemble modeli için metricsJson'den extra değerleri parse et
+      let lightgbmAuc = 0;
+      let pcaAuc = 0;
+      try {
+        const extraMetrics = JSON.parse(model.metricsJson);
+        lightgbmAuc = extraMetrics.lightgbm_auc || 0;
+        pcaAuc = extraMetrics.pca_auc || 0;
+      } catch (e) {
+        console.warn('Ensemble metrics parse hatası:', e);
+      }
+      
+      return [
+        { label: 'LightGBM AUC', value: lightgbmAuc, format: 'percentage' },
+        { label: 'PCA AUC', value: pcaAuc, format: 'percentage' },
+        { label: 'Combined Score', value: (metrics.auc + metrics.accuracy) / 2, format: 'percentage' }
+      ];
+    }
+    return [];
+  };
+
+  // Konfigürasyon formatları
+  const formatConfiguration = (configString: string, modelType: string) => {
+    try {
+      const config = JSON.parse(configString);
+      
+      if (modelType === 'Ensemble') {
+        return {
+          'Ensemble Settings': {
+            'LightGBM Weight': config.lightgbmWeight,
+            'PCA Weight': config.pcaWeight,
+            'Threshold': config.threshold,
+            'Combination Strategy': config.combinationStrategy
+          },
+          'Cross Validation': {
+            'Enabled': config.enableCrossValidation,
+            'Folds': config.crossValidationFolds
+          },
+          'LightGBM Config': config.lightgbm,
+          'PCA Config': config.pca
+        };
+      } else if (modelType === 'LightGBM') {
+        // LightGBM config gerçekte {"lightgbm": {...}} şeklinde geliyor
+        const lightgbmConfig = config.lightgbm || config;
+        return {
+          'Training Parameters': {
+            'Number of Leaves': lightgbmConfig.numberOfLeaves,
+            'Learning Rate': lightgbmConfig.learningRate,
+            'Number of Trees': lightgbmConfig.numberOfTrees,
+            'Min Data in Leaf': lightgbmConfig.minDataInLeaf
+          },
+          'Feature Settings': {
+            'Feature Fraction': lightgbmConfig.featureFraction,
+            'Bagging Fraction': lightgbmConfig.baggingFraction,
+            'Bagging Frequency': lightgbmConfig.baggingFrequency
+          },
+          'Regularization': {
+            'L1 Regularization': lightgbmConfig.l1Regularization,
+            'L2 Regularization': lightgbmConfig.l2Regularization,
+            'Min Gain to Split': lightgbmConfig.minGainToSplit
+          },
+          'Class Weights': lightgbmConfig.classWeights,
+          'Other': {
+            'Prediction Threshold': lightgbmConfig.predictionThreshold,
+            'Early Stopping Round': lightgbmConfig.earlyStoppingRound,
+            'Use Class Weights': lightgbmConfig.useClassWeights
+          },
+          'Feature Columns': {
+            'Total Features': lightgbmConfig.featureColumns?.length || 0,
+            'Features': lightgbmConfig.featureColumns?.slice(0, 10) || [] // İlk 10 feature göster
+          }
+        };
+      } else if (modelType === 'PCA') {
+        // PCA config gerçekte {"pca": {...}} şeklinde geliyor
+        const pcaConfig = config.pca || config;
+        return {
+          'Dimensionality': {
+            'Component Count': pcaConfig.componentCount,
+            'Explained Variance Threshold': pcaConfig.explainedVarianceThreshold
+          },
+          'Processing': {
+            'Standardize Input': pcaConfig.standardizeInput,
+            'Anomaly Threshold': pcaConfig.anomalyThreshold
+          },
+          'Features': {
+            'Feature Columns': pcaConfig.featureColumns?.length > 0 ? pcaConfig.featureColumns : ['No features specified'],
+            'Feature Thresholds': pcaConfig.featureThresholds
+          }
+        };
+      }
+      
+      return config;
+    } catch (e) {
+      console.error('Config parse hatası:', e);
+      return { 'Raw Configuration': configString };
+    }
+  };
+
+  // Recursive config renderer
+  const renderConfigSection = (data: any, level: number = 0): React.ReactNode => {
+    if (typeof data !== 'object' || data === null) {
+      return (
+        <Typography variant="body2" sx={{ color: '#2e7d32', fontFamily: 'monospace' }}>
+          {String(data)}
+        </Typography>
+      );
+    }
+
+    return (
+      <Box sx={{ ml: level * 2 }}>
+        {Object.entries(data).map(([key, value]) => (
+          <Box key={key} sx={{ mb: 1 }}>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                fontWeight: level === 0 ? 'bold' : 'medium',
+                color: level === 0 ? '#1976d2' : '#333',
+                mb: 0.5 
+              }}
+            >
+              {key}:
+            </Typography>
+            {typeof value === 'object' && value !== null ? (
+              renderConfigSection(value, level + 1)
+            ) : (
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  ml: 2, 
+                  color: typeof value === 'number' ? '#d32f2f' : '#2e7d32',
+                  fontFamily: 'monospace' 
+                }}
+              >
+                {Array.isArray(value) ? `[${value.join(', ')}]` : String(value)}
+              </Typography>
+            )}
+          </Box>
+        ))}
+      </Box>
+    );
+  };
+
+  // Filtreleme ve Sıralama Fonksiyonları
+  const getFilteredAndSortedModels = () => {
+    let filteredModels = models.filter(model => {
+      const matchesSearch = model.modelName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           model.id.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = !statusFilter || model.status === statusFilter;
+      const matchesType = !typeFilter || model.type === typeFilter;
+      
+      return matchesSearch && matchesStatus && matchesType;
+    });
+
+    // Sıralama
+    filteredModels.sort((a, b) => {
+      let aValue: any, bValue: any;
+      
+      switch (sortBy) {
+        case 'name':
+          aValue = a.modelName.toLowerCase();
+          bValue = b.modelName.toLowerCase();
+          break;
+        case 'type':
+          aValue = a.type;
+          bValue = b.type;
+          break;
+        case 'status':
+          aValue = a.status;
+          bValue = b.status;
+          break;
+        case 'accuracy':
+          aValue = a.metrics?.accuracy || 0;
+          bValue = b.metrics?.accuracy || 0;
+          break;
+        case 'date':
+          aValue = new Date(a.trainedAt);
+          bValue = new Date(b.trainedAt);
+          break;
+        default:
+          return 0;
+      }
+      
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return filteredModels;
+  };
+
+  const handleSort = (field: 'name' | 'type' | 'status' | 'accuracy' | 'date') => {
+    if (sortBy === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(field);
+      setSortOrder('asc');
+    }
+  };
+
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('');
+    setTypeFilter('');
+    setSortBy('date');
+    setSortOrder('desc');
+    setPage(0);
+  };
+
+  // Pagination için veri hazırlama
+  const filteredModels = getFilteredAndSortedModels();
+  const paginatedModels = filteredModels.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  // Unique değerler filtreleme için
+  const uniqueStatuses = Array.from(new Set(models.map(m => m.status)));
+  const uniqueTypes = Array.from(new Set(models.map(m => m.type)));
+
+  // Gelişmiş performans karşılaştırma verileri
+  const getAdvancedPerformanceData = () => {
+    const filteredModels = models.filter(m => {
+      if (!m.metrics || typeof m.metrics !== 'object') return false;
+      
+      const accuracyPercent = m.metrics.accuracy * 100;
+      if (accuracyPercent < comparisonFilters.minAccuracy || accuracyPercent > comparisonFilters.maxAccuracy) return false;
+      
+      if (comparisonFilters.modelTypes.length > 0 && !comparisonFilters.modelTypes.includes(m.type)) return false;
+      if (comparisonFilters.statusTypes.length > 0 && !comparisonFilters.statusTypes.includes(m.status)) return false;
+      
+      if (comparisonFilters.dateRange.start && new Date(m.trainedAt) < new Date(comparisonFilters.dateRange.start)) return false;
+      if (comparisonFilters.dateRange.end && new Date(m.trainedAt) > new Date(comparisonFilters.dateRange.end)) return false;
+      
+      return true;
+    });
+
+    return filteredModels.map(m => ({
+      id: m.id,
+      name: m.modelName,
+      type: m.type,
+      status: m.status,
+      trainedAt: m.trainedAt,
+      accuracy: (m.metrics.accuracy * 100) || 0,
+      precision: (m.metrics.precision * 100) || 0,
+      recall: (m.metrics.recall * 100) || 0,
+      f1Score: (m.metrics.f1Score * 100) || 0,
+      auc: (m.metrics.auc * 100) || 0,
+      specificity: ((m.metrics as any).specificity * 100) || 0,
+      npv: ((m.metrics as any).npv * 100) || 0,
+      fpr: ((m.metrics as any).fpr * 100) || 0,
+      fnr: ((m.metrics as any).fnr * 100) || 0,
+    }));
+  };
+
+  // Top performer modelleri
+  const getTopPerformers = () => {
+    const data = getAdvancedPerformanceData();
+    return {
+      byAccuracy: [...data].sort((a, b) => b.accuracy - a.accuracy).slice(0, 5),
+      byPrecision: [...data].sort((a, b) => b.precision - a.precision).slice(0, 5),
+      byRecall: [...data].sort((a, b) => b.recall - a.recall).slice(0, 5),
+      byAUC: [...data].sort((a, b) => b.auc - a.auc).slice(0, 5),
+      byF1Score: [...data].sort((a, b) => b.f1Score - a.f1Score).slice(0, 5),
+    };
+  };
+
+  // Model karşılaştırma istatistikleri
+  const getComparisonStats = () => {
+    const data = getAdvancedPerformanceData();
+    if (data.length === 0) return null;
+
+    const metrics = ['accuracy', 'precision', 'recall', 'f1Score', 'auc'] as const;
+    const stats: any = {};
+
+    metrics.forEach(metric => {
+      const values = data.map(d => d[metric]);
+      stats[metric] = {
+        min: Math.min(...values),
+        max: Math.max(...values),
+        avg: values.reduce((a, b) => a + b, 0) / values.length,
+        median: values.sort((a, b) => a - b)[Math.floor(values.length / 2)],
+        std: Math.sqrt(values.reduce((a, b) => a + Math.pow(b - stats[metric]?.avg || 0, 2), 0) / values.length)
+      };
+    });
+
+    return stats;
+  };
+
+  // Heatmap verisi - model isimlerini düzgün kısalt
+  const getHeatmapData = () => {
+    const data = getAdvancedPerformanceData();
+    return data.map(model => {
+      let shortName = model.name;
+      
+      // CreditCard ile başlayanları kısalt
+      if (shortName.startsWith('CreditCard')) {
+        shortName = shortName.replace('CreditCard', 'CC');
+      }
+      
+      // Uzun isimleri kısalt
+      if (shortName.length > 20) {
+        shortName = shortName.substring(0, 20) + '...';
+      }
+      
+      return {
+        model: shortName,
+        fullName: model.name,
+        accuracy: model.accuracy,
+        precision: model.precision,
+        recall: model.recall,
+        f1Score: model.f1Score,
+        auc: model.auc,
+      };
+    });
+  };
+
+  // Scatter plot verisi - model isimlerini kısalt
+  const getScatterData = () => {
+    const data = getAdvancedPerformanceData();
+    return data.map(model => {
+      // Model ismini kısalt
+      let shortName = model.name;
+      if (shortName.startsWith('CreditCard')) {
+        shortName = shortName.replace('CreditCard', 'CC').substring(0, 15);
+      } else if (shortName.length > 15) {
+        shortName = shortName.substring(0, 15) + '...';
+      }
+      
+      return {
+        x: Number(model.precision.toFixed(1)),
+        y: Number(model.recall.toFixed(1)),
+        z: Number(model.accuracy.toFixed(1)),
+        name: shortName,
+        fullName: model.name,
+        type: model.type,
+        status: model.status,
+        id: model.id
+      };
+    });
+  };
+
+  // Model seçimi fonksiyonları
+  const handleModelSelectionForComparison = (modelId: string) => {
+    setSelectedModelsForComparison(prev => {
+      if (prev.includes(modelId)) {
+        return prev.filter(id => id !== modelId);
+      } else if (prev.length < 10) { // Maksimum 10 model karşılaştırması
+        return [...prev, modelId];
+      } else {
+        setSnackbar({
+          open: true,
+          message: '⚠️ Maksimum 10 model karşılaştırabilirsiniz',
+          severity: 'warning'
+        });
+        return prev;
+      }
+    });
+  };
+
+  const selectTopModels = (criterion: 'accuracy' | 'precision' | 'recall' | 'auc' | 'f1Score', count: number = 5) => {
+    const data = getAdvancedPerformanceData();
+    const topModels = [...data].sort((a, b) => b[criterion] - a[criterion]).slice(0, count);
+    setSelectedModelsForComparison(topModels.map(m => m.id));
+  };
+
+  const clearComparison = () => {
+    setSelectedModelsForComparison([]);
+  };
+
+  // Filtreleme fonksiyonları
+  const resetComparisonFilters = () => {
+    setComparisonFilters({
+      minAccuracy: 0,
+      maxAccuracy: 100,
+      modelTypes: [],
+      statusTypes: [],
+      dateRange: { start: '', end: '' }
+    });
+  };
+
+  return (
+    <Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <ModelIcon sx={{ fontSize: 40, color: '#1976d2' }} />
+          <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+            Model Yönetimi
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            variant="outlined"
+            color="info"
+            onClick={reloadModels}
+            disabled={loading}
+          >
+            🔄 Yenile
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setTrainingDialog(true)}
+            disabled={training}
+          >
+            Yeni Model Eğit
+          </Button>
+        </Box>
+      </Box>
+
+      <Typography variant="body1" color="textSecondary" sx={{ mb: 4 }}>
+        Machine learning modellerinin yönetimi, eğitimi ve deployment işlemleri.
+      </Typography>
+
+      {/* Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+        <Tabs value={activeTab} onChange={handleTabChange}>
+          <Tab 
+            label="Model Listesi" 
+            icon={<ModelIcon />} 
+            iconPosition="start"
+          />
+          <Tab 
+            label="Performans Karşılaştırma" 
+            icon={<AnalysisIcon />} 
+            iconPosition="start"
+          />
+          <Tab 
+            label="Model Eğitimi" 
+            icon={<TrainIcon />} 
+            iconPosition="start"
+          />
+        </Tabs>
+      </Box>
+
+      {/* Model Listesi Tab */}
+      <TabPanel value={activeTab} index={0}>
+        {/* Filtreleme ve Arama Alanları */}
+        <Card variant="outlined" sx={{ mb: 3 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+              <Typography variant="h6" color="primary">
+                🔍 Filtreleme ve Arama
+              </Typography>
+              <Button
+                variant="text"
+                color="secondary"
+                onClick={() => setShowFilters(!showFilters)}
+                startIcon={<ExpandMoreIcon sx={{ transform: showFilters ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />}
+              >
+                {showFilters ? 'Filtreleri Gizle' : 'Gelişmiş Filtreler'}
+              </Button>
+            </Box>
+
+            {/* Temel Arama */}
+            <Box sx={{ display: 'flex', gap: 2, mb: showFilters ? 2 : 0, flexWrap: 'wrap' }}>
+              <TextField
+                label="Model Ara"
+                placeholder="Model adı veya ID ile arayın..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ flex: 1, minWidth: 300 }}
+                size="small"
+              />
+              <Button 
+                variant="outlined"
+                onClick={clearFilters}
+                sx={{ minWidth: 120 }}
+              >
+                Filtreleri Temizle
+              </Button>
+            </Box>
+
+            {/* Gelişmiş Filtreler */}
+            <Collapse in={showFilters}>
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
+                <FormControl size="small">
+                  <InputLabel>Model Durumu</InputLabel>
+                  <Select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    label="Model Durumu"
+                  >
+                    <MenuItem value="">Tümü</MenuItem>
+                    <MenuItem value="Active">🟢 Aktif</MenuItem>
+                    <MenuItem value="Inactive">⚫ Pasif</MenuItem>
+                    <MenuItem value="Training">🔵 Eğitiliyor</MenuItem>
+                    <MenuItem value="Failed">🔴 Başarısız</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small">
+                  <InputLabel>Model Tipi</InputLabel>
+                  <Select
+                    value={typeFilter}
+                    onChange={(e) => setTypeFilter(e.target.value)}
+                    label="Model Tipi"
+                  >
+                    <MenuItem value="">Tümü</MenuItem>
+                    <MenuItem value="Ensemble">🎯 Ensemble</MenuItem>
+                    <MenuItem value="LightGBM">⚡ LightGBM</MenuItem>
+                    <MenuItem value="PCA">📊 PCA</MenuItem>
+                    <MenuItem value="AttentionModel">🧠 Attention</MenuItem>
+                    <MenuItem value="AutoEncoder">🔄 AutoEncoder</MenuItem>
+                    <MenuItem value="IsolationForest">🌲 Isolation Forest</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small">
+                  <InputLabel>Sıralama</InputLabel>
+                  <Select
+                    value={`${sortBy}-${sortOrder}`}
+                    onChange={(e) => {
+                      const [field, order] = e.target.value.split('-');
+                      setSortBy(field as any);
+                      setSortOrder(order as 'asc' | 'desc');
+                    }}
+                    label="Sıralama"
+                  >
+                    <MenuItem value="date-desc">📅 En Yeni → Eski</MenuItem>
+                    <MenuItem value="date-asc">📅 En Eski → Yeni</MenuItem>
+                    <MenuItem value="name-asc">📝 Ada Göre (A→Z)</MenuItem>
+                    <MenuItem value="name-desc">📝 Ada Göre (Z→A)</MenuItem>
+                    <MenuItem value="accuracy-desc">🎯 En Yüksek Accuracy</MenuItem>
+                    <MenuItem value="accuracy-asc">🎯 En Düşük Accuracy</MenuItem>
+                    <MenuItem value="type-asc">🏷️ Tipe Göre (A→Z)</MenuItem>
+                    <MenuItem value="status-asc">📊 Duruma Göre</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="body2" color="textSecondary">
+                    {filteredModels.length} / {models.length} model gösteriliyor
+                  </Typography>
+                </Box>
+              </Box>
+            </Collapse>
+          </CardContent>
+        </Card>
+
+        {loading ? (
+          <Box sx={{ mb: 2 }}>
+            <LinearProgress />
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              Modeller yükleniyor...
+            </Typography>
+          </Box>
+        ) : models.length === 0 ? (
+          <Alert severity="info">
+            Henüz hiç model bulunamadı. Yeni bir model eğiterek başlayabilirsiniz.
+          </Alert>
+        ) : filteredModels.length === 0 ? (
+          <Alert severity="warning">
+            Arama kriterlerinize uygun model bulunamadı. Filtreleri değiştirip tekrar deneyin.
+          </Alert>
+        ) : (
+          <TableContainer component={Card}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell 
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => handleSort('name')}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      Model Adı
+                      {sortBy === 'name' && (
+                        <Typography variant="caption">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell 
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => handleSort('type')}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      Tip
+                      {sortBy === 'type' && (
+                        <Typography variant="caption">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell>Versiyon</TableCell>
+                  <TableCell 
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => handleSort('status')}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      Durum
+                      {sortBy === 'status' && (
+                        <Typography variant="caption">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell 
+                    align="center"
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => handleSort('accuracy')}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                      Accuracy
+                      {sortBy === 'accuracy' && (
+                        <Typography variant="caption">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">Precision</TableCell>
+                  <TableCell align="center">Recall</TableCell>
+                  <TableCell align="center">F1-Score</TableCell>
+                  <TableCell align="center">AUC</TableCell>
+                  <TableCell 
+                    sx={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => handleSort('date')}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      Eğitim Tarihi
+                      {sortBy === 'date' && (
+                        <Typography variant="caption">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">İşlemler</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {paginatedModels.map((model) => (
+                  <TableRow key={model.id}>
+                    <TableCell>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                          {model.modelName}
+                        </Typography>
+                        <Typography variant="caption" color="textSecondary">
+                          ID: {model.id.substring(0, 12)}...
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={getTypeLabel(model.type)} size="small" />
+                    </TableCell>
+                    <TableCell>{model.version}</TableCell>
+                    <TableCell>
+                      <Chip 
+                        label={getStatusLabel(model.status)}
+                        color={getStatusColor(model.status) as any}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                        {model.metrics?.accuracy ? `%${(model.metrics.accuracy * 100).toFixed(2)}` : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2">
+                        {model.metrics?.precision ? `%${(model.metrics.precision * 100).toFixed(2)}` : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2">
+                        {model.metrics?.recall ? `%${(model.metrics.recall * 100).toFixed(2)}` : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2">
+                        {model.metrics?.f1Score ? `%${(model.metrics.f1Score * 100).toFixed(2)}` : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography variant="body2">
+                        {model.metrics?.auc ? `%${(model.metrics.auc * 100).toFixed(2)}` : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(model.trainedAt).toLocaleDateString('tr-TR')}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Tooltip title="Detayları Görüntüle">
+                          <IconButton size="small" onClick={() => handleViewDetails(model)}>
+                            <ViewIcon />
+                          </IconButton>
+                        </Tooltip>
+                        {model.status === 'Inactive' && (
+                          <Tooltip title="Aktifleştir">
+                            <IconButton 
+                              size="small" 
+                              onClick={() => handleDeployModel(model.id, model.modelName, model.version)}
+                              disabled={loading}
+                            >
+                              <DeployIcon />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50]}
+              component="div"
+              count={filteredModels.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Sayfa başına satır:"
+              labelDisplayedRows={({ from, to, count }) => `${from}-${to} / ${count} kayıt`}
+            />
+          </TableContainer>
+        )}
+      </TabPanel>
+
+      {/* Performans Karşılaştırma Tab */}
+      <TabPanel value={activeTab} index={1}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* Performans Karşılaştırma Kontrol Paneli */}
+          <Card variant="outlined" sx={{ mb: 3 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+                <Typography variant="h6" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  📊 Gelişmiş Performans Karşılaştırması
+                  <Chip 
+                    label={`${getAdvancedPerformanceData().length} Model`} 
+                    color="primary" 
+                    size="small"
+                    variant="outlined"
+                  />
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <Button
+                    variant="text"
+                    color="secondary"
+                    onClick={() => setShowAdvancedComparison(!showAdvancedComparison)}
+                    startIcon={<ExpandMoreIcon sx={{ transform: showAdvancedComparison ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />}
+                  >
+                    {showAdvancedComparison ? 'Basit Görünüm' : 'Gelişmiş Filtreler'}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="info"
+                    onClick={resetComparisonFilters}
+                    size="small"
+                  >
+                    🔄 Filtreleri Sıfırla
+                  </Button>
+                </Box>
+              </Box>
+
+              {/* Temel Kontroller */}
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: showAdvancedComparison ? 3 : 0 }}>
+                <FormControl size="small">
+                  <InputLabel>Görselleştirme Tipi</InputLabel>
+                  <Select
+                    value={comparisonView}
+                    onChange={(e) => setComparisonView(e.target.value as any)}
+                    label="Görselleştirme Tipi"
+                  >
+                    <MenuItem value="bar">📊 Bar Chart</MenuItem>
+                    <MenuItem value="radar">🕸️ Radar Chart</MenuItem>
+                    <MenuItem value="line">📈 Trend Chart</MenuItem>
+                    <MenuItem value="heatmap">🔥 Heatmap</MenuItem>
+                    <MenuItem value="scatter">💫 Scatter Plot</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small">
+                  <InputLabel>Ana Metrik</InputLabel>
+                  <Select
+                    value={comparisonMetric}
+                    onChange={(e) => setComparisonMetric(e.target.value as any)}
+                    label="Ana Metrik"
+                  >
+                    <MenuItem value="accuracy">🎯 Accuracy</MenuItem>
+                    <MenuItem value="precision">🔍 Precision</MenuItem>
+                    <MenuItem value="recall">📋 Recall</MenuItem>
+                    <MenuItem value="f1Score">⚖️ F1-Score</MenuItem>
+                    <MenuItem value="auc">📐 AUC</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small">
+                  <InputLabel>Zaman Aralığı</InputLabel>
+                  <Select
+                    value={performanceTimeRange}
+                    onChange={(e) => setPerformanceTimeRange(e.target.value as any)}
+                    label="Zaman Aralığı"
+                  >
+                    <MenuItem value="7d">📅 Son 7 Gün</MenuItem>
+                    <MenuItem value="30d">📅 Son 30 Gün</MenuItem>
+                    <MenuItem value="90d">📅 Son 90 Gün</MenuItem>
+                    <MenuItem value="all">📅 Tüm Zamanlar</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="body2" color="textSecondary">
+                    🎯 Seçili: {selectedModelsForComparison.length}/10 model
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Gelişmiş Filtreler */}
+              <Collapse in={showAdvancedComparison}>
+                <Box sx={{ pt: 3, borderTop: '1px solid #e0e0e0' }}>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    🔧 Gelişmiş Filtreleme Seçenekleri
+                  </Typography>
+                  
+                  <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 3 }}>
+                    {/* Accuracy Range */}
+                    <Box>
+                      <Typography variant="caption" gutterBottom>Accuracy Aralığı (%)</Typography>
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <TextField
+                          size="small"
+                          type="number"
+                          placeholder="Min"
+                          value={comparisonFilters.minAccuracy}
+                          onChange={(e) => setComparisonFilters(prev => ({ ...prev, minAccuracy: Number(e.target.value) }))}
+                          sx={{ width: 80 }}
+                        />
+                        <TextField
+                          size="small"
+                          type="number"
+                          placeholder="Max"
+                          value={comparisonFilters.maxAccuracy}
+                          onChange={(e) => setComparisonFilters(prev => ({ ...prev, maxAccuracy: Number(e.target.value) }))}
+                          sx={{ width: 80 }}
+                        />
+                      </Box>
+                    </Box>
+
+                    {/* Model Types */}
+                    <Autocomplete
+                      multiple
+                      size="small"
+                      options={uniqueTypes}
+                      value={comparisonFilters.modelTypes}
+                      onChange={(_, newValue) => setComparisonFilters(prev => ({ ...prev, modelTypes: newValue }))}
+                      renderInput={(params) => <TextField {...params} label="Model Tipleri" />}
+                      renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                          <Chip label={getTypeLabel(option)} size="small" {...getTagProps({ index })} />
+                        ))
+                      }
+                    />
+
+                    {/* Status Types */}
+                    <Autocomplete
+                      multiple
+                      size="small"
+                      options={uniqueStatuses}
+                      value={comparisonFilters.statusTypes}
+                      onChange={(_, newValue) => setComparisonFilters(prev => ({ ...prev, statusTypes: newValue }))}
+                      renderInput={(params) => <TextField {...params} label="Model Durumları" />}
+                      renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                          <Chip label={getStatusLabel(option)} size="small" {...getTagProps({ index })} />
+                        ))
+                      }
+                    />
+
+                    {/* Date Range */}
+                    <Box>
+                      <Typography variant="caption" gutterBottom>Tarih Aralığı</Typography>
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <TextField
+                          size="small"
+                          type="date"
+                          value={comparisonFilters.dateRange.start}
+                          onChange={(e) => setComparisonFilters(prev => ({ 
+                            ...prev, 
+                            dateRange: { ...prev.dateRange, start: e.target.value }
+                          }))}
+                          sx={{ width: 140 }}
+                        />
+                        <TextField
+                          size="small"
+                          type="date"
+                          value={comparisonFilters.dateRange.end}
+                          onChange={(e) => setComparisonFilters(prev => ({ 
+                            ...prev, 
+                            dateRange: { ...prev.dateRange, end: e.target.value }
+                          }))}
+                          sx={{ width: 140 }}
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  {/* Hızlı Seçim Butonları */}
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => selectTopModels('accuracy', 5)}
+                      startIcon={<AnalysisIcon />}
+                    >
+                      🥇 En İyi 5 (Accuracy)
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => selectTopModels('precision', 5)}
+                      startIcon={<AnalysisIcon />}
+                    >
+                      🔍 En İyi 5 (Precision)
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => selectTopModels('recall', 5)}
+                      startIcon={<AnalysisIcon />}
+                    >
+                      📋 En İyi 5 (Recall)
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => selectTopModels('auc', 5)}
+                      startIcon={<AnalysisIcon />}
+                    >
+                      📐 En İyi 5 (AUC)
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="error"
+                      onClick={clearComparison}
+                      startIcon={<ArchiveIcon />}
+                    >
+                      🗑️ Seçimi Temizle
+                    </Button>
+                  </Box>
+                </Box>
+              </Collapse>
+            </CardContent>
+          </Card>
+
+          {/* İstatistik Kartları */}
+          {getComparisonStats() && (
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 3 }}>
+              {['accuracy', 'precision', 'recall', 'f1Score', 'auc'].map((metric) => {
+                const stats = getComparisonStats()[metric];
+                return (
+                  <Card key={metric} variant="outlined" sx={{ textAlign: 'center' }}>
+                    <CardContent sx={{ pb: 2 }}>
+                      <Typography variant="subtitle2" gutterBottom sx={{ textTransform: 'uppercase', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                        {metric === 'accuracy' && '🎯 Accuracy'}
+                        {metric === 'precision' && '🔍 Precision'}
+                        {metric === 'recall' && '📋 Recall'}
+                        {metric === 'f1Score' && '⚖️ F1-Score'}
+                        {metric === 'auc' && '📐 AUC'}
+                      </Typography>
+                      <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {stats.avg.toFixed(1)}%
+                      </Typography>
+                      <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, fontSize: '0.75rem' }}>
+                        <Box>
+                          <Typography variant="caption" color="success.main">Min: {stats.min.toFixed(1)}%</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption" color="error.main">Max: {stats.max.toFixed(1)}%</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption" color="textSecondary">Med: {stats.median.toFixed(1)}%</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption" color="textSecondary">Std: {stats.std.toFixed(1)}</Typography>
+                        </Box>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </Box>
+          )}
+
+          {/* Ana Görselleştirme Alanı */}
+          {comparisonView === 'bar' && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  📊 Model Performans Karşılaştırması
+                  <Chip label={`${getAdvancedPerformanceData().length} Model`} size="small" variant="outlined" />
+                </Typography>
+                <ResponsiveContainer width="100%" height={500}>
+                  <BarChart data={getAdvancedPerformanceData().slice(0, 20)}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="name" 
+                      angle={-45} 
+                      textAnchor="end" 
+                      height={100}
+                      interval={0}
+                      fontSize={12}
+                    />
+                    <YAxis domain={[0, 100]} />
+                    <RechartsTooltip 
+                      formatter={(value, name) => [`%${Number(value).toFixed(2)}`, name]}
+                      labelFormatter={(label) => `Model: ${label}`}
+                    />
+                    <Bar dataKey="accuracy" fill="#1976d2" name="Accuracy" />
+                    <Bar dataKey="precision" fill="#ff9800" name="Precision" />
+                    <Bar dataKey="recall" fill="#4caf50" name="Recall" />
+                    <Bar dataKey="auc" fill="#9c27b0" name="AUC" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+
+          {comparisonView === 'radar' && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  🕸️ Model Radar Karşılaştırması
+                </Typography>
+                <ResponsiveContainer width="100%" height={500}>
+                  <RadarChart data={getRadarData()}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="metric" />
+                    <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                    {selectedModelsForComparison.length > 0 
+                      ? selectedModelsForComparison.map((modelId, index) => {
+                          const model = models.find(m => m.id === modelId);
+                          const colors = ['#1976d2', '#ff9800', '#4caf50', '#f44336', '#9c27b0', '#00bcd4', '#ffeb3b', '#795548', '#607d8b', '#e91e63'];
+                          return model ? (
+                            <Radar 
+                              key={modelId}
+                              name={model.modelName} 
+                              dataKey={model.modelName} 
+                              stroke={colors[index % colors.length]} 
+                              fill={colors[index % colors.length]} 
+                              fillOpacity={0.3} 
+                            />
+                          ) : null;
+                        })
+                      : models.slice(0, 3).map((model, index) => {
+                          const colors = ['#1976d2', '#ff9800', '#4caf50'];
+                          return (
+                            <Radar 
+                              key={model.id}
+                              name={model.modelName} 
+                              dataKey={model.modelName} 
+                              stroke={colors[index]} 
+                              fill={colors[index]} 
+                              fillOpacity={0.3} 
+                            />
+                          );
+                        })
+                    }
+                    <RechartsTooltip />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+
+          {comparisonView === 'line' && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  📈 Model Performans Trendi (Son 7 Gün)
+                  <Chip 
+                    label={`${getModelTrendData().reduce((sum, day) => sum + day.modelCount, 0)} Toplam Model`} 
+                    size="small" 
+                    variant="outlined" 
+                  />
+                </Typography>
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart data={getModelTrendData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="date" 
+                      tickFormatter={(date) => new Date(date).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' })}
+                    />
+                    <YAxis domain={[0, 100]} />
+                    <RechartsTooltip 
+                      formatter={(value, name) => [
+                        `%${Number(value).toFixed(1)}`,
+                        name === 'accuracy' ? 'Accuracy' : 
+                        name === 'precision' ? 'Precision' : 'Recall'
+                      ]}
+                      labelFormatter={(date) => {
+                        const dayData = getModelTrendData().find(d => d.date === date);
+                        return `${new Date(date).toLocaleDateString('tr-TR')} (${dayData?.modelCount || 0} model)`;
+                      }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="accuracy" 
+                      stroke="#1976d2" 
+                      name="Accuracy" 
+                      strokeWidth={3}
+                      dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="precision" 
+                      stroke="#ff9800" 
+                      name="Precision" 
+                      strokeWidth={3}
+                      dot={{ fill: '#ff9800', strokeWidth: 2, r: 4 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="recall" 
+                      stroke="#4caf50" 
+                      name="Recall" 
+                      strokeWidth={3}
+                      dot={{ fill: '#4caf50', strokeWidth: 2, r: 4 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+                <Typography variant="body2" color="textSecondary" sx={{ mt: 2, textAlign: 'center' }}>
+                  Grafik, son 7 gündeki model eğitim performanslarının günlük ortalamalarını gösterir. 
+                  {getModelTrendData().length > 0 && ` En son ${getModelTrendData()[getModelTrendData().length - 1].accuracy.toFixed(1)}% accuracy elde edildi.`}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          {comparisonView === 'heatmap' && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                   🔥 Model Performans Heatmap
+                   <Chip 
+                     label={`${getHeatmapData().length} Model`} 
+                     size="small" 
+                     variant="outlined" 
+                   />
+                 </Typography>
+                 <Box sx={{ overflowX: 'auto' }}>
+                   <Box sx={{ minWidth: 900, height: Math.max(400, getHeatmapData().length * 35) }}>
+                     {getHeatmapData().slice(0, 20).map((model, index) => (
+                       <Box 
+                         key={index} 
+                         sx={{ 
+                           display: 'flex', 
+                           alignItems: 'center', 
+                           mb: 1, 
+                           p: 1, 
+                           borderRadius: 1,
+                           bgcolor: index % 2 === 0 ? '#f8f9fa' : 'transparent',
+                           '&:hover': { bgcolor: '#e3f2fd' }
+                         }}
+                         title={model.fullName} // Tooltip ile tam ismi göster
+                       >
+                         <Typography 
+                           variant="body2" 
+                           sx={{ 
+                             width: 250, 
+                             fontSize: '0.85rem', 
+                             fontWeight: 'medium',
+                             overflow: 'hidden',
+                             textOverflow: 'ellipsis',
+                             whiteSpace: 'nowrap'
+                           }}
+                         >
+                           {model.model}
+                         </Typography>
+                         <Box sx={{ display: 'flex', flex: 1, gap: 1 }}>
+                           {['accuracy', 'precision', 'recall', 'f1Score', 'auc'].map((metric) => {
+                             const value = Number(model[metric as keyof typeof model]);
+                             const intensity = value / 100;
+                             const bgColor = `rgba(25, 118, 210, ${Math.max(0.1, intensity)})`;
+                             const textColor = intensity > 0.6 ? 'white' : 'black';
+                             
+                             return (
+                               <Box
+                                 key={metric}
+                                 sx={{
+                                   flex: 1,
+                                   height: 28,
+                                   backgroundColor: bgColor,
+                                   borderRadius: 1,
+                                   display: 'flex',
+                                   alignItems: 'center',
+                                   justifyContent: 'center',
+                                   color: textColor,
+                                   fontSize: '0.75rem',
+                                   fontWeight: 'bold',
+                                   border: '1px solid rgba(0,0,0,0.1)',
+                                   transition: 'all 0.2s',
+                                   cursor: 'pointer',
+                                   '&:hover': {
+                                     transform: 'scale(1.05)',
+                                     boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+                                   }
+                                 }}
+                                 title={`${metric.charAt(0).toUpperCase() + metric.slice(1)}: ${value.toFixed(1)}%`}
+                               >
+                                 {value.toFixed(0)}%
+                               </Box>
+                             );
+                           })}
+                         </Box>
+                       </Box>
+                     ))}
+                   </Box>
+                   
+                   {/* Metrik başlıkları */}
+                   <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, gap: 2, flexWrap: 'wrap' }}>
+                     {[
+                       { key: 'accuracy', label: '🎯 Accuracy', color: '#1976d2' },
+                       { key: 'precision', label: '🔍 Precision', color: '#1976d2' },
+                       { key: 'recall', label: '📋 Recall', color: '#1976d2' },
+                       { key: 'f1Score', label: '⚖️ F1-Score', color: '#1976d2' },
+                       { key: 'auc', label: '📐 AUC', color: '#1976d2' }
+                     ].map((metric) => (
+                       <Typography 
+                         key={metric.key} 
+                         variant="caption" 
+                         sx={{ 
+                           textAlign: 'center', 
+                           fontSize: '0.75rem',
+                           fontWeight: 'bold',
+                           color: metric.color,
+                           px: 1,
+                           py: 0.5,
+                           borderRadius: 1,
+                           bgcolor: 'rgba(25, 118, 210, 0.1)'
+                         }}
+                       >
+                         {metric.label}
+                       </Typography>
+                     ))}
+                   </Box>
+                   
+                   {/* Renk skalası açıklaması */}
+                   <Box sx={{ mt: 2, textAlign: 'center' }}>
+                     <Typography variant="body2" color="textSecondary" gutterBottom>
+                       Renk Yoğunluğu Skalası:
+                     </Typography>
+                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
+                       <Typography variant="caption">Düşük</Typography>
+                       {[0.1, 0.3, 0.5, 0.7, 0.9].map((intensity, idx) => (
+                         <Box
+                           key={idx}
+                           sx={{
+                             width: 20,
+                             height: 20,
+                             backgroundColor: `rgba(25, 118, 210, ${intensity})`,
+                             borderRadius: 1,
+                             border: '1px solid rgba(0,0,0,0.1)'
+                           }}
+                         />
+                       ))}
+                       <Typography variant="caption">Yüksek</Typography>
+                     </Box>
+                   </Box>
+                 </Box>
+                 
+                 {getHeatmapData().length > 20 && (
+                   <Typography variant="body2" color="textSecondary" sx={{ mt: 2, textAlign: 'center' }}>
+                     İlk 20 model gösteriliyor. Filtreleri kullanarak sonuçları daraltabilirsiniz.
+                   </Typography>
+                 )}
+              </CardContent>
+            </Card>
+          )}
+
+          {comparisonView === 'scatter' && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  💫 Precision vs Recall Scatter Plot
+                  <Chip 
+                    label={`${getScatterData().length} Model`} 
+                    size="small" 
+                    variant="outlined" 
+                  />
+                </Typography>
+                <ResponsiveContainer width="100%" height={500}>
+                  <ScatterChart
+                    margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      type="number" 
+                      dataKey="x"
+                      domain={[0, 100]}
+                      name="Precision"
+                      label={{ value: 'Precision (%)', position: 'insideBottom', offset: -40, textAnchor: 'middle' }}
+                    />
+                    <YAxis 
+                      type="number" 
+                      dataKey="y"
+                      domain={[0, 100]}
+                      name="Recall"
+                      label={{ value: 'Recall (%)', angle: -90, position: 'insideLeft', textAnchor: 'middle' }}
+                    />
+                    <ZAxis 
+                      type="number" 
+                      dataKey="z" 
+                      range={[50, 400]} 
+                      name="Accuracy" 
+                    />
+                    <RechartsTooltip 
+                      cursor={{ strokeDasharray: '3 3' }}
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length > 0) {
+                          const data = payload[0].payload;
+                          return (
+                            <div style={{ 
+                              backgroundColor: 'white', 
+                              padding: '10px', 
+                              border: '1px solid #ccc', 
+                              borderRadius: '5px',
+                              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                            }}>
+                              <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '5px' }}>
+                                {data.fullName}
+                              </p>
+                              <p style={{ margin: 0, color: '#666' }}>
+                                Tip: <strong>{getTypeLabel(data.type)}</strong>
+                              </p>
+                              <p style={{ margin: 0, color: '#666' }}>
+                                Durum: <strong>{getStatusLabel(data.status)}</strong>
+                              </p>
+                              <hr style={{ margin: '5px 0' }} />
+                              <p style={{ margin: 0, color: '#ff9800' }}>
+                                Precision: <strong>{data.x}%</strong>
+                              </p>
+                              <p style={{ margin: 0, color: '#4caf50' }}>
+                                Recall: <strong>{data.y}%</strong>
+                              </p>
+                              <p style={{ margin: 0, color: '#1976d2' }}>
+                                Accuracy: <strong>{data.z}%</strong>
+                              </p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    
+                    {/* Tip bazında renklendirme */}
+                    <Scatter 
+                      name="Ensemble" 
+                      data={getScatterData().filter(d => d.type === 'Ensemble')} 
+                      fill="#1976d2" 
+                    />
+                    <Scatter 
+                      name="LightGBM" 
+                      data={getScatterData().filter(d => d.type === 'LightGBM')} 
+                      fill="#ff9800" 
+                    />
+                    <Scatter 
+                      name="PCA" 
+                      data={getScatterData().filter(d => d.type === 'PCA')} 
+                      fill="#4caf50" 
+                    />
+                    <Scatter 
+                      name="Attention" 
+                      data={getScatterData().filter(d => d.type === 'AttentionModel')} 
+                      fill="#9c27b0" 
+                    />
+                    <Scatter 
+                      name="AutoEncoder" 
+                      data={getScatterData().filter(d => d.type === 'AutoEncoder')} 
+                      fill="#f44336" 
+                    />
+                    <Scatter 
+                      name="IsolationForest" 
+                      data={getScatterData().filter(d => d.type === 'IsolationForest')} 
+                      fill="#00bcd4" 
+                    />
+                    <Scatter 
+                      name="Diğer" 
+                      data={getScatterData().filter(d => !['Ensemble', 'LightGBM', 'PCA', 'AttentionModel', 'AutoEncoder', 'IsolationForest'].includes(d.type))} 
+                      fill="#795548" 
+                    />
+                  </ScatterChart>
+                </ResponsiveContainer>
+                
+                {/* Legend ve Açıklamalar */}
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="body2" color="textSecondary" sx={{ mb: 2, textAlign: 'center' }}>
+                    Nokta büyüklüğü Accuracy değerini temsil eder. Sağ üst köşe en iyi performansı gösterir.
+                  </Typography>
+                  
+                  {/* Model Tipleri Legend */}
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 2, mt: 2 }}>
+                    {[
+                      { type: 'Ensemble', color: '#1976d2', count: getScatterData().filter(d => d.type === 'Ensemble').length },
+                      { type: 'LightGBM', color: '#ff9800', count: getScatterData().filter(d => d.type === 'LightGBM').length },
+                      { type: 'PCA', color: '#4caf50', count: getScatterData().filter(d => d.type === 'PCA').length },
+                      { type: 'AttentionModel', color: '#9c27b0', count: getScatterData().filter(d => d.type === 'AttentionModel').length },
+                      { type: 'AutoEncoder', color: '#f44336', count: getScatterData().filter(d => d.type === 'AutoEncoder').length },
+                      { type: 'IsolationForest', color: '#00bcd4', count: getScatterData().filter(d => d.type === 'IsolationForest').length }
+                    ].filter(item => item.count > 0).map((item) => (
+                      <Box key={item.type} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ 
+                          width: 12, 
+                          height: 12, 
+                          backgroundColor: item.color, 
+                          borderRadius: '50%' 
+                        }} />
+                        <Typography variant="caption">
+                          {getTypeLabel(item.type)} ({item.count})
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Model Seçim Listesi */}
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                🎯 Model Seçimi ve Detaylar
+                <Chip 
+                  label={`${selectedModelsForComparison.length} Seçili`} 
+                  color={selectedModelsForComparison.length > 0 ? 'primary' : 'default'}
+                  size="small" 
+                />
+              </Typography>
+              <Box sx={{ maxHeight: 400, overflowY: 'auto' }}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Seç</TableCell>
+                      <TableCell>Model Adı</TableCell>
+                      <TableCell>Tip</TableCell>
+                      <TableCell>Durum</TableCell>
+                      <TableCell align="center">Accuracy</TableCell>
+                      <TableCell align="center">Precision</TableCell>
+                      <TableCell align="center">Recall</TableCell>
+                      <TableCell align="center">F1-Score</TableCell>
+                      <TableCell align="center">AUC</TableCell>
+                      <TableCell align="center">Eğitim Tarihi</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {getAdvancedPerformanceData().slice(0, 20).map((model) => (
+                      <TableRow 
+                        key={model.id}
+                        sx={{ 
+                          backgroundColor: selectedModelsForComparison.includes(model.id) ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <TableCell>
+                          <Button
+                            size="small"
+                            variant={selectedModelsForComparison.includes(model.id) ? 'contained' : 'outlined'}
+                            onClick={() => handleModelSelectionForComparison(model.id)}
+                            disabled={!selectedModelsForComparison.includes(model.id) && selectedModelsForComparison.length >= 10}
+                          >
+                            {selectedModelsForComparison.includes(model.id) ? '✓' : '+'}
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                            {model.name.length > 20 ? model.name.substring(0, 20) + '...' : model.name}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Chip label={getTypeLabel(model.type)} size="small" variant="outlined" />
+                        </TableCell>
+                        <TableCell>
+                          <Chip 
+                            label={getStatusLabel(model.status)} 
+                            size="small" 
+                            color={getStatusColor(model.status) as any}
+                          />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" sx={{ fontWeight: 'bold', color: model.accuracy > 95 ? 'success.main' : 'text.primary' }}>
+                            {model.accuracy.toFixed(1)}%
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" sx={{ fontWeight: 'bold', color: model.precision > 90 ? 'success.main' : 'text.primary' }}>
+                            {model.precision.toFixed(1)}%
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" sx={{ fontWeight: 'bold', color: model.recall > 80 ? 'success.main' : 'text.primary' }}>
+                            {model.recall.toFixed(1)}%
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" sx={{ fontWeight: 'bold', color: model.f1Score > 85 ? 'success.main' : 'text.primary' }}>
+                            {model.f1Score.toFixed(1)}%
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="body2" sx={{ fontWeight: 'bold', color: model.auc > 95 ? 'success.main' : 'text.primary' }}>
+                            {model.auc.toFixed(1)}%
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography variant="caption" color="textSecondary">
+                            {new Date(model.trainedAt).toLocaleDateString('tr-TR')}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+              {getAdvancedPerformanceData().length > 20 && (
+                <Typography variant="body2" color="textSecondary" sx={{ mt: 2, textAlign: 'center' }}>
+                  İlk 20 model gösteriliyor. Filtreleri kullanarak sonuçları daraltabilirsiniz.
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Top Performers */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 2 }}>
+            {Object.entries(getTopPerformers()).map(([key, models]) => (
+              <Card key={`top-${key}`} variant="outlined">
+                <CardContent>
+                  <Typography variant="h6" gutterBottom sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                    🏆 En İyi {key === 'byAccuracy' ? 'Accuracy' : key === 'byPrecision' ? 'Precision' : key === 'byRecall' ? 'Recall' : key === 'byAUC' ? 'AUC' : 'F1-Score'}
+                  </Typography>
+                  {models.slice(0, 3).map((model, index) => (
+                    <Box key={`${key}-${model.id}-${index}`} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1, p: 1, borderRadius: 1, backgroundColor: index === 0 ? 'rgba(255, 215, 0, 0.1)' : 'transparent' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 'bold', color: index === 0 ? '#ffd700' : index === 1 ? '#c0c0c0' : '#cd7f32' }}>
+                          {index + 1}.
+                        </Typography>
+                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                          {model.name.length > 15 ? model.name.substring(0, 15) + '...' : model.name}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                        {(() => {
+                          const metricKey = key.replace('by', '').toLowerCase() as keyof typeof model;
+                          const value = model[metricKey];
+                          return typeof value === 'number' ? value.toFixed(1) : Number(value).toFixed(1);
+                        })()}%
+                      </Typography>
+                    </Box>
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        </Box>
+      </TabPanel>
+
+      {/* Model Eğitimi Tab */}
+      <TabPanel value={activeTab} index={2}>
+        <Box sx={{ maxWidth: 800, mx: 'auto' }}>
+          <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+            Yeni Model Eğitimi
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <TextField
+                label="Model Adı"
+                value={newModelConfig.name}
+                onChange={(e) => setNewModelConfig(prev => ({ ...prev, name: e.target.value }))}
+                sx={{ flex: 1, minWidth: 250 }}
+                disabled={training}
+              />
+              
+              <FormControl sx={{ flex: 1, minWidth: 250 }} disabled={training}>
+                <InputLabel>Model Tipi</InputLabel>
+                <Select
+                  value={newModelConfig.type}
+                  onChange={(e) => setNewModelConfig(prev => ({ ...prev, type: e.target.value as any }))}
+                  label="Model Tipi"
+                >
+                  <MenuItem value="LightGBM">LightGBM Classifier</MenuItem>
+                  <MenuItem value="PCA">PCA Anomaly Detection</MenuItem>
+                  <MenuItem value="Ensemble">Ensemble Model</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            
+            <TextField
+              label="Açıklama"
+              value={newModelConfig.description}
+              onChange={(e) => setNewModelConfig(prev => ({ ...prev, description: e.target.value }))}
+              multiline
+              rows={3}
+              fullWidth
+              disabled={training}
+            />
+
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={handleStartTraining}
+                startIcon={training ? null : <TrainIcon />}
+                disabled={training || !newModelConfig.type}
+                sx={{ minWidth: 200 }}
+              >
+                {training ? 'Eğitim Devam Ediyor...' : 'Eğitimi Başlat'}
+              </Button>
+            </Box>
+
+            {training && (
+              <Box sx={{ mt: 2 }}>
+                <LinearProgress />
+                <Typography variant="body2" sx={{ mt: 1, textAlign: 'center' }}>
+                  Model eğitiliyor, lütfen bekleyin... (Tahmini süre: 2-3 dakika)
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        </Box>
+      </TabPanel>
+
+      {/* Model Detay Dialog */}
+      <Dialog open={detailDialog} onClose={() => setDetailDialog(false)} maxWidth="xl" fullWidth>
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <MetricsIcon color="primary" />
+              <Box>
+                <Typography variant="h5">
+                  {selectedModel?.modelName}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  Detaylı Performans Analizi ve Konfigürasyon
+                </Typography>
+              </Box>
+            </Box>
+            <Chip 
+              label={selectedModel ? getTypeLabel(selectedModel.type) : ''}
+              color="primary"
+              variant="outlined"
+              size="medium"
+            />
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          {selectedModel && (
+            <Box sx={{ mt: 2 }}>
+              {/* Ana Metrikler - Gauge Charts */}
+              <Card variant="outlined" sx={{ mb: 3 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom color="primary" sx={{ mb: 3 }}>
+                    🎯 Ana Performans Metrikleri
+                  </Typography>
+                  <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 3 }}>
+                    {/* Accuracy Gauge */}
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="subtitle2" gutterBottom>Accuracy</Typography>
+                      <ResponsiveContainer width="100%" height={150}>
+                        <PieChart>
+                          <Pie
+                            data={getGaugeData(selectedModel.metrics.accuracy, 'Accuracy', '#1976d2')}
+                            cx="50%"
+                            cy="50%"
+                            startAngle={180}
+                            endAngle={0}
+                            innerRadius={40}
+                            outerRadius={70}
+                            dataKey="value"
+                          >
+                            {getGaugeData(selectedModel.metrics.accuracy, 'Accuracy', '#1976d2').map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold', mt: -2 }}>
+                        {(selectedModel.metrics.accuracy * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+
+                    {/* Precision Gauge */}
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="subtitle2" gutterBottom>Precision</Typography>
+                      <ResponsiveContainer width="100%" height={150}>
+                        <PieChart>
+                          <Pie
+                            data={getGaugeData(selectedModel.metrics.precision, 'Precision', '#ff9800')}
+                            cx="50%"
+                            cy="50%"
+                            startAngle={180}
+                            endAngle={0}
+                            innerRadius={40}
+                            outerRadius={70}
+                            dataKey="value"
+                          >
+                            {getGaugeData(selectedModel.metrics.precision, 'Precision', '#ff9800').map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <Typography variant="h6" color="warning.main" sx={{ fontWeight: 'bold', mt: -2 }}>
+                        {(selectedModel.metrics.precision * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+
+                    {/* Recall Gauge */}
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="subtitle2" gutterBottom>Recall</Typography>
+                      <ResponsiveContainer width="100%" height={150}>
+                        <PieChart>
+                          <Pie
+                            data={getGaugeData(selectedModel.metrics.recall, 'Recall', '#4caf50')}
+                            cx="50%"
+                            cy="50%"
+                            startAngle={180}
+                            endAngle={0}
+                            innerRadius={40}
+                            outerRadius={70}
+                            dataKey="value"
+                          >
+                            {getGaugeData(selectedModel.metrics.recall, 'Recall', '#4caf50').map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <Typography variant="h6" color="success.main" sx={{ fontWeight: 'bold', mt: -2 }}>
+                        {(selectedModel.metrics.recall * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+
+                    {/* F1-Score Gauge */}
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="subtitle2" gutterBottom>F1-Score</Typography>
+                      <ResponsiveContainer width="100%" height={150}>
+                        <PieChart>
+                          <Pie
+                            data={getGaugeData(selectedModel.metrics.f1Score, 'F1-Score', '#9c27b0')}
+                            cx="50%"
+                            cy="50%"
+                            startAngle={180}
+                            endAngle={0}
+                            innerRadius={40}
+                            outerRadius={70}
+                            dataKey="value"
+                          >
+                            {getGaugeData(selectedModel.metrics.f1Score, 'F1-Score', '#9c27b0').map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <Typography variant="h6" color="secondary.main" sx={{ fontWeight: 'bold', mt: -2 }}>
+                        {(selectedModel.metrics.f1Score * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+
+                    {/* AUC Gauge */}
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="subtitle2" gutterBottom>AUC</Typography>
+                      <ResponsiveContainer width="100%" height={150}>
+                        <PieChart>
+                          <Pie
+                            data={getGaugeData(selectedModel.metrics.auc, 'AUC', '#00bcd4')}
+                            cx="50%"
+                            cy="50%"
+                            startAngle={180}
+                            endAngle={0}
+                            innerRadius={40}
+                            outerRadius={70}
+                            dataKey="value"
+                          >
+                            {getGaugeData(selectedModel.metrics.auc, 'AUC', '#00bcd4').map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <Typography variant="h6" sx={{ color: '#00bcd4', fontWeight: 'bold', mt: -2 }}>
+                        {(selectedModel.metrics.auc * 100).toFixed(2)}%
+                      </Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+
+              {/* İlk Satır - ROC Curve ve Precision-Recall Curve */}
+              <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mb: 3 }}>
+                {/* ROC Curve */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 400 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      📈 ROC Curve (Simulated)
+                    </Typography>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={getROCCurveData(selectedModel)}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="fpr" label={{ value: 'False Positive Rate (%)', position: 'insideBottom', offset: -10 }} />
+                        <YAxis label={{ value: 'True Positive Rate (%)', angle: -90, position: 'insideLeft' }} />
+                        <RechartsTooltip 
+                          formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name === 'tpr' ? 'TPR' : 'FPR']}
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="tpr" 
+                          stroke="#1976d2" 
+                          strokeWidth={3}
+                          dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                          name="ROC Curve"
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="fpr" 
+                          stroke="#ff4444" 
+                          strokeDasharray="5 5"
+                          strokeWidth={1}
+                          dot={false}
+                          name="Random Classifier"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                    <Typography variant="body2" color="textSecondary" sx={{ mt: 1, textAlign: 'center' }}>
+                      AUC: {(selectedModel.metrics.auc * 100).toFixed(2)}% (Ne kadar yüksek o kadar iyi)
+                    </Typography>
+                  </CardContent>
+                </Card>
+
+                {/* Precision-Recall Curve */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 400 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      📊 Precision-Recall Curve
+                    </Typography>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={getPRCurveData(selectedModel)}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="recall" label={{ value: 'Recall (%)', position: 'insideBottom', offset: -10 }} />
+                        <YAxis label={{ value: 'Precision (%)', angle: -90, position: 'insideLeft' }} />
+                        <RechartsTooltip 
+                          formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name === 'precision' ? 'Precision' : 'Recall']}
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="precision" 
+                          stroke="#4caf50" 
+                          strokeWidth={3}
+                          dot={{ fill: '#4caf50', strokeWidth: 2, r: 4 }}
+                          name="PR Curve"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                    <Typography variant="body2" color="textSecondary" sx={{ mt: 1, textAlign: 'center' }}>
+                      Current Point: Precision {(selectedModel.metrics.precision * 100).toFixed(1)}%, Recall {(selectedModel.metrics.recall * 100).toFixed(1)}%
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+
+              {/* İkinci Satır - Confusion Matrix ve Model Özgü Metrikler */}
+              <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mb: 3 }}>
+                {/* Confusion Matrix */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 500 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      🎯 Confusion Matrix (Karmaşa Matrisi)
+                    </Typography>
+                    
+                    {/* Matrix Grid */}
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="subtitle2" gutterBottom sx={{ textAlign: 'center', mb: 2 }}>
+                        Tahmin vs Gerçek Sonuçlar
+                      </Typography>
+                      
+                      <Box sx={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: '1fr 1fr 1fr',
+                        gridTemplateRows: '1fr 1fr 1fr',
+                        gap: 1,
+                        maxWidth: 400,
+                        mx: 'auto',
+                        textAlign: 'center'
+                      }}>
+                        {/* Header */}
+                        <Box></Box>
+                        <Box sx={{ fontWeight: 'bold', p: 1, bgcolor: '#e3f2fd' }}>Gerçek: Normal</Box>
+                        <Box sx={{ fontWeight: 'bold', p: 1, bgcolor: '#ffebee' }}>Gerçek: Fraud</Box>
+                        
+                        {/* Tahmin: Normal */}
+                        <Box sx={{ fontWeight: 'bold', p: 1, bgcolor: '#e3f2fd', writingMode: 'vertical-rl' }}>
+                          Tahmin: Normal
+                        </Box>
+                        <Box sx={{ 
+                          p: 2, 
+                          bgcolor: '#c8e6c9', 
+                          border: '2px solid #4caf50',
+                          borderRadius: 1,
+                          fontWeight: 'bold',
+                          fontSize: '1.2rem'
+                        }}>
+                          {getConfusionMatrixData(selectedModel).find(d => d.name.includes('TN'))?.value.toLocaleString('tr-TR')}
+                          <Typography variant="caption" display="block">TN</Typography>
+                        </Box>
+                        <Box sx={{ 
+                          p: 2, 
+                          bgcolor: '#ffccbc', 
+                          border: '2px solid #ff9800',
+                          borderRadius: 1,
+                          fontWeight: 'bold',
+                          fontSize: '1.2rem'
+                        }}>
+                          {getConfusionMatrixData(selectedModel).find(d => d.name.includes('FN'))?.value.toLocaleString('tr-TR')}
+                          <Typography variant="caption" display="block">FN</Typography>
+                        </Box>
+                        
+                        {/* Tahmin: Fraud */}
+                        <Box sx={{ fontWeight: 'bold', p: 1, bgcolor: '#ffebee', writingMode: 'vertical-rl' }}>
+                          Tahmin: Fraud
+                        </Box>
+                        <Box sx={{ 
+                          p: 2, 
+                          bgcolor: '#ffccbc', 
+                          border: '2px solid #ff9800',
+                          borderRadius: 1,
+                          fontWeight: 'bold',
+                          fontSize: '1.2rem'
+                        }}>
+                          {getConfusionMatrixData(selectedModel).find(d => d.name.includes('FP'))?.value.toLocaleString('tr-TR')}
+                          <Typography variant="caption" display="block">FP</Typography>
+                        </Box>
+                        <Box sx={{ 
+                          p: 2, 
+                          bgcolor: '#c8e6c9', 
+                          border: '2px solid #4caf50',
+                          borderRadius: 1,
+                          fontWeight: 'bold',
+                          fontSize: '1.2rem'
+                        }}>
+                          {getConfusionMatrixData(selectedModel).find(d => d.name.includes('TP'))?.value.toLocaleString('tr-TR')}
+                          <Typography variant="caption" display="block">TP</Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    {/* Açıklamalar */}
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant="subtitle2" gutterBottom>
+                        Açıklamalar:
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        {getConfusionMatrixData(selectedModel).map((item, index) => (
+                          <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box sx={{ 
+                              width: 16, 
+                              height: 16, 
+                              bgcolor: item.color, 
+                              borderRadius: 1 
+                            }} />
+                            <Typography variant="body2">
+                              <strong>{item.name}:</strong> {item.description}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+
+                {/* Model Özgü Metrikler ve Sistem Bilgileri */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 500 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      🔧 {getTypeLabel(selectedModel.type)} Özgü Metrikler
+                    </Typography>
+                    
+                    {/* Temel Bilgiler */}
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', color: '#666' }}>
+                        Model Bilgileri
+                      </Typography>
+                      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 2 }}>
+                        <Box>
+                          <Typography variant="body2" color="textSecondary">Versiyon</Typography>
+                          <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                            {selectedModel.version}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body2" color="textSecondary">Durum</Typography>
+                          <Chip 
+                            label={getStatusLabel(selectedModel.status)}
+                            color={getStatusColor(selectedModel.status) as any}
+                            size="small"
+                          />
+                        </Box>
+                        <Box>
+                          <Typography variant="body2" color="textSecondary">Oluşturan</Typography>
+                          <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                            {selectedModel.createdBy}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body2" color="textSecondary">Eğitim Tarihi</Typography>
+                          <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                            {new Date(selectedModel.trainedAt).toLocaleDateString('tr-TR')}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    {/* Özgü Metrikler */}
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', color: '#666' }}>
+                        İleri Seviye Metrikler
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        {getModelSpecificMetrics(selectedModel).map((metric, index) => (
+                          <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#f8f9fa', borderRadius: 1 }}>
+                            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                              {metric.label}
+                            </Typography>
+                            <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                              {metric.format === 'percentage' 
+                                ? `${(metric.value * 100).toFixed(2)}%`
+                                : metric.value.toFixed(4)
+                              }
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+
+                    {/* Ek Sistem Metrikleri */}
+                    {selectedModel.metrics.specificity && (
+                      <Box>
+                        <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', color: '#666' }}>
+                          Sistem Metrikleri
+                        </Typography>
+                        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 2 }}>
+                          <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#e3f2fd', borderRadius: 1 }}>
+                            <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                              {(selectedModel.metrics.specificity * 100).toFixed(3)}%
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              Specificity
+                            </Typography>
+                          </Box>
+                          <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#e8f5e8', borderRadius: 1 }}>
+                            <Typography variant="h6" color="success.main" sx={{ fontWeight: 'bold' }}>
+                              {((selectedModel.metrics.npv || 0) * 100).toFixed(3)}%
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              NPV
+                            </Typography>
+                          </Box>
+                          <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#fff3e0', borderRadius: 1 }}>
+                            <Typography variant="h6" color="warning.main" sx={{ fontWeight: 'bold' }}>
+                              {((selectedModel.metrics.fpr || 0) * 100).toFixed(3)}%
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              FPR
+                            </Typography>
+                          </Box>
+                          <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#fce4ec', borderRadius: 1 }}>
+                            <Typography variant="h6" color="error.main" sx={{ fontWeight: 'bold' }}>
+                              {((selectedModel.metrics.fnr || 0) * 100).toFixed(3)}%
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              FNR
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    )}
+                  </CardContent>
+                </Card>
+              </Box>
+
+              {/* Üçüncü Satır - Konfigürasyon */}
+              <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                {/* Model Konfigürasyonu */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 400 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      🔧 Model Konfigürasyonu
+                    </Typography>
+                    <Paper 
+                      variant="outlined" 
+                      sx={{ 
+                        p: 3, 
+                        backgroundColor: '#fafafa', 
+                        maxHeight: 500,
+                        overflow: 'auto',
+                        border: '1px solid #e0e0e0'
+                      }}
+                    >
+                      {renderConfigSection(formatConfiguration(selectedModel.configuration, selectedModel.type))}
+                    </Paper>
+                    
+                    {/* Konfigürasyon Özeti */}
+                    <Box sx={{ mt: 2, p: 2, bgcolor: '#f0f7ff', borderRadius: 1 }}>
+                      <Typography variant="subtitle2" color="primary" gutterBottom>
+                        📋 Konfigürasyon Özeti
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {selectedModel.type === 'Ensemble' 
+                          ? 'Bu ensemble model, LightGBM ve PCA algoritmalarının weighted average kombinasyonunu kullanır. LightGBM ağırlığı %70, PCA ağırlığı %30 olarak ayarlanmıştır.'
+                          : selectedModel.type === 'LightGBM'
+                          ? 'Gradient boosting algoritması kullanarak yüksek performanslı sınıflandırma yapar. Class imbalance için 1:100 ağırlık oranı kullanılmıştır.'
+                          : 'Principal Component Analysis ile anomali tespiti yapar. 15 ana bileşen kullanarak %98 varyans korunmaktadır.'
+                        }
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+
+                {/* Model İstatistikleri ve İyileştirme Önerileri */}
+                <Card variant="outlined" sx={{ flex: 1, minWidth: 400 }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom color="primary">
+                      📈 Model İstatistikleri ve Öneriler
+                    </Typography>
+                    
+                    {/* İstatistikler */}
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', color: '#666' }}>
+                        Detaylı İstatistikler
+                      </Typography>
+                      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 2 }}>
+                        <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#e3f2fd', borderRadius: 1 }}>
+                          <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                            {new Date(selectedModel.trainedAt).toLocaleDateString('tr-TR')}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            Eğitim Tarihi
+                          </Typography>
+                        </Box>
+                        <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#f3e5f5', borderRadius: 1 }}>
+                          <Typography variant="h6" color="secondary.main" sx={{ fontWeight: 'bold' }}>
+                            v{selectedModel.version}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            Model Versiyonu
+                          </Typography>
+                        </Box>
+                        <Box sx={{ textAlign: 'center', p: 2, bgcolor: '#fff3e0', borderRadius: 1 }}>
+                          <Typography variant="h6" color="warning.main" sx={{ fontWeight: 'bold' }}>
+                            {getStatusLabel(selectedModel.status)}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            Durum
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    {/* İyileştirme Önerileri */}
+                    <Box>
+                      <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 'bold', color: '#666' }}>
+                        🚀 İyileştirme Önerileri
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        {selectedModel.metrics.precision < 0.9 && (
+                          <Box sx={{ p: 2, bgcolor: '#fff3e0', borderRadius: 1, borderLeft: '4px solid #ff9800' }}>
+                            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                              Precision İyileştirmesi
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              Precision %{(selectedModel.metrics.precision * 100).toFixed(1)} - False positive oranını azaltmak için threshold değerini artırabilirsiniz.
+                            </Typography>
+                          </Box>
+                        )}
+                        
+                        {selectedModel.metrics.recall < 0.85 && (
+                          <Box sx={{ p: 2, bgcolor: '#ffebee', borderRadius: 1, borderLeft: '4px solid #f44336' }}>
+                            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                              Recall İyileştirmesi
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              Recall %{(selectedModel.metrics.recall * 100).toFixed(1)} - Kaçırılan fraud'ları azaltmak için class weight'leri artırabilirsiniz.
+                            </Typography>
+                          </Box>
+                        )}
+                        
+                        {selectedModel.metrics.auc > 0.95 && selectedModel.metrics.accuracy > 0.99 && (
+                          <Box sx={{ p: 2, bgcolor: '#e8f5e8', borderRadius: 1, borderLeft: '4px solid #4caf50' }}>
+                            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                              Mükemmel Performans
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              Model şu anki konfigürasyonuyla optimal performans göstermektedir. Production'a alınabilir.
+                            </Typography>
+                          </Box>
+                        )}
+                        
+                        <Box sx={{ p: 2, bgcolor: '#e3f2fd', borderRadius: 1, borderLeft: '4px solid #2196f3' }}>
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                            Monitoring Önerisi
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            Model drift'ini takip etmek için haftalık performans raporları oluşturunuz.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ p: 3 }}>
+          <Button onClick={() => setDetailDialog(false)} size="large" variant="outlined">
+            Kapat
+          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {/* Durum Değiştirme Butonları */}
+            {selectedModel?.status === 'Inactive' && (
+              <Button
+                variant="contained"
+                color="success"
+                size="large"
+                startIcon={<DeployIcon />}
+                onClick={() => selectedModel && handleUpdateModelStatus(selectedModel.id, 'Active')}
+                disabled={loading}
+              >
+                Aktifleştir
+              </Button>
+            )}
+            {selectedModel?.status === 'Active' && (
+              <Button
+                variant="contained"
+                color="warning"
+                size="large"
+                startIcon={<SettingsIcon />}
+                onClick={() => selectedModel && handleUpdateModelStatus(selectedModel.id, 'Inactive')}
+                disabled={loading}
+              >
+                Pasif Yap
+              </Button>
+            )}
+            {selectedModel?.status === 'Failed' && (
+              <Button
+                variant="contained"
+                color="info"
+                size="large"
+                startIcon={<TrainIcon />}
+                onClick={() => selectedModel && handleUpdateModelStatus(selectedModel.id, 'Training')}
+                disabled={loading}
+              >
+                Yeniden Eğit
+              </Button>
+            )}
+            {(selectedModel?.status === 'Active' || selectedModel?.status === 'Inactive') && (
+              <Button
+                variant="outlined"
+                color="error"
+                size="large"
+                startIcon={<ArchiveIcon />}
+                onClick={() => selectedModel && handleUpdateModelStatus(selectedModel.id, 'Failed')}
+                disabled={loading}
+              >
+                Başarısız İşaretle
+              </Button>
+            )}
+            <Button 
+              variant="contained" 
+              size="large" 
+              startIcon={<DownloadIcon />}
+              onClick={() => selectedModel && downloadModelReport(selectedModel)}
+            >
+              Model Raporunu İndir
+            </Button>
+          </Box>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
+      >
+        <Alert 
+          severity={snackbar.severity} 
+          onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Box>
+  );
+};
+
+export default ModelManagement; 

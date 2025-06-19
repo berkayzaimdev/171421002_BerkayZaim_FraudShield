@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-05-24T15:48:20.545295",
+  "evaluated_models": [],
+  "recommendations": [],
+  "deployment_strategy": {
+    "primary_model": null,
+    "fallback_strategy": "LightGBM modelini fallback olarak kullan\u0131n",
+    "performance_threshold": 0.8,
+    "retraining_frequency": "Ayl\u0131k",
+    "monitoring_metrics": [
+      "Accuracy",
+      "Precision",
+      "Recall",
+      "F1Score"
+    ]
+  },
+  "monitoring_suggestions": [
+    "Model performans\u0131n\u0131 g\u00fcnl\u00fck olarak izleyin",
+    "False positive oran\u0131n\u0131 d\u00fc\u015f\u00fck tutun",
+    "Veri drift kontrol\u00fc yap\u0131n",
+    "A/B testing ile model g\u00fcncellemelerini test edin",
+    "Feedback loop kurun"
+  ]
+}

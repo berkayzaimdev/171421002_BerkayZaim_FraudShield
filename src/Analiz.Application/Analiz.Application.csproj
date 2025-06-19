@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.ML" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.AutoML" Version="0.22.2"/>
+        <PackageReference Include="Microsoft.ML.FastTree" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.LightGBM" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.Mkl.Components" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.21.0"/>
+        <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.TensorFlow" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.TimeSeries" Version="4.0.2"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.8.37"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Analiz.Domain\Analiz.Domain.csproj"/>
+    </ItemGroup>
+
+</Project>

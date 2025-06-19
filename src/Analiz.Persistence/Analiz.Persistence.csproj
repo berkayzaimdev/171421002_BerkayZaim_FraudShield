@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.9.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.ML" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.AutoML" Version="0.22.2"/>
+        <PackageReference Include="Microsoft.ML.Mkl.Components" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.21.0"/>
+        <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.TensorFlow" Version="4.0.2"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Analiz.Application\Analiz.Application.csproj"/>
+        <ProjectReference Include="..\Analiz.Domain\Analiz.Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Mappings\"/>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,1073 @@
+{
+  "model_type": "LightGBM",
+  "optimization_metric": "f1_score",
+  "total_experiments": 15,
+  "best_score": 0.8817204301075268,
+  "worst_score": 0.8,
+  "mean_score": 0.8330118175977348,
+  "std_score": 0.025116468324930207,
+  "best_config": {
+    "numberOfLeaves": 64,
+    "minDataInLeaf": 20,
+    "learningRate": 0.01,
+    "numberOfTrees": 2000,
+    "featureFraction": 0.9,
+    "baggingFraction": 0.7,
+    "baggingFrequency": 5,
+    "l1Regularization": 0.001,
+    "l2Regularization": 0.01,
+    "earlyStoppingRound": 100,
+    "minGainToSplit": 0.0005,
+    "useClassWeights": true,
+    "classWeights": {
+      "0": 1.0,
+      "1": 100.0
+    },
+    "predictionThreshold": 0.5
+  },
+  "best_parameters": {
+    "n_estimators": 2000,
+    "num_leaves": 64,
+    "learning_rate": 0.01,
+    "feature_fraction": 0.9,
+    "bagging_fraction": 0.7,
+    "min_child_samples": 20,
+    "reg_alpha": 0.001,
+    "reg_lambda": 0.01,
+    "class_weight_ratio": 100
+  },
+  "all_results": [
+    {
+      "experiment_id": 1,
+      "parameters": {
+        "n_estimators": 500,
+        "num_leaves": 64,
+        "learning_rate": 0.02,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.7,
+        "min_child_samples": 10,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.1,
+        "class_weight_ratio": 50
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 10,
+        "learningRate": 0.02,
+        "numberOfTrees": 500,
+        "featureFraction": 0.8,
+        "baggingFraction": 0.7,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.1,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 50.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "7c03914a-33d5-48aa-9757-403475394a30",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994733330992591,
+          "precision": 0.8777777777777778,
+          "recall": 0.8061224489795918,
+          "f1Score": 0.8404255319148936,
+          "auc": 0.9815042048051634,
+          "aucpr": 0.8734082155302941
+        },
+        "confusionMatrix": {
+          "truePositive": 79,
+          "trueNegative": 56853,
+          "falsePositive": 11,
+          "falseNegative": 19
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998065559932471,
+          "sensitivity": 0.8061224489795918,
+          "balancedAccuracy": 0.9029645024864195,
+          "matthewsCorrCoef": 0.8409264672988979
+        },
+        "performanceSummary": {
+          "overallScore": 0.9404676899397719,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.142849,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8404255319148936,
+      "timestamp": "2025-05-24T15:49:34.831083"
+    },
+    {
+      "experiment_id": 2,
+      "parameters": {
+        "n_estimators": 1500,
+        "num_leaves": 256,
+        "learning_rate": 0.005,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.7,
+        "min_child_samples": 10,
+        "reg_alpha": 0.001,
+        "reg_lambda": 0.001,
+        "class_weight_ratio": 100
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 10,
+        "learningRate": 0.005,
+        "numberOfTrees": 1500,
+        "featureFraction": 0.8,
+        "baggingFraction": 0.7,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.001,
+        "l2Regularization": 0.001,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 100.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "6b5393db-f61e-4858-a8b8-6590cab247b4",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995084442259752,
+          "precision": 0.9166666666666666,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8461538461538461,
+          "auc": 0.9803225454503692,
+          "aucpr": 0.8726184976973047
+        },
+        "confusionMatrix": {
+          "truePositive": 77,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 21
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.7857142857142857,
+          "balancedAccuracy": 0.8927955924913578,
+          "matthewsCorrCoef": 0.848431024752505
+        },
+        "performanceSummary": {
+          "overallScore": 0.9419949452767303,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.140948,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8461538461538461,
+      "timestamp": "2025-05-24T15:50:09.729015"
+    },
+    {
+      "experiment_id": 3,
+      "parameters": {
+        "n_estimators": 500,
+        "num_leaves": 64,
+        "learning_rate": 0.01,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.8,
+        "min_child_samples": 20,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 75
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 20,
+        "learningRate": 0.01,
+        "numberOfTrees": 500,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.8,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 75.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "21c2747a-0594-4ef5-809d-2e8da0d3ae21",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994382219725431,
+          "precision": 0.84375,
+          "recall": 0.826530612244898,
+          "f1Score": 0.8350515463917526,
+          "auc": 0.976692509446097,
+          "aucpr": 0.8650657206093629
+        },
+        "confusionMatrix": {
+          "truePositive": 81,
+          "trueNegative": 56849,
+          "falsePositive": 15,
+          "falseNegative": 17
+        },
+        "extendedMetrics": {
+          "specificity": 0.9997362127180641,
+          "sensitivity": 0.826530612244898,
+          "balancedAccuracy": 0.913133412481481,
+          "matthewsCorrCoef": 0.8348147234045731
+        },
+        "performanceSummary": {
+          "overallScore": 0.937060759270131,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.13505,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8350515463917526,
+      "timestamp": "2025-05-24T15:50:21.296829"
+    },
+    {
+      "experiment_id": 4,
+      "parameters": {
+        "n_estimators": 2000,
+        "num_leaves": 64,
+        "learning_rate": 0.01,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.7,
+        "min_child_samples": 20,
+        "reg_alpha": 0.001,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 100
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 20,
+        "learningRate": 0.01,
+        "numberOfTrees": 2000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.7,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.001,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 100.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "79bde1ba-5833-4cd6-953f-d17add5ce7c0",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9996137776061234,
+          "precision": 0.9318181818181818,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8817204301075268,
+          "auc": 0.9810746083745823,
+          "aucpr": 0.8825775965743204
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56858,
+          "falsePositive": 6,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998944850872257,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9183145894823883,
+          "matthewsCorrCoef": 0.8828085391767327
+        },
+        "performanceSummary": {
+          "overallScore": 0.9541362720294108,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.137039,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8817204301075268,
+      "timestamp": "2025-05-24T15:50:58.413617"
+    },
+    {
+      "experiment_id": 5,
+      "parameters": {
+        "n_estimators": 2000,
+        "num_leaves": 256,
+        "learning_rate": 0.01,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.8,
+        "min_child_samples": 20,
+        "reg_alpha": 0.01,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 150
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 20,
+        "learningRate": 0.01,
+        "numberOfTrees": 2000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.8,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.01,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 150.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "2cef05d6-5619-4cdc-92e8-e2de65ee8aa9",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995259997893332,
+          "precision": 0.898876404494382,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8556149732620321,
+          "auc": 0.9792467599026105,
+          "aucpr": 0.8757614547608572
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56855,
+          "falsePositive": 9,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998417276308385,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9080841291215417,
+          "matthewsCorrCoef": 0.8563737948746704
+        },
+        "performanceSummary": {
+          "overallScore": 0.9447959109846585,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141102,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8556149732620321,
+      "timestamp": "2025-05-24T15:51:36.373602"
+    },
+    {
+      "experiment_id": 6,
+      "parameters": {
+        "n_estimators": 1000,
+        "num_leaves": 256,
+        "learning_rate": 0.005,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 5,
+        "reg_alpha": 0.001,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 75
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 5,
+        "learningRate": 0.005,
+        "numberOfTrees": 1000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.001,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 75.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "ea9e67ba-460a-4342-911e-98851f4d0ed5",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.999420666409185,
+          "precision": 0.891566265060241,
+          "recall": 0.7551020408163265,
+          "f1Score": 0.8176795580110497,
+          "auc": 0.9740051092187016,
+          "aucpr": 0.8701423646695882
+        },
+        "confusionMatrix": {
+          "truePositive": 74,
+          "trueNegative": 56855,
+          "falsePositive": 9,
+          "falseNegative": 24
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998417276308385,
+          "sensitivity": 0.7551020408163265,
+          "balancedAccuracy": 0.8774718842235825,
+          "matthewsCorrCoef": 0.8202218289524811
+        },
+        "performanceSummary": {
+          "overallScore": 0.9303684445463122,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.142507,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8176795580110497,
+      "timestamp": "2025-05-24T15:52:03.661938"
+    },
+    {
+      "experiment_id": 7,
+      "parameters": {
+        "n_estimators": 1000,
+        "num_leaves": 256,
+        "learning_rate": 0.002,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 5,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.1,
+        "class_weight_ratio": 100
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 5,
+        "learningRate": 0.002,
+        "numberOfTrees": 1000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.1,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 100.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "75d23b0e-5062-4b08-863a-ea8639f47490",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9993328885923949,
+          "precision": 0.8061224489795918,
+          "recall": 0.8061224489795918,
+          "f1Score": 0.806122448979592,
+          "auc": 0.9759172081184754,
+          "aucpr": 0.8408712453260981
+        },
+        "confusionMatrix": {
+          "truePositive": 79,
+          "trueNegative": 56845,
+          "falsePositive": 19,
+          "falseNegative": 19
+        },
+        "extendedMetrics": {
+          "specificity": 0.9996658694428813,
+          "sensitivity": 0.8061224489795918,
+          "balancedAccuracy": 0.9028941592112365,
+          "matthewsCorrCoef": 0.8057883184224731
+        },
+        "performanceSummary": {
+          "overallScore": 0.9271241818968208,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.140048,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.806122448979592,
+      "timestamp": "2025-05-24T15:52:29.027160"
+    },
+    {
+      "experiment_id": 8,
+      "parameters": {
+        "n_estimators": 2000,
+        "num_leaves": 64,
+        "learning_rate": 0.01,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.8,
+        "min_child_samples": 5,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.1,
+        "class_weight_ratio": 100
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 5,
+        "learningRate": 0.01,
+        "numberOfTrees": 2000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.8,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.1,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 100.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "4baf0182-a31c-48e1-ac84-a291456f8cc7",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995084442259752,
+          "precision": 0.8888888888888888,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.851063829787234,
+          "auc": 0.9757505914577423,
+          "aucpr": 0.878760882664643
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9080753362121439,
+          "matthewsCorrCoef": 0.8515920105996265
+        },
+        "performanceSummary": {
+          "overallScore": 0.9421076218236505,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.136293,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.851063829787234,
+      "timestamp": "2025-05-24T15:53:06.273899"
+    },
+    {
+      "experiment_id": 9,
+      "parameters": {
+        "n_estimators": 2000,
+        "num_leaves": 64,
+        "learning_rate": 0.02,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 5,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.001,
+        "class_weight_ratio": 150
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 5,
+        "learningRate": 0.02,
+        "numberOfTrees": 2000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.001,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 150.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "a3dec1f6-2362-4db8-a054-1815fa6fea6b",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995435553526912,
+          "precision": 0.8913043478260869,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8631578947368421,
+          "auc": 0.9776060747878217,
+          "aucpr": 0.8788162352842355
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56854,
+          "falsePositive": 10,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998241418120428,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9182794178447969,
+          "matthewsCorrCoef": 0.8633615506512583
+        },
+        "performanceSummary": {
+          "overallScore": 0.9467691749591184,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.144276,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8631578947368421,
+      "timestamp": "2025-05-24T15:53:28.930556"
+    },
+    {
+      "experiment_id": 10,
+      "parameters": {
+        "n_estimators": 500,
+        "num_leaves": 512,
+        "learning_rate": 0.002,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 30,
+        "reg_alpha": 0.01,
+        "reg_lambda": 0.001,
+        "class_weight_ratio": 150
+      },
+      "config": {
+        "numberOfLeaves": 512,
+        "minDataInLeaf": 30,
+        "learningRate": 0.002,
+        "numberOfTrees": 500,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.01,
+        "l2Regularization": 0.001,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 150.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "35d92356-12b4-40c1-8599-7c0056b1f217",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9993153330290369,
+          "precision": 0.780952380952381,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8078817733990147,
+          "auc": 0.9544611633342138,
+          "aucpr": 0.8427337054196445
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56841,
+          "falsePositive": 23,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9995955261676984,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9181651100226247,
+          "matthewsCorrCoef": 0.8080214890754974
+        },
+        "performanceSummary": {
+          "overallScore": 0.9205527565874219,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.140675,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8078817733990147,
+      "timestamp": "2025-05-24T15:53:42.791640"
+    },
+    {
+      "experiment_id": 11,
+      "parameters": {
+        "n_estimators": 1000,
+        "num_leaves": 64,
+        "learning_rate": 0.005,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.7,
+        "min_child_samples": 20,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 150
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 20,
+        "learningRate": 0.005,
+        "numberOfTrees": 1000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.7,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 150.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "1b0603d4-4810-4862-98da-9046e5ab48ff",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9993679997191109,
+          "precision": 0.81,
+          "recall": 0.826530612244898,
+          "f1Score": 0.8181818181818183,
+          "auc": 0.9790095307959987,
+          "aucpr": 0.862667174109315
+        },
+        "confusionMatrix": {
+          "truePositive": 81,
+          "trueNegative": 56845,
+          "falsePositive": 19,
+          "falseNegative": 17
+        },
+        "extendedMetrics": {
+          "specificity": 0.9996658694428813,
+          "sensitivity": 0.826530612244898,
+          "balancedAccuracy": 0.9130982408438897,
+          "matthewsCorrCoef": 0.8179071724052556
+        },
+        "performanceSummary": {
+          "overallScore": 0.9321864495656427,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.140063,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8181818181818183,
+      "timestamp": "2025-05-24T15:54:01.109040"
+    },
+    {
+      "experiment_id": 12,
+      "parameters": {
+        "n_estimators": 1000,
+        "num_leaves": 128,
+        "learning_rate": 0.01,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.8,
+        "min_child_samples": 20,
+        "reg_alpha": 0.01,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 75
+      },
+      "config": {
+        "numberOfLeaves": 128,
+        "minDataInLeaf": 20,
+        "learningRate": 0.01,
+        "numberOfTrees": 1000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.8,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.01,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 75.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "4ae138a1-782e-449d-9c6c-a15dc6dbd543",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995435553526912,
+          "precision": 0.9090909090909091,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8602150537634408,
+          "auc": 0.9801915490450541,
+          "aucpr": 0.8723292580891124
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56856,
+          "falsePositive": 8,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998593134496342,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9080929220309395,
+          "matthewsCorrCoef": 0.8612367949974785
+        },
+        "performanceSummary": {
+          "overallScore": 0.9466500527203955,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.142792,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8602150537634408,
+      "timestamp": "2025-05-24T15:54:24.206855"
+    },
+    {
+      "experiment_id": 13,
+      "parameters": {
+        "n_estimators": 1000,
+        "num_leaves": 256,
+        "learning_rate": 0.002,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 30,
+        "reg_alpha": 0.01,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 150
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 30,
+        "learningRate": 0.002,
+        "numberOfTrees": 1000,
+        "featureFraction": 0.9,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.01,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 150.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "70dce6a8-56fe-452e-b228-19285f381a2e",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9992802219023208,
+          "precision": 0.7567567567567568,
+          "recall": 0.8571428571428571,
+          "f1Score": 0.8038277511961723,
+          "auc": 0.9577053880077636,
+          "aucpr": 0.8457257108282392
+        },
+        "confusionMatrix": {
+          "truePositive": 84,
+          "trueNegative": 56837,
+          "falsePositive": 27,
+          "falseNegative": 14
+        },
+        "extendedMetrics": {
+          "specificity": 0.9995251828925155,
+          "sensitivity": 0.8571428571428571,
+          "balancedAccuracy": 0.9283340200176863,
+          "matthewsCorrCoef": 0.8050331461750092
+        },
+        "performanceSummary": {
+          "overallScore": 0.9202711203687522,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141793,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8038277511961723,
+      "timestamp": "2025-05-24T15:54:48.697936"
+    },
+    {
+      "experiment_id": 14,
+      "parameters": {
+        "n_estimators": 500,
+        "num_leaves": 256,
+        "learning_rate": 0.005,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.9,
+        "min_child_samples": 5,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.01,
+        "class_weight_ratio": 100
+      },
+      "config": {
+        "numberOfLeaves": 256,
+        "minDataInLeaf": 5,
+        "learningRate": 0.005,
+        "numberOfTrees": 500,
+        "featureFraction": 0.8,
+        "baggingFraction": 0.9,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.1,
+        "l2Regularization": 0.01,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 100.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "fe950013-f5d3-482f-bc4a-f5955d9413e9",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9993153330290369,
+          "precision": 0.8041237113402062,
+          "recall": 0.7959183673469388,
+          "f1Score": 0.8,
+          "auc": 0.9771472284749578,
+          "aucpr": 0.8471766605118504
+        },
+        "confusionMatrix": {
+          "truePositive": 78,
+          "trueNegative": 56845,
+          "falsePositive": 19,
+          "falseNegative": 20
+        },
+        "extendedMetrics": {
+          "specificity": 0.9996658694428813,
+          "sensitivity": 0.7959183673469388,
+          "balancedAccuracy": 0.89779211839491,
+          "matthewsCorrCoef": 0.7996676397650929
+        },
+        "performanceSummary": {
+          "overallScore": 0.9254875205013317,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.141214,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8,
+      "timestamp": "2025-05-24T15:55:03.915996"
+    },
+    {
+      "experiment_id": 15,
+      "parameters": {
+        "n_estimators": 1500,
+        "num_leaves": 64,
+        "learning_rate": 0.002,
+        "feature_fraction": 0.7,
+        "bagging_fraction": 0.7,
+        "min_child_samples": 20,
+        "reg_alpha": 0.01,
+        "reg_lambda": 0.001,
+        "class_weight_ratio": 75
+      },
+      "config": {
+        "numberOfLeaves": 64,
+        "minDataInLeaf": 20,
+        "learningRate": 0.002,
+        "numberOfTrees": 1500,
+        "featureFraction": 0.7,
+        "baggingFraction": 0.7,
+        "baggingFrequency": 5,
+        "l1Regularization": 0.01,
+        "l2Regularization": 0.001,
+        "earlyStoppingRound": 100,
+        "minGainToSplit": 0.0005,
+        "useClassWeights": true,
+        "classWeights": {
+          "0": 1.0,
+          "1": 75.0
+        },
+        "predictionThreshold": 0.5
+      },
+      "training_result": {
+        "modelId": "8f8f5ebe-d0a5-4ea6-9d93-af8f6ad8c628",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9993328885923949,
+          "precision": 0.8,
+          "recall": 0.8163265306122449,
+          "f1Score": 0.8080808080808082,
+          "auc": 0.9820425461968694,
+          "aucpr": 0.8567083452901983
+        },
+        "confusionMatrix": {
+          "truePositive": 80,
+          "trueNegative": 56844,
+          "falsePositive": 20,
+          "falseNegative": 18
+        },
+        "extendedMetrics": {
+          "specificity": 0.9996482836240855,
+          "sensitivity": 0.8163265306122449,
+          "balancedAccuracy": 0.9079874071181653,
+          "matthewsCorrCoef": 0.8077880599328779
+        },
+        "performanceSummary": {
+          "overallScore": 0.9298187476233575,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.14847,
+        "recommendations": []
+      },
+      "actual_model_name": "CreditCard_FraudDetection_LightGBM_20250524",
+      "score": 0.8080808080808082,
+      "timestamp": "2025-05-24T15:55:29.671330"
+    }
+  ],
+  "timestamp": "2025-05-24T15:55:31.685616",
+  "parameter_importance": {
+    "learning_rate": 0.6865113777179587,
+    "n_estimators": 0.640692455819016,
+    "num_leaves": 0.4750134842838777,
+    "bagging_fraction": 0.4007639787748645,
+    "feature_fraction": 0.2774026428976304,
+    "reg_alpha": 0.11118290714059961,
+    "min_child_samples": 0.10402887430106024,
+    "class_weight_ratio": 0.07249278659712162,
+    "reg_lambda": 0.0047680718213452015
+  }
+}

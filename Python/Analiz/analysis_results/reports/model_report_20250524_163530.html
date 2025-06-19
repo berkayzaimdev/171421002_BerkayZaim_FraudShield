@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolandırıcılık Tespiti Model Raporu</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        .container { 
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 { 
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 { 
+            color: var(--primary-color);
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-top: 40px;
+            font-size: 1.8em;
+        }
+
+        h3 { 
+            color: var(--primary-color);
+            margin-top: 25px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: var(--primary-color);
+            margin: 15px 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metric-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .metric-card { 
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border-top: 4px solid var(--secondary-color);
+            transition: transform 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-section { 
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .metric-row { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .metric-label { 
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-value { 
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .metric-description {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 4px;
+            padding-left: 24px;
+        }
+
+        .model-header { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .model-grade { 
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .grade-a { 
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .grade-b { 
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeeba;
+        }
+
+        .grade-c { 
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .confusion-matrix { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            max-width: 400px;
+        }
+
+        .confusion-cell { 
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .confusion-cell:hover {
+            transform: scale(1.02);
+        }
+
+        .true-positive { 
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+        }
+
+        .true-negative { 
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+        }
+
+        .false-positive { 
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+        }
+
+        .false-negative { 
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+        }
+
+        .recommendations { 
+            background: #fff3cd;
+            border: 2px solid #ffeeba;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .recommendations ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .recommendations li {
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        .error { 
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            color: #721c24;
+        }
+
+        .success { 
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            color: #155724;
+        }
+
+        .warning { 
+            background: #fff3cd;
+            border: 2px solid #ffeeba;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            color: #856404;
+        }
+
+        table { 
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        th, td { 
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th { 
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) { 
+            background-color: var(--light-bg);
+        }
+
+        tr:hover { 
+            background-color: #f5f5f5;
+        }
+
+        .timestamp { 
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .metric-info {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: help;
+        }
+
+        .metric-info:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        .chart-container { 
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .chart-container img { 
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 15px;
+            }
+            .metric-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Dolandırıcılık Tespiti Model Performans Raporu</h1>
+        <p class="timestamp">Rapor Tarihi: 2025-05-24T16:34:47.526449</p>
+
+        <h2>📊 Model Özetleri</h2>
+
+            <div class="metric-card">
+                <div class="model-header">
+                <h3>LightGBM_Quick</h3>
+                    <span class="model-grade grade-a">A+</span>
+                </div>
+                
+                <div class="metric-section">
+                    <h4>📈 Temel Performans Metrikleri</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Doğruluk (Accuracy)
+                            <span class="metric-info" data-tooltip="Tüm tahminlerin doğru olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9995</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm sınıfları doğru tahmin etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Kesinlik (Precision)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık olarak tahmin edilen işlemlerin gerçekten dolandırıcılık olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8454</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık olarak işaretlediği işlemlerin ne kadarının gerçekten dolandırıcılık olduğunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Duyarlılık (Recall)
+                            <span class="metric-info" data-tooltip="Gerçek dolandırıcılık işlemlerinin ne kadarının tespit edildiği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8367</span>
+                    </div>
+                    <div class="metric-description">
+                        Gerçek dolandırıcılık işlemlerinin ne kadarının başarıyla tespit edildiğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            F1-Skoru
+                            <span class="metric-info" data-tooltip="Kesinlik ve Duyarlılık metriklerinin harmonik ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8410</span>
+                    </div>
+                    <div class="metric-description">
+                        Kesinlik ve Duyarlılık metriklerinin dengeli bir ölçüsüdür. Özellikle dengesiz veri setlerinde önemlidir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUC (ROC Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Modelin sınıfları ayırt etme yeteneğinin ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9767</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin sınıfları ayırt etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUCPR (Precision-Recall Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Dengesiz veri setlerinde model performansının ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8704</span>
+                    </div>
+                    <div class="metric-description">
+                        Özellikle dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>🎯 Karışıklık Matrisi (Confusion Matrix)</h4>
+                    <div class="confusion-matrix">
+                        <div class="confusion-cell true-negative">
+                            <strong>Doğru Negatif</strong><br>
+                            56849
+                            <div class="metric-description">Normal işlemlerin doğru tespit edilme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-positive">
+                            <strong>Yanlış Pozitif</strong><br>
+                            15
+                            <div class="metric-description">Normal işlemlerin yanlışlıkla dolandırıcılık olarak işaretlenme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-negative">
+                            <strong>Yanlış Negatif</strong><br>
+                            16
+                            <div class="metric-description">Dolandırıcılık işlemlerinin kaçırılma sayısı</div>
+                        </div>
+                        <div class="confusion-cell true-positive">
+                            <strong>Doğru Pozitif</strong><br>
+                            82
+                            <div class="metric-description">Dolandırıcılık işlemlerinin doğru tespit edilme sayısı</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📊 Genişletilmiş Metrikler</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Özgüllük (Specificity)
+                            <span class="metric-info" data-tooltip="Normal işlemlerin doğru tespit edilme oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9997</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin normal işlemleri doğru tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Hassasiyet (Sensitivity)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık işlemlerini tespit etme yeteneği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8367</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık işlemlerini tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Dengeli Doğruluk (Balanced Accuracy)
+                            <span class="metric-info" data-tooltip="Özgüllük ve Hassasiyet metriklerinin ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9182</span>
+                    </div>
+                    <div class="metric-description">
+                        Dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Matthews Korelasyon Katsayısı
+                            <span class="metric-info" data-tooltip="Sınıflandırma performansının dengeli bir ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8408</span>
+                    </div>
+                    <div class="metric-description">
+                        Sınıflandırma performansının dengeli bir ölçüsüdür. -1 ile 1 arasında değer alır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📝 Performans Özeti</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Genel Skor
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9390</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm metrikler değerlendirilerek hesaplanan genel performans puanı.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Model Durumu
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">✅ İyi Model</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin genel performans durumunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Zayıf Yön
+                            <span class="metric-info" data-tooltip="Modelin iyileştirilmesi gereken yönü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">Genel performans kabul edilebilir</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin performansını artırmak için odaklanılması gereken alan.
+                    </div>
+                </div>
+
+                </div>
+
+            <div class="metric-card">
+                <div class="model-header">
+                <h3>PCA_Quick</h3>
+                    <span class="model-grade grade-b">B</span>
+                </div>
+                
+                <div class="metric-section">
+                    <h4>📈 Temel Performans Metrikleri</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Doğruluk (Accuracy)
+                            <span class="metric-info" data-tooltip="Tüm tahminlerin doğru olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9937</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm sınıfları doğru tahmin etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Kesinlik (Precision)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık olarak tahmin edilen işlemlerin gerçekten dolandırıcılık olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.1584</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık olarak işaretlediği işlemlerin ne kadarının gerçekten dolandırıcılık olduğunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Duyarlılık (Recall)
+                            <span class="metric-info" data-tooltip="Gerçek dolandırıcılık işlemlerinin ne kadarının tespit edildiği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.6224</span>
+                    </div>
+                    <div class="metric-description">
+                        Gerçek dolandırıcılık işlemlerinin ne kadarının başarıyla tespit edildiğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            F1-Skoru
+                            <span class="metric-info" data-tooltip="Kesinlik ve Duyarlılık metriklerinin harmonik ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.2526</span>
+                    </div>
+                    <div class="metric-description">
+                        Kesinlik ve Duyarlılık metriklerinin dengeli bir ölçüsüdür. Özellikle dengesiz veri setlerinde önemlidir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUC (ROC Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Modelin sınıfları ayırt etme yeteneğinin ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9488</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin sınıfları ayırt etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUCPR (Precision-Recall Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Dengesiz veri setlerinde model performansının ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.2581</span>
+                    </div>
+                    <div class="metric-description">
+                        Özellikle dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>🎯 Karışıklık Matrisi (Confusion Matrix)</h4>
+                    <div class="confusion-matrix">
+                        <div class="confusion-cell true-negative">
+                            <strong>Doğru Negatif</strong><br>
+                            56540
+                            <div class="metric-description">Normal işlemlerin doğru tespit edilme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-positive">
+                            <strong>Yanlış Pozitif</strong><br>
+                            324
+                            <div class="metric-description">Normal işlemlerin yanlışlıkla dolandırıcılık olarak işaretlenme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-negative">
+                            <strong>Yanlış Negatif</strong><br>
+                            37
+                            <div class="metric-description">Dolandırıcılık işlemlerinin kaçırılma sayısı</div>
+                        </div>
+                        <div class="confusion-cell true-positive">
+                            <strong>Doğru Pozitif</strong><br>
+                            61
+                            <div class="metric-description">Dolandırıcılık işlemlerinin doğru tespit edilme sayısı</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📊 Genişletilmiş Metrikler</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Özgüllük (Specificity)
+                            <span class="metric-info" data-tooltip="Normal işlemlerin doğru tespit edilme oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9943</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin normal işlemleri doğru tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Hassasiyet (Sensitivity)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık işlemlerini tespit etme yeteneği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.6224</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık işlemlerini tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Dengeli Doğruluk (Balanced Accuracy)
+                            <span class="metric-info" data-tooltip="Özgüllük ve Hassasiyet metriklerinin ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8084</span>
+                    </div>
+                    <div class="metric-description">
+                        Dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Matthews Korelasyon Katsayısı
+                            <span class="metric-info" data-tooltip="Sınıflandırma performansının dengeli bir ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.3120</span>
+                    </div>
+                    <div class="metric-description">
+                        Sınıflandırma performansının dengeli bir ölçüsüdür. -1 ile 1 arasında değer alır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📝 Performans Özeti</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Genel Skor
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.7317</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm metrikler değerlendirilerek hesaplanan genel performans puanı.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Model Durumu
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">⚠️ İyileştirme Gerekli</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin genel performans durumunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Zayıf Yön
+                            <span class="metric-info" data-tooltip="Modelin iyileştirilmesi gereken yönü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">Yüksek False Positive oranı - Precision düşük</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin performansını artırmak için odaklanılması gereken alan.
+                    </div>
+                </div>
+
+                    <div class="recommendations">
+                        <h4>💡 İyileştirme Önerileri</h4>
+                        <ul>
+                            <li>Class weights ayarlarını gözden geçirin</li>
+                            <li>Fraud sınıfı için daha fazla özellik mühendisliği yapın</li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            <div class="metric-card">
+                <div class="model-header">
+                <h3>Ensemble_Quick</h3>
+                    <span class="model-grade grade-a">A+</span>
+                </div>
+                
+                <div class="metric-section">
+                    <h4>📈 Temel Performans Metrikleri</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Doğruluk (Accuracy)
+                            <span class="metric-info" data-tooltip="Tüm tahminlerin doğru olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9995</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm sınıfları doğru tahmin etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Kesinlik (Precision)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık olarak tahmin edilen işlemlerin gerçekten dolandırıcılık olma oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9167</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık olarak işaretlediği işlemlerin ne kadarının gerçekten dolandırıcılık olduğunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Duyarlılık (Recall)
+                            <span class="metric-info" data-tooltip="Gerçek dolandırıcılık işlemlerinin ne kadarının tespit edildiği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.7857</span>
+                    </div>
+                    <div class="metric-description">
+                        Gerçek dolandırıcılık işlemlerinin ne kadarının başarıyla tespit edildiğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            F1-Skoru
+                            <span class="metric-info" data-tooltip="Kesinlik ve Duyarlılık metriklerinin harmonik ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8462</span>
+                    </div>
+                    <div class="metric-description">
+                        Kesinlik ve Duyarlılık metriklerinin dengeli bir ölçüsüdür. Özellikle dengesiz veri setlerinde önemlidir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUC (ROC Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Modelin sınıfları ayırt etme yeteneğinin ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9609</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin sınıfları ayırt etme yeteneğini gösterir. 1'e yakın değerler daha iyi performansı gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            AUCPR (Precision-Recall Eğrisi Altında Kalan Alan)
+                            <span class="metric-info" data-tooltip="Dengesiz veri setlerinde model performansının ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8109</span>
+                    </div>
+                    <div class="metric-description">
+                        Özellikle dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>🎯 Karışıklık Matrisi (Confusion Matrix)</h4>
+                    <div class="confusion-matrix">
+                        <div class="confusion-cell true-negative">
+                            <strong>Doğru Negatif</strong><br>
+                            56857
+                            <div class="metric-description">Normal işlemlerin doğru tespit edilme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-positive">
+                            <strong>Yanlış Pozitif</strong><br>
+                            7
+                            <div class="metric-description">Normal işlemlerin yanlışlıkla dolandırıcılık olarak işaretlenme sayısı</div>
+                        </div>
+                        <div class="confusion-cell false-negative">
+                            <strong>Yanlış Negatif</strong><br>
+                            21
+                            <div class="metric-description">Dolandırıcılık işlemlerinin kaçırılma sayısı</div>
+                        </div>
+                        <div class="confusion-cell true-positive">
+                            <strong>Doğru Pozitif</strong><br>
+                            77
+                            <div class="metric-description">Dolandırıcılık işlemlerinin doğru tespit edilme sayısı</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📊 Genişletilmiş Metrikler</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Özgüllük (Specificity)
+                            <span class="metric-info" data-tooltip="Normal işlemlerin doğru tespit edilme oranı">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9999</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin normal işlemleri doğru tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Hassasiyet (Sensitivity)
+                            <span class="metric-info" data-tooltip="Dolandırıcılık işlemlerini tespit etme yeteneği">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.7857</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin dolandırıcılık işlemlerini tespit etme yeteneğini gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Dengeli Doğruluk (Balanced Accuracy)
+                            <span class="metric-info" data-tooltip="Özgüllük ve Hassasiyet metriklerinin ortalaması">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8928</span>
+                    </div>
+                    <div class="metric-description">
+                        Dengesiz veri setlerinde model performansını değerlendirmek için kullanılır.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Matthews Korelasyon Katsayısı
+                            <span class="metric-info" data-tooltip="Sınıflandırma performansının dengeli bir ölçüsü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.8484</span>
+                    </div>
+                    <div class="metric-description">
+                        Sınıflandırma performansının dengeli bir ölçüsüdür. -1 ile 1 arasında değer alır.
+                    </div>
+                </div>
+
+                <div class="metric-section">
+                    <h4>📝 Performans Özeti</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Genel Skor
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">0.9355</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin tüm metrikler değerlendirilerek hesaplanan genel performans puanı.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Model Durumu
+                            <span class="metric-info" data-tooltip="Modelin genel performans değerlendirmesi">ⓘ</span>
+                        </span>
+                        <span class="metric-value">✅ İyi Model</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin genel performans durumunu gösterir.
+                    </div>
+
+                    <div class="metric-row">
+                        <span class="metric-label">
+                            Zayıf Yön
+                            <span class="metric-info" data-tooltip="Modelin iyileştirilmesi gereken yönü">ⓘ</span>
+                        </span>
+                        <span class="metric-value">Genel performans kabul edilebilir</span>
+                    </div>
+                    <div class="metric-description">
+                        Modelin performansını artırmak için odaklanılması gereken alan.
+                    </div>
+                </div>
+
+                </div>
+
+        </div>
+
+        <h2>📈 Model Görselleştirmeleri</h2>
+        <div class="visualization-grid">
+
+            <div class="visualization-category">
+                <h3>🎯 Temel Metrikler</h3>
+                <div class="chart-grid">
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Ensemble Quick Basic Metrics</h4>
+                            <span class="model-tag">Ensemble</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/Ensemble_Quick_basic_metrics.png" alt="Ensemble Quick Basic Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin temel performans metriklerini gösteren çubuk grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/Ensemble_Quick_basic_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Ensemble Quick Extended Metrics</h4>
+                            <span class="model-tag">Ensemble</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/Ensemble_Quick_extended_metrics.png" alt="Ensemble Quick Extended Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin detaylı performans metriklerini gösteren radar grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/Ensemble_Quick_extended_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Lightgbm Quick Basic Metrics</h4>
+                            <span class="model-tag">LightGBM</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/LightGBM_Quick_basic_metrics.png" alt="Lightgbm Quick Basic Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin temel performans metriklerini gösteren çubuk grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/LightGBM_Quick_basic_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Lightgbm Quick Extended Metrics</h4>
+                            <span class="model-tag">LightGBM</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/LightGBM_Quick_extended_metrics.png" alt="Lightgbm Quick Extended Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin detaylı performans metriklerini gösteren radar grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/LightGBM_Quick_extended_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Pca Quick Basic Metrics</h4>
+                            <span class="model-tag">PCA</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/PCA_Quick_basic_metrics.png" alt="Pca Quick Basic Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin temel performans metriklerini gösteren çubuk grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/PCA_Quick_basic_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Pca Quick Extended Metrics</h4>
+                            <span class="model-tag">PCA</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/PCA_Quick_extended_metrics.png" alt="Pca Quick Extended Metrics" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin detaylı performans metriklerini gösteren radar grafik</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/PCA_Quick_extended_metrics.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="visualization-category">
+                <h3>🎯 Karışıklık Matrisi</h3>
+                <div class="chart-grid">
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Ensemble Quick Confusion Matrix</h4>
+                            <span class="model-tag">Ensemble</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/Ensemble_Quick_confusion_matrix.png" alt="Ensemble Quick Confusion Matrix" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin tahmin doğruluğunu gösteren karışıklık matrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/Ensemble_Quick_confusion_matrix.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Lightgbm Quick Confusion Matrix</h4>
+                            <span class="model-tag">LightGBM</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/LightGBM_Quick_confusion_matrix.png" alt="Lightgbm Quick Confusion Matrix" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin tahmin doğruluğunu gösteren karışıklık matrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/LightGBM_Quick_confusion_matrix.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Pca Quick Confusion Matrix</h4>
+                            <span class="model-tag">PCA</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/PCA_Quick_confusion_matrix.png" alt="Pca Quick Confusion Matrix" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin tahmin doğruluğunu gösteren karışıklık matrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/PCA_Quick_confusion_matrix.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="visualization-category">
+                <h3>🎯 ROC ve AUC</h3>
+                <div class="chart-grid">
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Ensemble Quick Roc Curve</h4>
+                            <span class="model-tag">Ensemble</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/Ensemble_Quick_roc_curve.png" alt="Ensemble Quick Roc Curve" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin sınıflandırma performansını gösteren ROC eğrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/Ensemble_Quick_roc_curve.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Lightgbm Quick Roc Curve</h4>
+                            <span class="model-tag">LightGBM</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/LightGBM_Quick_roc_curve.png" alt="Lightgbm Quick Roc Curve" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin sınıflandırma performansını gösteren ROC eğrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/LightGBM_Quick_roc_curve.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4>Pca Quick Roc Curve</h4>
+                            <span class="model-tag">PCA</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="charts/PCA_Quick_roc_curve.png" alt="Pca Quick Roc Curve" loading="lazy">
+                        </div>
+                        <div class="chart-description">
+                            <p>Modelin sınıflandırma performansını gösteren ROC eğrisi</p>
+                        </div>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn" onclick="window.open('charts/PCA_Quick_roc_curve.png', '_blank')">
+                                🔍 Büyük Görüntüle
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="visualization-category">
+                <h3>🎯 Model Karşılaştırması</h3>
+                <div class="chart-grid">
+
+                </div>
+            </div>
+
+        <style>
+            .visualization-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                margin: 30px 0;
+            }
+
+            .visualization-category {
+                background: var(--light-bg);
+                border-radius: var(--border-radius);
+                padding: 25px;
+                box-shadow: var(--box-shadow);
+            }
+
+            .visualization-category h3 {
+                color: var(--primary-color);
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid var(--secondary-color);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .chart-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 25px;
+                margin-top: 20px;
+            }
+
+            .chart-card {
+                background: white;
+                border-radius: var(--border-radius);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                overflow: hidden;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .chart-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+
+            .chart-header {
+                padding: 15px 20px;
+                background: var(--light-bg);
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .chart-header h4 {
+                margin: 0;
+                color: var(--primary-color);
+                font-size: 1.1em;
+            }
+
+            .model-tag {
+                background: var(--secondary-color);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 15px;
+                font-size: 0.9em;
+                font-weight: 500;
+            }
+
+            .chart-container {
+                padding: 20px;
+                text-align: center;
+                background: white;
+            }
+
+            .chart-container img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .chart-description {
+                padding: 15px 20px;
+                background: var(--light-bg);
+                border-top: 1px solid #eee;
+                font-size: 0.9em;
+                color: #666;
+            }
+
+            .chart-actions {
+                padding: 15px 20px;
+                background: white;
+                border-top: 1px solid #eee;
+                text-align: center;
+            }
+
+            .chart-action-btn {
+                background: var(--secondary-color);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.9em;
+                transition: background-color 0.2s;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .chart-action-btn:hover {
+                background: #2980b9;
+            }
+
+            @media (max-width: 768px) {
+                .chart-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .visualization-category {
+                    padding: 15px;
+                }
+                
+                .chart-card {
+                    margin-bottom: 20px;
+                }
+            }
+        </style>
+        
+        </div>
+
+        <h2>🔄 Model Karşılaştırması</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Genel Skor</th>
+                <th>Not</th>
+                <th>Doğruluk</th>
+                <th>Kesinlik</th>
+                <th>Duyarlılık</th>
+                <th>F1-Skoru</th>
+                <th>AUC</th>
+            </tr>
+
+            <tr>
+                <td>CreditCard_FraudDetection_LightGBM_20250524</td>
+                <td>0.0000</td>
+                <td>N/A</td>
+                <td>0.0000</td>
+                <td>0.0000</td>
+                <td>0.0000</td>
+                <td>0.0000</td>
+                <td>0.0000</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_AnomalyDetection_PCA_20250524</td>
+                <td>0.7317</td>
+                <td>B</td>
+                <td>0.9937</td>
+                <td>0.1584</td>
+                <td>0.6224</td>
+                <td>0.2526</td>
+                <td>0.9488</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_Ensemble_20250524</td>
+                <td>0.9355</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.9167</td>
+                <td>0.7857</td>
+                <td>0.8462</td>
+                <td>0.9609</td>
+            </tr>
+
+        </table>
+
+        <div class="success">
+            <h3>🏆 En İyi Model: CreditCard_Ensemble_20250524</h3>
+            <p>Ensemble modelini production'da, LightGBM'i hızlı tahmin için kullanın</p>
+        </div>
+
+        <div class="timestamp">
+            <p>Bu rapor otomatik olarak oluşturulmuştur.</p>
+            <p>Rapor Tarihi: {report_data.get('timestamp', 'N/A')}</p>
+        </div>
+    </div>
+</body>
+</html>

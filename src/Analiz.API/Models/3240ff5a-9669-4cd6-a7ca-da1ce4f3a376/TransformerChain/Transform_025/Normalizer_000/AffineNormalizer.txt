@@ -1,0 +1,3 @@
+NumNormalizationFeatures=1
+0	0	2,9401484E-08
+

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Analiz.Application\Analiz.Application.csproj"/>
+        <ProjectReference Include="..\Analiz.Domain\Analiz.Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.9.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.ML" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.FastTree" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.LightGBM" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.ML.TimeSeries" Version="4.0.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Models\Processors\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Data/TestData/creditcard.csv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Data\TestData\"/>
+    </ItemGroup>
+
+</Project>

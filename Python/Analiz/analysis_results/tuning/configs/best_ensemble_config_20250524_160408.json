@@ -1,0 +1,27 @@
+{
+  "lightgbmWeight": 0.6,
+  "pcaWeight": 0.2,
+  "threshold": 0.4,
+  "lightgbm": {
+    "numberOfLeaves": 100,
+    "minDataInLeaf": 15,
+    "learningRate": 0.01,
+    "numberOfTrees": 1500,
+    "featureFraction": 0.8,
+    "baggingFraction": 0.8,
+    "baggingFrequency": 5,
+    "l1Regularization": 0.02,
+    "l2Regularization": 0.02,
+    "useClassWeights": true,
+    "classWeights": {
+      "0": 1.0,
+      "1": 80.0
+    }
+  },
+  "pca": {
+    "componentCount": 15,
+    "anomalyThreshold": 2.5,
+    "scaleFeatures": true,
+    "randomState": 42
+  }
+}

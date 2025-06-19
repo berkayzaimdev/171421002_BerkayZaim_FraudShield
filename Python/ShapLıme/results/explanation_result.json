@@ -1,0 +1,53 @@
+{
+  "timestamp": "2025-05-25T12:52:26.853092",
+  "transaction_id": "0f97abf6-97ce-4d8d-8078-ba503b760e3a",
+  "api_prediction": {
+    "transactionId": "0f97abf6-97ce-4d8d-8078-ba503b760e3a",
+    "isFraudulent": false,
+    "probability": 0.03634723603273848,
+    "score": 0.03634723603273848,
+    "anomalyScore": 6.895565081245835e-34,
+    "metadata": {
+      "ModelType": "ensemble",
+      "Timestamp": "2025-05-25T09:52:26.720005Z",
+      "PythonOutput": "=== FRAUD PREDICTION START - ENSEMBLE & JSON FIX ===\nTimestamp: 2025-05-25 12:52:26.066388\nModel info: /Users/yasin/Desktop/fraudV2/Models/9b877920-4b02-40fd-9e39-d1beae86c25d/model_info_20250524_143855.json\nInput: /Users/yasin/Desktop/fraudV2/Models/input_26666ad84db54851b35ef0d01fc5d2f1.json\nOutput: /Users/yasin/Desktop/fraudV2/Models/output_d0e0e1ad7f574f2d81384bd666c5a54d.json\nModel type: ensemble\nModel bilgi dosyası yükleniyor: /Users/yasin/Desktop/fraudV2/Models/9b877920-4b02-40fd-9e39-d1beae86c25d/model_info_20250524_143855.json\nModel info yüklendi: ['timestamp', 'model_type', 'model_path', 'metrics', 'feature_importance']\nModel dosyası yükleniyor: /Users/yasin/Desktop/fraudV2/Models/ensemble_20250524_143830/ensemble_model_20250524_143855.joblib\nModel başarıyla yüklendi. Tip: <class 'dict'>\nDictionary model yapısı tespit edildi\nEnsemble model tespit edildi\nLightGBM beklenen feature sayısı: 35\nPCA beklenen feature sayısı: 35\nScaler beklenen feature sayısı: 35\nInput dosyası yükleniyor: /Users/yasin/Desktop/fraudV2/Models/input_26666ad84db54851b35ef0d01fc5d2f1.json\nInput data yüklendi: ['time', 'amount', 'timeSin', 'timeCos', 'dayFeature', 'hourFeature', 'amountLog', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17', 'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25', 'v26', 'v27', 'v28']\nDataFrame oluşturuldu: (1, 35)\nColumns: ['time', 'amount', 'timeSin', 'timeCos', 'dayFeature', 'hourFeature', 'amountLog', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17', 'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25', 'v26', 'v27', 'v28']\n=== FEATURE PREPARATION START ===\nModel type: ensemble\nInput shape: (1, 35)\nInput columns: ['time', 'amount', 'timeSin', 'timeCos', 'dayFeature', 'hourFeature', 'amountLog', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17', 'v18', 'v19', 'v20', 'v21', 'v22', 'v23', 'v24', 'v25', 'v26', 'v27', 'v28']\nColumn mapping: {'time': 'Time', 'amount': 'Amount', 'timeSin': 'TimeSin', 'timeCos': 'TimeCos', 'dayFeature': 'DayOfWeek', 'hourFeature': 'HourOfDay', 'amountLog': 'AmountLog', 'v1': 'V1', 'v2': 'V2', 'v3': 'V3', 'v4': 'V4', 'v5': 'V5', 'v6': 'V6', 'v7': 'V7', 'v8': 'V8', 'v9': 'V9', 'v10': 'V10', 'v11': 'V11', 'v12': 'V12', 'v13': 'V13', 'v14': 'V14', 'v15': 'V15', 'v16': 'V16', 'v17': 'V17', 'v18': 'V18', 'v19': 'V19', 'v20': 'V20', 'v21': 'V21', 'v22': 'V22', 'v23': 'V23', 'v24': 'V24', 'v25': 'V25', 'v26': 'V26', 'v27': 'V27', 'v28': 'V28'}\nRenamed columns: ['Time', 'Amount', 'TimeSin', 'TimeCos', 'DayOfWeek', 'HourOfDay', 'AmountLog', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']\nC# prepared features detected: True\nPreparing ENSEMBLE features...\nEnsemble için LightGBM beklenen feature sayısı: 35\nUsing prepared features from C#...\nEnsemble için LightGBM beklenen feature sayısı: 35\nEnsemble modeli 35 feature bekliyor, Time dahil set kullanılıyor\nExpected features (35): ['Amount', 'Time', 'AmountLog', 'TimeSin', 'TimeCos', 'DayOfWeek', 'HourOfDay', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']\nFinal features (35): ['Amount', 'Time', 'AmountLog', 'TimeSin', 'TimeCos', 'DayOfWeek', 'HourOfDay', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']\nFinal shape: (1, 35)\nSample values: Amount=2847.91\n=== FEATURE PREPARATION END ===\nMaking prediction with ensemble model...\n=== ENSEMBLE PREDICTION START ===\nEnsemble model keys: ['lightgbm_model', 'pca_model', 'pca_scaler', 'pca_threshold', 'lightgbm_weight', 'pca_weight', 'threshold']\nWeights: LightGBM=0.7, PCA=0.3, Threshold=0.5\nMaking LightGBM sub-prediction...\n=== LIGHTGBM PREDICTION START ===\nModel type: <class 'lightgbm.sklearn.LGBMClassifier'>\nFeatures shape: (1, 35)\nFeatures columns: ['Amount', 'Time', 'AmountLog', 'TimeSin', 'TimeCos', 'DayOfWeek', 'HourOfDay', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']\nAttempting LightGBM prediction...\n[LightGBM] [Warning] bagging_freq is set=5, subsample_freq=0 will be ignored. Current value: bagging_freq=5\n[LightGBM] [Warning] feature_fraction is set=0.8, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.8\n[LightGBM] [Warning] bagging_fraction is set=0.8, subsample=1.0 will be ignored. Current value: bagging_fraction=0.8\n[LightGBM] [Warning] bagging_freq is set=5, subsample_freq=0 will be ignored. Current value: bagging_freq=5\n[LightGBM] [Warning] feature_fraction is set=0.8, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.8\n[LightGBM] [Warning] bagging_fraction is set=0.8, subsample=1.0 will be ignored. Current value: bagging_fraction=0.8\nLightGBM prediction successful: 0.000838\nMaking PCA sub-prediction...\n=== PCA PREDICTION START ===\nModel: <class 'sklearn.decomposition._pca.PCA'>\nScaler: <class 'sklearn.preprocessing._data.StandardScaler'>\nThreshold: 4.766722125442949\nFeatures shape: (1, 35)\nModel beklenen feature sayısı: 35\nScaler beklenen feature sayısı: 35\nGelen feature sayısı: 35\nScaler transform error: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- DayOfWeek\n- HourOfDay\nFeature names seen at fit time, yet now missing:\n- DayFeature\n- HourFeature\nManual scaling applied\nPCA transform successful, shape: (1, 15)\nPCA inverse transform successful\nReconstruction errors: min=0.000000, max=0.000000\nAnomaly scores: min=0.000000, max=0.000000\nProbability: 0.119203\nIs anomaly: 0 (threshold: 4.766722)\nPCA prediction successful: prob=0.119203, anomaly_score=0.000000\nEnsemble prediction: prob=0.036347, class=0\nConverting result to JSON-safe format...\nWriting output to JSON file...\n=== PREDICTION COMPLETED ===\nResult written to: /Users/yasin/Desktop/fraudV2/Models/output_d0e0e1ad7f574f2d81384bd666c5a54d.json\nProbability: 0.036347\nPredicted Class: 0\nAnomaly Score: 0.000000\nMethod: ensemble_prediction\n",
+      "PredictionMethod": "ensemble_prediction",
+      "ModelDetails": {
+        "EnsembleProbability": 0.03634723603273848,
+        "EnsembleScore": 0.03634723603273848,
+        "EnsembleAnomalyScore": 6.895565081245835e-34
+      },
+      "LightGBM_Probability": 0.0008376563230045924,
+      "ModelDetails_LightGBM": {
+        "probability": 0.0008376563230045924,
+        "source": "LightGBM_SubModel"
+      },
+      "PCA_Probability": 0.11920292202211755,
+      "PCA_AnomalyScore": 6.895565081245835e-34,
+      "ModelDetails_PCA": {
+        "probability": 0.11920292202211755,
+        "anomalyScore": 6.895565081245835e-34,
+        "source": "PCA_SubModel"
+      },
+      "EnsembleWeights": {
+        "lightgbm": 0.7,
+        "pca": 0.3
+      },
+      "EnsembleThreshold": 0.5,
+      "ModelDescription": "Ensemble model combining LightGBM and PCA predictions",
+      "ModelId": "9b877920-4b02-40fd-9e39-d1beae86c25d",
+      "ModelName": "CreditCard_Ensemble",
+      "ModelVersion": "v20250524.113830",
+      "UsedAt": "2025-05-25T09:52:26.84567Z"
+    }
+  },
+  "explanations_available": false,
+  "note": "Local model not available, showing API prediction only",
+  "business_explanation": {
+    "summary": {
+      "fraud_probability": "50.0%",
+      "decision": "APPROVE",
+      "source": "API_ONLY"
+    }
+  }
+}

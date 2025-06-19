@@ -1,0 +1,5 @@
+/Models
+src/Analiz.API/bin/Debug/net9.0/Data/TestData/creditcard.csv
+src/Analiz.Infrastructure/bin/Debug/net9.0/Data/TestData/creditcard.csv
+Data/creditcard.csv
+src/Analiz.Infrastructure/Data/TestData/creditcard.csv

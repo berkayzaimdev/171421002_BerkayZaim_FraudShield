@@ -1,0 +1,1 @@
+namespace Analiz.Domain.Entities.ML;

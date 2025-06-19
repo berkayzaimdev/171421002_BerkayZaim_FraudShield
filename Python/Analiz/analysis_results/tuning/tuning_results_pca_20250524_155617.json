@@ -1,0 +1,537 @@
+{
+  "model_type": "PCA",
+  "optimization_metric": "accuracy",
+  "total_experiments": 10,
+  "best_score": 0.9977353323268143,
+  "worst_score": 0.9579719813208806,
+  "mean_score": 0.9897545732242549,
+  "std_score": 0.010937502582119427,
+  "best_config": {
+    "componentCount": 25,
+    "anomalyThreshold": 3.5,
+    "scaleFeatures": true,
+    "randomState": 42
+  },
+  "best_parameters": {
+    "n_components": 25,
+    "anomaly_threshold": 3.5
+  },
+  "all_results": [
+    {
+      "experiment_id": 1,
+      "parameters": {
+        "n_components": 30,
+        "anomaly_threshold": 3.5
+      },
+      "config": {
+        "componentCount": 30,
+        "anomalyThreshold": 3.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "5c32f68e-53e4-4867-9534-691625b96c38",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9960499982444436,
+          "precision": 0,
+          "recall": 0,
+          "f1Score": 0,
+          "auc": 0.6640444655633779,
+          "aucpr": 0.003046769170739768
+        },
+        "confusionMatrix": {
+          "truePositive": 0,
+          "trueNegative": 56737,
+          "falsePositive": 127,
+          "falseNegative": 98
+        },
+        "extendedMetrics": {
+          "specificity": 0.9977666010129431,
+          "sensitivity": 0,
+          "balancedAccuracy": 0.49888330050647156,
+          "matthewsCorrCoef": -0.0019624032890773534
+        },
+        "performanceSummary": {
+          "overallScore": 0.5533648212692738,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "D"
+        },
+        "trainingTime": 10800.14064,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n",
+          "Model karma\u015f\u0131kl\u0131\u011f\u0131n\u0131 art\u0131r\u0131n veya ensemble y\u00f6ntemleri deneyin"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9960499982444436,
+      "timestamp": "2025-05-24T15:55:35.765356"
+    },
+    {
+      "experiment_id": 2,
+      "parameters": {
+        "n_components": 15,
+        "anomaly_threshold": 1.5
+      },
+      "config": {
+        "componentCount": 15,
+        "anomalyThreshold": 1.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "f056c2ee-1831-43ca-8987-26afe07d51c1",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9894666619851831,
+          "precision": 0.11265432098765432,
+          "recall": 0.7448979591836735,
+          "f1Score": 0.1957104557640751,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 73,
+          "trueNegative": 56289,
+          "falsePositive": 575,
+          "falseNegative": 25
+        },
+        "extendedMetrics": {
+          "specificity": 0.9898881541924592,
+          "sensitivity": 0.7448979591836735,
+          "balancedAccuracy": 0.8673930566880663,
+          "matthewsCorrCoef": 0.28714217769467093
+        },
+        "performanceSummary": {
+          "overallScore": 0.7113186958980058,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.1412,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9894666619851831,
+      "timestamp": "2025-05-24T15:55:40.037069"
+    },
+    {
+      "experiment_id": 3,
+      "parameters": {
+        "n_components": 25,
+        "anomaly_threshold": 3.5
+      },
+      "config": {
+        "componentCount": 25,
+        "anomalyThreshold": 3.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "aa12e09b-95f5-47c6-89c0-f4be26648e27",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9977353323268143,
+          "precision": 0.38848920863309355,
+          "recall": 0.5510204081632653,
+          "f1Score": 0.4556962025316456,
+          "auc": 0.9435545461853847,
+          "aucpr": 0.32011460290451466
+        },
+        "confusionMatrix": {
+          "truePositive": 54,
+          "trueNegative": 56779,
+          "falsePositive": 85,
+          "falseNegative": 44
+        },
+        "extendedMetrics": {
+          "specificity": 0.9985052054023635,
+          "sensitivity": 0.5510204081632653,
+          "balancedAccuracy": 0.7747628067828144,
+          "matthewsCorrCoef": 0.4615834206147191
+        },
+        "performanceSummary": {
+          "overallScore": 0.7989953603479482,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.142229,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9977353323268143,
+      "timestamp": "2025-05-24T15:55:44.727512"
+    },
+    {
+      "experiment_id": 4,
+      "parameters": {
+        "n_components": 10,
+        "anomaly_threshold": 1.5
+      },
+      "config": {
+        "componentCount": 10,
+        "anomalyThreshold": 1.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "c38fdcd9-4ab1-497b-9b13-59270f649438",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9884835504371335,
+          "precision": 0.0968208092485549,
+          "recall": 0.6836734693877551,
+          "f1Score": 0.16962025316455695,
+          "auc": 0.9553323791531244,
+          "aucpr": 0.22135747616111323
+        },
+        "confusionMatrix": {
+          "truePositive": 67,
+          "trueNegative": 56239,
+          "falsePositive": 625,
+          "falseNegative": 31
+        },
+        "extendedMetrics": {
+          "specificity": 0.989008863252673,
+          "sensitivity": 0.6836734693877551,
+          "balancedAccuracy": 0.836341166320214,
+          "matthewsCorrCoef": 0.2544780086203008
+        },
+        "performanceSummary": {
+          "overallScore": 0.7044787275849383,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.141013,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9884835504371335,
+      "timestamp": "2025-05-24T15:55:49.071718"
+    },
+    {
+      "experiment_id": 5,
+      "parameters": {
+        "n_components": 30,
+        "anomaly_threshold": 1.5
+      },
+      "config": {
+        "componentCount": 30,
+        "anomalyThreshold": 1.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "44373159-add2-45a0-97c4-78f92740885a",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9579719813208806,
+          "precision": 0.0013032145960034753,
+          "recall": 0.030612244897959183,
+          "f1Score": 0.0025,
+          "auc": 0.6640444655633779,
+          "aucpr": 0.003046769170739768
+        },
+        "confusionMatrix": {
+          "truePositive": 3,
+          "trueNegative": 54565,
+          "falsePositive": 2299,
+          "falseNegative": 95
+        },
+        "extendedMetrics": {
+          "specificity": 0.9595702025886326,
+          "sensitivity": 0.030612244897959183,
+          "balancedAccuracy": 0.4950912237432959,
+          "matthewsCorrCoef": -0.0020660817452792268
+        },
+        "performanceSummary": {
+          "overallScore": 0.5415054822947528,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "D"
+        },
+        "trainingTime": 10800.140139,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n",
+          "Model karma\u015f\u0131kl\u0131\u011f\u0131n\u0131 art\u0131r\u0131n veya ensemble y\u00f6ntemleri deneyin"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9579719813208806,
+      "timestamp": "2025-05-24T15:55:53.973891"
+    },
+    {
+      "experiment_id": 6,
+      "parameters": {
+        "n_components": 15,
+        "anomaly_threshold": 2.5
+      },
+      "config": {
+        "componentCount": 15,
+        "anomalyThreshold": 2.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "d4994c68-8ffc-47a1-a793-14939341b250",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 61,
+          "trueNegative": 56540,
+          "falsePositive": 324,
+          "falseNegative": 37
+        },
+        "extendedMetrics": {
+          "specificity": 0.9943021947101857,
+          "sensitivity": 0.6224489795918368,
+          "balancedAccuracy": 0.8083755871510112,
+          "matthewsCorrCoef": 0.3119546068946014
+        },
+        "performanceSummary": {
+          "overallScore": 0.7316764677636458,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.140975,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9936624416277519,
+      "timestamp": "2025-05-24T15:55:58.191799"
+    },
+    {
+      "experiment_id": 7,
+      "parameters": {
+        "n_components": 20,
+        "anomaly_threshold": 2.0
+      },
+      "config": {
+        "componentCount": 20,
+        "anomalyThreshold": 2.0,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "d757cdf9-a908-43ab-a072-8017a03ea076",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9932059969804431,
+          "precision": 0.15012106537530268,
+          "recall": 0.6326530612244898,
+          "f1Score": 0.2426614481409002,
+          "auc": 0.9558195781126182,
+          "aucpr": 0.27136259790688727
+        },
+        "confusionMatrix": {
+          "truePositive": 62,
+          "trueNegative": 56513,
+          "falsePositive": 351,
+          "falseNegative": 36
+        },
+        "extendedMetrics": {
+          "specificity": 0.9938273776027012,
+          "sensitivity": 0.6326530612244898,
+          "balancedAccuracy": 0.8132402194135955,
+          "matthewsCorrCoef": 0.3060213773943938
+        },
+        "performanceSummary": {
+          "overallScore": 0.7305623410779871,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.139676,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9932059969804431,
+      "timestamp": "2025-05-24T15:56:02.554559"
+    },
+    {
+      "experiment_id": 8,
+      "parameters": {
+        "n_components": 15,
+        "anomaly_threshold": 3.0
+      },
+      "config": {
+        "componentCount": 15,
+        "anomalyThreshold": 3.0,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "7510b1e5-159a-4dd4-a71f-0c0aacde3309",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9949088866261718,
+          "precision": 0.18831168831168832,
+          "recall": 0.5918367346938775,
+          "f1Score": 0.28571428571428575,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 58,
+          "trueNegative": 56614,
+          "falsePositive": 250,
+          "falseNegative": 40
+        },
+        "extendedMetrics": {
+          "specificity": 0.9956035453010692,
+          "sensitivity": 0.5918367346938775,
+          "balancedAccuracy": 0.7937201399974734,
+          "matthewsCorrCoef": 0.33197456901217837
+        },
+        "performanceSummary": {
+          "overallScore": 0.7431340474284055,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.135525,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9949088866261718,
+      "timestamp": "2025-05-24T15:56:06.848690"
+    },
+    {
+      "experiment_id": 9,
+      "parameters": {
+        "n_components": 10,
+        "anomaly_threshold": 2.0
+      },
+      "config": {
+        "componentCount": 10,
+        "anomalyThreshold": 2.0,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "72d1f6e9-6094-47f1-8882-a70d2909d8cc",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.991309996137776,
+          "precision": 0.12045889101338432,
+          "recall": 0.6428571428571429,
+          "f1Score": 0.20289855072463767,
+          "auc": 0.9553323791531244,
+          "aucpr": 0.22135747616111323
+        },
+        "confusionMatrix": {
+          "truePositive": 63,
+          "trueNegative": 56404,
+          "falsePositive": 460,
+          "falseNegative": 35
+        },
+        "extendedMetrics": {
+          "specificity": 0.9919105233539673,
+          "sensitivity": 0.6428571428571429,
+          "balancedAccuracy": 0.8173838331055552,
+          "matthewsCorrCoef": 0.2758074785400105
+        },
+        "performanceSummary": {
+          "overallScore": 0.7165136420051793,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.14197,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.991309996137776,
+      "timestamp": "2025-05-24T15:56:11.153901"
+    },
+    {
+      "experiment_id": 10,
+      "parameters": {
+        "n_components": 20,
+        "anomaly_threshold": 2.5
+      },
+      "config": {
+        "componentCount": 20,
+        "anomalyThreshold": 2.5,
+        "scaleFeatures": true,
+        "randomState": 42
+      },
+      "training_result": {
+        "modelId": "6c29f4ed-2daa-4c85-9295-6f8cb7b836d8",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9947508865559496,
+          "precision": 0.1829652996845426,
+          "recall": 0.5918367346938775,
+          "f1Score": 0.27951807228915665,
+          "auc": 0.9558195781126182,
+          "aucpr": 0.27136259790688727
+        },
+        "confusionMatrix": {
+          "truePositive": 58,
+          "trueNegative": 56605,
+          "falsePositive": 259,
+          "falseNegative": 40
+        },
+        "extendedMetrics": {
+          "specificity": 0.9954452729319077,
+          "sensitivity": 0.5918367346938775,
+          "balancedAccuracy": 0.7936410038128926,
+          "matthewsCorrCoef": 0.32716588751488457
+        },
+        "performanceSummary": {
+          "overallScore": 0.7433628456525748,
+          "isGoodModel": false,
+          "primaryWeakness": "Y\u00fcksek False Positive oran\u0131 - Precision d\u00fc\u015f\u00fck",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.14244,
+        "recommendations": [
+          "Class weights ayarlar\u0131n\u0131 g\u00f6zden ge\u00e7irin",
+          "Fraud s\u0131n\u0131f\u0131 i\u00e7in daha fazla \u00f6zellik m\u00fchendisli\u011fi yap\u0131n"
+        ]
+      },
+      "actual_model_name": "CreditCard_AnomalyDetection_PCA_20250524",
+      "score": 0.9947508865559496,
+      "timestamp": "2025-05-24T15:56:15.391200"
+    }
+  ],
+  "timestamp": "2025-05-24T15:56:17.397025",
+  "parameter_importance": {
+    "anomaly_threshold": 0.5866190431155744,
+    "n_components": 0.34179025715819106
+  }
+}

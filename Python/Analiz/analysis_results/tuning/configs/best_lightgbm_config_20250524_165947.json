@@ -1,0 +1,19 @@
+{
+  "numberOfLeaves": 64,
+  "minDataInLeaf": 20,
+  "learningRate": 0.01,
+  "numberOfTrees": 1500,
+  "featureFraction": 0.9,
+  "baggingFraction": 0.9,
+  "baggingFrequency": 5,
+  "l1Regularization": 0.1,
+  "l2Regularization": 0.01,
+  "earlyStoppingRound": 100,
+  "minGainToSplit": 0.0005,
+  "useClassWeights": true,
+  "classWeights": {
+    "0": 1.0,
+    "1": 50.0
+  },
+  "predictionThreshold": 0.5
+}

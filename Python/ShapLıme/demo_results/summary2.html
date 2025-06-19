@@ -1,0 +1,5468 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fraud Detection Analiz Raporu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background-color: #f8f9fa; }
+.container { max-width: 1200px; margin: 2rem auto; }
+.card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+.card-header { background-color: #fff; border-bottom: 2px solid #f0f0f0; border-radius: 15px 15px 0 0 !important; padding: 1.5rem; }
+.card-body { padding: 1.5rem; }
+.transaction-id { font-family: monospace; background: #f8f9fa; padding: 0.5rem; border-radius: 5px; }
+.metric-card { background: #fff; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.metric-value { font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; }
+.metric-label { color: #6c757d; font-size: 0.9rem; }
+.fraud { color: #dc3545; }
+.normal { color: #198754; }
+.risk { font-weight: 600; }
+.critical { color: #dc3545; }
+.high { color: #fd7e14; }
+.medium { color: #ffc107; }
+.low { color: #20c997; }
+.insight-card { background: #fff; border-left: 4px solid #0d6efd; padding: 1rem; margin: 1rem 0; border-radius: 0 10px 10px 0; }
+.chart-container { height: 300px; margin: 1rem 0; }
+.progress { height: 0.8rem; }
+.progress-bar { transition: width 1s ease-in-out; }
+.badge { font-size: 0.9rem; padding: 0.5rem 1rem; }
+.summary-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.summary-stat { text-align: center; padding: 1rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.summary-stat-value { font-size: 1.8rem; font-weight: bold; margin: 0.5rem 0; }
+.summary-stat-label { color: #6c757d; font-size: 0.9rem; }
+@media print {
+  .no-print { display: none; }
+  .card { box-shadow: none; border: 1px solid #dee2e6; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="text-center mb-4">
+<h1 class="display-4">Fraud Detection Analiz Raporu</h1>
+<p class="lead text-muted">Transaction Analizi ve Risk Değerlendirmesi</p>
+<p class="text-muted">Oluşturulma Tarihi: 25.05.2025 20:45:16</p>
+</div>
+<div class="summary-stats">
+<div class="summary-stat">
+<div class="summary-stat-label">Toplam İşlem</div>
+<div class="summary-stat-value">100</div>
+</div>
+<div class="summary-stat">
+<div class="summary-stat-label">Şüpheli İşlem</div>
+<div class="summary-stat-value fraud">45</div>
+</div>
+<div class="summary-stat">
+<div class="summary-stat-label">Ortalama Risk</div>
+<div class="summary-stat-value">50.7%</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 48ecb977-c63c-4d61-8c49-99c71a38a36a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$99,933.04</div>
+<div class="metric-label">Merchant: MERCHANT_043</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 59.07274138946236%" 
+aria-valuenow="59.07274138946236" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">59.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5907</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 15cd3aa6-b6b3-41dc-8872-a00b4631dcd9</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$17,360.19</div>
+<div class="metric-label">Merchant: MERCHANT_053</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.35965645246684%" 
+aria-valuenow="42.35965645246684" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4236</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 12efd151-42ac-449f-a69c-3e0c22518513</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$55,157.32</div>
+<div class="metric-label">Merchant: MERCHANT_056</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 62.712097290899514%" 
+aria-valuenow="62.712097290899514" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">62.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6271</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: a65bae61-6895-44a6-8e4f-f2b67dbd9ef0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$78,087.06</div>
+<div class="metric-label">Merchant: MERCHANT_042</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.86718227392134%" 
+aria-valuenow="64.86718227392134" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6487</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 4853d685-f484-4527-a72f-780b0a8e9174</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$18,989.63</div>
+<div class="metric-label">Merchant: MERCHANT_011</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.34918267100472%" 
+aria-valuenow="43.34918267100472" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4335</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ef239539-0c1c-40c0-b2d6-f10607c3477d</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$29,170.96</div>
+<div class="metric-label">Merchant: MERCHANT_008</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 41.38582541617442%" 
+aria-valuenow="41.38582541617442" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">41.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4139</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 974c742f-1c48-46e2-b5b1-821369f93005</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$91,613.51</div>
+<div class="metric-label">Merchant: MERCHANT_082</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.91521542290137%" 
+aria-valuenow="64.91521542290137" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6492</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 4b035c5d-9c9c-4b72-b29e-207ae89b3005</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$6,349.95</div>
+<div class="metric-label">Merchant: MERCHANT_094</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 29.914579514979874%" 
+aria-valuenow="29.914579514979874" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">29.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2991</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 6a74329d-5af8-441c-9e5f-c030f2443435</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$17,703.57</div>
+<div class="metric-label">Merchant: MERCHANT_035</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 47.62521997296187%" 
+aria-valuenow="47.62521997296187" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">47.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4763</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3a8fd148-8d3b-4ae9-b922-8587aa888774</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$10,899.32</div>
+<div class="metric-label">Merchant: MERCHANT_022</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 48.83866754773917%" 
+aria-valuenow="48.83866754773917" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">48.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4884</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: fc2f8769-5342-49be-b4ab-f3acf06a77b0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$50,419.75</div>
+<div class="metric-label">Merchant: MERCHANT_059</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 62.062943340581626%" 
+aria-valuenow="62.062943340581626" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">62.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6206</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 6db496f7-2422-4d61-98ab-d879a94e0901</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$4,871.37</div>
+<div class="metric-label">Merchant: MERCHANT_058</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 21.565918323337073%" 
+aria-valuenow="21.565918323337073" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">21.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2157</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: aa23d83a-e075-4070-a71f-805e43d64089</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$4,644.93</div>
+<div class="metric-label">Merchant: MERCHANT_010</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 21.42621766817344%" 
+aria-valuenow="21.42621766817344" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">21.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2143</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3c41e122-3a5a-4362-b21c-8a9403aedca0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$22,995.58</div>
+<div class="metric-label">Merchant: MERCHANT_027</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.77185713287922%" 
+aria-valuenow="44.77185713287922" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">44.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4477</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: a3bd1c20-2ab7-47e6-bd93-385e7cad91b0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$25,378.65</div>
+<div class="metric-label">Merchant: MERCHANT_079</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.50088189513822%" 
+aria-valuenow="43.50088189513822" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4350</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 5bef876d-3060-4102-9d6f-655ee84acd36</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$97,042.88</div>
+<div class="metric-label">Merchant: MERCHANT_049</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.40550240499324%" 
+aria-valuenow="64.40550240499324" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6441</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 13ee930f-aca4-44b3-b9b6-53a81ab73e32</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$13,168.09</div>
+<div class="metric-label">Merchant: MERCHANT_037</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.63783869854479%" 
+aria-valuenow="42.63783869854479" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4264</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: e51eb148-fad8-47d7-a181-de5a42448393</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$3,861.01</div>
+<div class="metric-label">Merchant: MERCHANT_088</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 28.01082442186092%" 
+aria-valuenow="28.01082442186092" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">28.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2801</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ba77f52c-a536-4d8b-b233-f77247126aef</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$92,286.75</div>
+<div class="metric-label">Merchant: MERCHANT_050</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 58.72930913755877%" 
+aria-valuenow="58.72930913755877" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">58.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5873</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: acac487f-bee0-469f-b753-1d646025092a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$82,739.72</div>
+<div class="metric-label">Merchant: MERCHANT_046</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 59.524846162388044%" 
+aria-valuenow="59.524846162388044" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">59.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5952</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3dd35744-db68-445a-83e2-f1daa97370b3</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$97,516.25</div>
+<div class="metric-label">Merchant: MERCHANT_091</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.236466209841154%" 
+aria-valuenow="63.236466209841154" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6324</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 07aef2d8-3bea-44b7-8dbc-d080f16356ae</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$32,217.07</div>
+<div class="metric-label">Merchant: MERCHANT_010</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 47.498488131388164%" 
+aria-valuenow="47.498488131388164" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">47.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4750</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 30c017e1-03e8-4b4e-a6fb-c64f0b92f132</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$38,208.37</div>
+<div class="metric-label">Merchant: MERCHANT_091</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.27576485935267%" 
+aria-valuenow="42.27576485935267" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4228</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 07669e68-b1f4-4c0d-afe0-96e4266056e5</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$33,734.84</div>
+<div class="metric-label">Merchant: MERCHANT_081</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 45.157297489114995%" 
+aria-valuenow="45.157297489114995" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4516</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 056a870e-1813-4c73-81cc-d4bcdc6d034d</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$69,055.76</div>
+<div class="metric-label">Merchant: MERCHANT_092</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 65.57872226948986%" 
+aria-valuenow="65.57872226948986" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">65.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6558</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 27d4fac9-c448-44b4-aa22-7c01d6b89ec7</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$83,244.82</div>
+<div class="metric-label">Merchant: MERCHANT_012</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 65.55137988948164%" 
+aria-valuenow="65.55137988948164" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">65.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6555</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3a56992f-0c83-48f7-9c3d-3f97d7d52132</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$85,330.18</div>
+<div class="metric-label">Merchant: MERCHANT_079</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.589773444218%" 
+aria-valuenow="66.589773444218" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6659</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 75a5d2d9-08bc-4c2f-ba4e-2b38dfceb96e</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$19,972.80</div>
+<div class="metric-label">Merchant: MERCHANT_021</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 47.45019599697121%" 
+aria-valuenow="47.45019599697121" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">47.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4745</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b8639d28-c336-40fb-b3a5-d0272a664bea</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$29,229.57</div>
+<div class="metric-label">Merchant: MERCHANT_045</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.48008611634217%" 
+aria-valuenow="42.48008611634217" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4248</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3c777218-3752-4dac-bb4c-12177c4177c9</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$596.47</div>
+<div class="metric-label">Merchant: MERCHANT_081</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 15.322407971234503%" 
+aria-valuenow="15.322407971234503" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">15.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.1532</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 27395640-b2e6-48cf-81a6-c0279ffeb6ef</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$22,659.56</div>
+<div class="metric-label">Merchant: MERCHANT_077</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 48.10128961692911%" 
+aria-valuenow="48.10128961692911" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">48.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4810</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b7180975-ed76-4111-bb65-db8d8e3970e4</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$14,950.23</div>
+<div class="metric-label">Merchant: MERCHANT_065</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 46.2475988702265%" 
+aria-valuenow="46.2475988702265" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">46.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4625</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 6e2c34cb-2e37-4fbe-a6c2-167907317c4a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$79,231.96</div>
+<div class="metric-label">Merchant: MERCHANT_013</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.97403898134468%" 
+aria-valuenow="66.97403898134468" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">67.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6697</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 38d1b969-2636-4e83-9632-3e7f314b4f9e</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$95,488.00</div>
+<div class="metric-label">Merchant: MERCHANT_084</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 60.02226723210635%" 
+aria-valuenow="60.02226723210635" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">60.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6002</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 52e88891-fafc-43e0-82b2-a34df1a6af14</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$37,037.09</div>
+<div class="metric-label">Merchant: MERCHANT_012</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 48.076002458109485%" 
+aria-valuenow="48.076002458109485" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">48.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4808</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 71e8d802-6c27-4985-a333-487c0f484c20</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$26,446.88</div>
+<div class="metric-label">Merchant: MERCHANT_082</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 39.67132202467943%" 
+aria-valuenow="39.67132202467943" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">39.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.3967</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: cfbe33a4-ca50-4e42-b6ba-d0f1c5f0a9d1</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$23,821.75</div>
+<div class="metric-label">Merchant: MERCHANT_093</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.050614559543504%" 
+aria-valuenow="42.050614559543504" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4205</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 321637cd-14ea-40ae-9086-fde5dec030b0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$16,387.05</div>
+<div class="metric-label">Merchant: MERCHANT_083</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 45.91636804362264%" 
+aria-valuenow="45.91636804362264" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4592</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 7e7d1e55-d2bc-43aa-b7af-d79bbf6c2085</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$47,954.79</div>
+<div class="metric-label">Merchant: MERCHANT_048</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.77247106413558%" 
+aria-valuenow="44.77247106413558" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">44.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4477</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: eeadca1e-dd5a-4dd8-86cc-07658243e862</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$69,391.49</div>
+<div class="metric-label">Merchant: MERCHANT_044</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.8314819210058%" 
+aria-valuenow="66.8314819210058" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6683</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b91cfe52-e4b2-4b98-b25f-37beff886709</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$56,891.57</div>
+<div class="metric-label">Merchant: MERCHANT_045</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.27472007591354%" 
+aria-valuenow="66.27472007591354" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6627</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: c08a51bf-7c23-42b0-96ce-51f9cbb6733d</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$89,759.96</div>
+<div class="metric-label">Merchant: MERCHANT_096</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.07798504900735%" 
+aria-valuenow="66.07798504900735" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6608</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: bc039a02-80e1-4d1a-8097-046a2a325f48</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$67,267.88</div>
+<div class="metric-label">Merchant: MERCHANT_043</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 61.02173187920991%" 
+aria-valuenow="61.02173187920991" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">61.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6102</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 9c451a50-4335-43b9-ada5-5b20e6a0b115</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$29,909.83</div>
+<div class="metric-label">Merchant: MERCHANT_001</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.372157687976994%" 
+aria-valuenow="42.372157687976994" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4237</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 057957aa-3e37-423c-9a10-2dff785e4e54</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$99,599.08</div>
+<div class="metric-label">Merchant: MERCHANT_085</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 62.97886890985143%" 
+aria-valuenow="62.97886890985143" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6298</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b3dda4da-2b81-4e66-a623-ab9ed9efbaec</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$47,292.92</div>
+<div class="metric-label">Merchant: MERCHANT_031</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 45.114844836234646%" 
+aria-valuenow="45.114844836234646" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4511</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 0f8ea2af-a32f-4c2c-a8cc-ec0fce4c53a6</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$91,092.89</div>
+<div class="metric-label">Merchant: MERCHANT_058</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 61.59599912628077%" 
+aria-valuenow="61.59599912628077" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">61.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6160</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 27400002-d0ff-4acf-b706-4c9c38b607cf</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$90,685.01</div>
+<div class="metric-label">Merchant: MERCHANT_025</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.82125778372829%" 
+aria-valuenow="66.82125778372829" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6682</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 63414234-e6ad-433c-afa0-683b00c73706</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$24,251.79</div>
+<div class="metric-label">Merchant: MERCHANT_009</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.16989261133224%" 
+aria-valuenow="43.16989261133224" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4317</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 87f66c04-03ef-4f71-9675-7a9a61fdc96a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$84,750.62</div>
+<div class="metric-label">Merchant: MERCHANT_004</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.12871789967016%" 
+aria-valuenow="64.12871789967016" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6413</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 241e2a12-c8ef-4aa7-a274-b38f4a710105</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$54,275.72</div>
+<div class="metric-label">Merchant: MERCHANT_038</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.096451652830154%" 
+aria-valuenow="63.096451652830154" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6310</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: d3a2130a-58c8-4433-ac85-772b5c397b64</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$45,771.45</div>
+<div class="metric-label">Merchant: MERCHANT_028</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.47768143466501%" 
+aria-valuenow="43.47768143466501" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4348</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 08d7eb3b-86f6-4d7f-a209-28031f1ea051</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$25,302.16</div>
+<div class="metric-label">Merchant: MERCHANT_070</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 47.00871966431116%" 
+aria-valuenow="47.00871966431116" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">47.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4701</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: c037897b-d612-43c5-9575-314342ec1953</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$28,262.95</div>
+<div class="metric-label">Merchant: MERCHANT_009</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 41.916513596404755%" 
+aria-valuenow="41.916513596404755" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">41.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4192</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ca4a856c-c05e-4294-82fd-5913b8439d0c</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$83,237.90</div>
+<div class="metric-label">Merchant: MERCHANT_072</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 61.62720131486531%" 
+aria-valuenow="61.62720131486531" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">61.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6163</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 9714211d-3064-4a42-b01a-c6db0ae78737</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$35,456.45</div>
+<div class="metric-label">Merchant: MERCHANT_039</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.577548257910315%" 
+aria-valuenow="44.577548257910315" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">44.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4458</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ea92f610-ca7f-44c4-b1fb-caa53707e338</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$65,846.53</div>
+<div class="metric-label">Merchant: MERCHANT_023</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.87951214828497%" 
+aria-valuenow="64.87951214828497" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6488</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b0df788c-dc61-434f-9414-da64c8d5b947</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$32,373.89</div>
+<div class="metric-label">Merchant: MERCHANT_088</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 45.403350925160666%" 
+aria-valuenow="45.403350925160666" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4540</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 6e84fd1b-98d8-43b4-8309-0c433995a315</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$67,461.27</div>
+<div class="metric-label">Merchant: MERCHANT_079</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.15783803563556%" 
+aria-valuenow="66.15783803563556" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6616</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 7940c235-c4f5-4d9c-a344-d83f28ff0e9b</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$5,540.86</div>
+<div class="metric-label">Merchant: MERCHANT_080</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 29.486027140343733%" 
+aria-valuenow="29.486027140343733" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">29.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2949</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: eaab3934-1e5c-4d7c-b5eb-ab19f108d5fb</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$30,680.93</div>
+<div class="metric-label">Merchant: MERCHANT_085</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 41.516788715469524%" 
+aria-valuenow="41.516788715469524" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">41.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4152</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ba2f2e50-0049-489d-aa5b-fa19b7c45f70</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$35,336.43</div>
+<div class="metric-label">Merchant: MERCHANT_037</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 48.95729001497361%" 
+aria-valuenow="48.95729001497361" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">49.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4896</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 1ce8f58f-b8df-4f49-b4fe-fb45e43a6e26</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$71,596.16</div>
+<div class="metric-label">Merchant: MERCHANT_100</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 61.37657009504359%" 
+aria-valuenow="61.37657009504359" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">61.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6138</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 1362690f-26be-4050-be46-51fb29593548</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$72,515.60</div>
+<div class="metric-label">Merchant: MERCHANT_076</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 62.7917589860307%" 
+aria-valuenow="62.7917589860307" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">62.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6279</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b0329ab1-8dde-4456-a1b9-6c58a523297d</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$18,240.58</div>
+<div class="metric-label">Merchant: MERCHANT_069</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 46.564264200825015%" 
+aria-valuenow="46.564264200825015" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">46.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4656</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: bc4903e2-39b8-467f-8e61-37981285e0ea</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$99,132.74</div>
+<div class="metric-label">Merchant: MERCHANT_086</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 66.24037749481708%" 
+aria-valuenow="66.24037749481708" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">66.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6624</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: ec0a0b19-1ae3-46d5-a5a7-fa46faa975b3</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$75,331.18</div>
+<div class="metric-label">Merchant: MERCHANT_049</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 62.049959931361485%" 
+aria-valuenow="62.049959931361485" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">62.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6205</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: e830c17f-fdc6-4180-aa79-bca0b5730ec3</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$58,294.03</div>
+<div class="metric-label">Merchant: MERCHANT_021</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 60.252953854085526%" 
+aria-valuenow="60.252953854085526" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">60.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6025</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 64973021-459a-40df-814f-037455f9863e</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$10,476.85</div>
+<div class="metric-label">Merchant: MERCHANT_087</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.13392960561748%" 
+aria-valuenow="43.13392960561748" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4313</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 01e9e029-21d9-461c-85d7-ff2ffee472e9</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$87,745.58</div>
+<div class="metric-label">Merchant: MERCHANT_087</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.669767958831095%" 
+aria-valuenow="63.669767958831095" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6367</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: edfc8cea-8b41-425a-a6a2-1cf3d537f070</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$96,367.22</div>
+<div class="metric-label">Merchant: MERCHANT_040</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 58.40559900427175%" 
+aria-valuenow="58.40559900427175" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">58.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5841</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 8aa07728-df56-4edc-a259-b13290d5f496</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$87,671.69</div>
+<div class="metric-label">Merchant: MERCHANT_031</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 59.9022558867096%" 
+aria-valuenow="59.9022558867096" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">59.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5990</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 5dd17284-da5c-4b4c-8799-d63bd1ecb772</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$1,598.98</div>
+<div class="metric-label">Merchant: MERCHANT_027</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 25.46045746526133%" 
+aria-valuenow="25.46045746526133" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">25.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2546</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 4220faac-bd24-4094-b0a0-0885cbaf6dc9</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$11,165.25</div>
+<div class="metric-label">Merchant: MERCHANT_091</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 40.39582866557516%" 
+aria-valuenow="40.39582866557516" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">40.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4040</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 668223d8-cede-4e9c-a5bc-eb7b82afa578</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$63,280.92</div>
+<div class="metric-label">Merchant: MERCHANT_072</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 65.39653040967666%" 
+aria-valuenow="65.39653040967666" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">65.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6540</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 0e35c841-8a81-441e-a189-8699adf1779e</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$81,718.05</div>
+<div class="metric-label">Merchant: MERCHANT_097</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.81080189748944%" 
+aria-valuenow="63.81080189748944" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6381</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 0d205e5d-1b06-432a-b6f2-97da367cc16f</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$5,806.76</div>
+<div class="metric-label">Merchant: MERCHANT_034</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 22.5701764443204%" 
+aria-valuenow="22.5701764443204" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">22.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2257</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: af4cf28f-92dc-46dd-9aeb-1a32e2bf37f8</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$38,155.52</div>
+<div class="metric-label">Merchant: MERCHANT_050</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 43.17251457926242%" 
+aria-valuenow="43.17251457926242" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4317</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 161b5f24-b50d-4a1c-b3ff-8edad7294fb4</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$97,656.19</div>
+<div class="metric-label">Merchant: MERCHANT_015</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 58.909582363982615%" 
+aria-valuenow="58.909582363982615" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">58.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5891</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 758a868c-a0d4-43a9-b370-412a76dda769</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$80,740.39</div>
+<div class="metric-label">Merchant: MERCHANT_085</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 64.4987881372645%" 
+aria-valuenow="64.4987881372645" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">64.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6450</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 84c68642-c70d-445b-a3ef-d60d76d5c0b3</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$61,472.94</div>
+<div class="metric-label">Merchant: MERCHANT_078</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 59.19800433565867%" 
+aria-valuenow="59.19800433565867" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">59.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5920</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 2eb2c530-cad2-49a9-a3c3-495519f782ac</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$6,103.14</div>
+<div class="metric-label">Merchant: MERCHANT_015</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 22.732373574057117%" 
+aria-valuenow="22.732373574057117" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">22.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2273</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: b5e79516-3e60-412a-bfb1-fe195811fb0a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$51,528.55</div>
+<div class="metric-label">Merchant: MERCHANT_001</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.45271066334741%" 
+aria-valuenow="63.45271066334741" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.5%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6345</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: dd6285a7-1143-4653-977b-4864283c441f</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$52,234.14</div>
+<div class="metric-label">Merchant: MERCHANT_084</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 67.9454526027634%" 
+aria-valuenow="67.9454526027634" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">67.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6795</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 76a46727-9107-4aaf-a7f7-55301f1c3837</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$17,244.78</div>
+<div class="metric-label">Merchant: MERCHANT_037</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.13811479738975%" 
+aria-valuenow="44.13811479738975" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">44.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4414</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: f6976b7e-c13b-4ed4-80f4-28ef93f471d8</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$19,624.07</div>
+<div class="metric-label">Merchant: MERCHANT_079</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 46.1232057119915%" 
+aria-valuenow="46.1232057119915" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">46.1%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4612</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 34c1cb9c-78da-4f7b-9e93-bee8c547794f</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$5,424.60</div>
+<div class="metric-label">Merchant: MERCHANT_069</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 25.55022110720482%" 
+aria-valuenow="25.55022110720482" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">25.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2555</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 7e4ebe29-9ee4-422c-afd2-c405c4a8f741</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$65,116.75</div>
+<div class="metric-label">Merchant: MERCHANT_032</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 58.60382223153042%" 
+aria-valuenow="58.60382223153042" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">58.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5860</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 970a9199-0473-4e54-ba1d-120d568a9498</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$25,153.04</div>
+<div class="metric-label">Merchant: MERCHANT_085</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 45.20469367299958%" 
+aria-valuenow="45.20469367299958" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4520</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 92f2feaa-0b13-479a-8c71-ea9a894235cb</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$11,000.64</div>
+<div class="metric-label">Merchant: MERCHANT_093</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 48.90285596992533%" 
+aria-valuenow="48.90285596992533" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">48.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4890</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 31277713-acb9-435c-bc70-726159b60c5a</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$28,748.31</div>
+<div class="metric-label">Merchant: MERCHANT_095</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.268955657383934%" 
+aria-valuenow="44.268955657383934" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">44.3%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4427</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 4bf15f31-cec4-4610-9ef8-429a7a85b003</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$48,043.69</div>
+<div class="metric-label">Merchant: MERCHANT_032</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 47.63276179489864%" 
+aria-valuenow="47.63276179489864" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">47.6%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4763</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 60cc7726-67ad-4776-a1f6-24ae1387dabc</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$26,345.14</div>
+<div class="metric-label">Merchant: MERCHANT_022</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.99058637295893%" 
+aria-valuenow="42.99058637295893" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">43.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4299</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 1757f804-3fc2-4814-8f10-6421ccb56803</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$45,741.75</div>
+<div class="metric-label">Merchant: MERCHANT_040</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 42.224846104150885%" 
+aria-valuenow="42.224846104150885" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">42.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4222</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 16179656-f6b2-4057-8106-cef8718fda74</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$64,361.87</div>
+<div class="metric-label">Merchant: MERCHANT_029</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 67.8856653373921%" 
+aria-valuenow="67.8856653373921" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">67.9%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6789</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: e361db3f-72da-41c0-b837-a1fe907933f1</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$5,664.12</div>
+<div class="metric-label">Merchant: MERCHANT_076</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 20.677407429967936%" 
+aria-valuenow="20.677407429967936" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">20.7%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.2068</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 3b464b4c-f43e-443f-ba2d-fe87ff3971e0</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$96,966.37</div>
+<div class="metric-label">Merchant: MERCHANT_072</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 58.21092376017095%" 
+aria-valuenow="58.21092376017095" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">58.2%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.5821</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: c0e70b2d-3317-4186-ad78-a45f266ed31e</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$73,801.10</div>
+<div class="metric-label">Merchant: MERCHANT_087</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 63.43870859212258%" 
+aria-valuenow="63.43870859212258" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">63.4%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.6344</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> İNCELE</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 1da34e28-c395-4d15-967f-7a7b5f81fed8</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$48,631.39</div>
+<div class="metric-label">Merchant: MERCHANT_003</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 44.999849355335%" 
+aria-valuenow="44.999849355335" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">45.0%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4500</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="card">
+<div class="card-header">
+<h3 class="mb-0">Transaction Analizi</h3>
+<div class="transaction-id mt-2">ID: 9edaa049-0bb9-4608-8e24-f70e7fecbcdc</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">İşlem Tutarı</div>
+<div class="metric-value">$21,188.11</div>
+<div class="metric-label">Merchant: MERCHANT_071</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="metric-card">
+<div class="metric-label">Risk Seviyesi</div>
+<div class="metric-value risklevel.medium">RiskLevel.MEDIUM</div>
+<div class="progress mt-2">
+<div class="progress-bar bg-risklevel.medium" role="progressbar" style="width: 46.788967868471026%" 
+aria-valuenow="46.788967868471026" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-4">
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Fraud Olasılığı</div>
+<div class="metric-value normal">46.8%</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Risk Skoru</div>
+<div class="metric-value">0.4679</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="metric-card">
+<div class="metric-label">Anomali Skoru</div>
+<div class="metric-value">0.2000</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h4>Karar: <span class="badge bg-normal">DecisionType.REVIEW_REQUIRED</span></h4>
+</div>
+<div class="insight-card mt-4">
+<h4>İş Analizi</h4>
+<p><strong>Karar:</strong> ONAYLA</p>
+<p><strong>Risk Seviyesi:</strong> N/A</p>
+</div>
+</div></div>
+<div class="text-center mt-4 mb-4 text-muted">
+<p>Bu rapor otomatik olarak oluşturulmuştur.</p>
+<p>Fraud Detection System v2.0</p>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body></html>

@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Analiz Raporu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2, h3 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; }
+        tr:hover { background-color: #f5f5f5; }
+        .success { background-color: #d4edda; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .error { background-color: #f8d7da; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .warning { background-color: #fff3cd; padding: 15px; border-radius: 4px; margin: 10px 0; }
+        .chart-container { margin: 20px 0; text-align: center; }
+        .chart-container img { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .timestamp { color: #6c757d; font-size: 0.9em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Model Analiz Raporu</h1>
+
+        <h2>🔄 Model Karşılaştırması</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Genel Skor</th>
+                <th>Not</th>
+                <th>Doğruluk</th>
+                <th>Kesinlik</th>
+                <th>Duyarlılık</th>
+                <th>F1-Skoru</th>
+                <th>AUC</th>
+            </tr>
+
+            <tr>
+                <td>CreditCard_FraudDetection_LightGBM_20250524</td>
+                <td>0.9390</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.8454</td>
+                <td>0.8367</td>
+                <td>0.8410</td>
+                <td>0.9767</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_AnomalyDetection_PCA_20250524</td>
+                <td>0.7317</td>
+                <td>B</td>
+                <td>0.9937</td>
+                <td>0.1584</td>
+                <td>0.6224</td>
+                <td>0.2526</td>
+                <td>0.9488</td>
+            </tr>
+
+            <tr>
+                <td>CreditCard_Ensemble_20250524</td>
+                <td>0.9355</td>
+                <td>A+</td>
+                <td>0.9995</td>
+                <td>0.9167</td>
+                <td>0.7857</td>
+                <td>0.8462</td>
+                <td>0.9609</td>
+            </tr>
+
+        </table>
+
+        <div class="success">
+            <h3>🏆 En İyi Model: CreditCard_FraudDetection_LightGBM_20250524</h3>
+            <p>Genel Skor: 0.9390</p>
+            <p>Öneriler:</p>
+            <ul>
+                <li>En iyi performans gösteren modeli production ortamında kullanın</li>
+                <li>Diğer modelleri yedek veya özel durumlar için saklayın</li>
+                <li>Düzenli olarak model performansını izleyin ve gerekirse yeniden eğitin</li>
+            </ul>
+        </div>
+
+        <h2>💡 Öneriler</h2>
+        <ul>
+            <li>Ensemble modelini production ortamında kullanmayı düşünün</li>
+            <li>Performans izleme sistemini kurun</li>
+        </ul>
+
+        <h2>📊 Görselleştirmeler</h2>
+
+        <h3>LightGBM_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/LightGBM_Quick_basic_metrics.png" alt="LightGBM_Quick_basic_metrics.png">
+            <img src="charts/LightGBM_Quick_confusion_matrix.png" alt="LightGBM_Quick_confusion_matrix.png">
+            <img src="charts/LightGBM_Quick_extended_metrics.png" alt="LightGBM_Quick_extended_metrics.png">
+            <img src="charts/LightGBM_Quick_roc_curve.png" alt="LightGBM_Quick_roc_curve.png">
+        </div>
+
+        <h3>PCA_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/PCA_Quick_basic_metrics.png" alt="PCA_Quick_basic_metrics.png">
+            <img src="charts/PCA_Quick_confusion_matrix.png" alt="PCA_Quick_confusion_matrix.png">
+            <img src="charts/PCA_Quick_extended_metrics.png" alt="PCA_Quick_extended_metrics.png">
+            <img src="charts/PCA_Quick_roc_curve.png" alt="PCA_Quick_roc_curve.png">
+        </div>
+
+        <h3>Ensemble_Quick Grafikleri</h3>
+        <div class="chart-container">
+            <img src="charts/Ensemble_Quick_basic_metrics.png" alt="Ensemble_Quick_basic_metrics.png">
+            <img src="charts/Ensemble_Quick_confusion_matrix.png" alt="Ensemble_Quick_confusion_matrix.png">
+            <img src="charts/Ensemble_Quick_extended_metrics.png" alt="Ensemble_Quick_extended_metrics.png">
+            <img src="charts/Ensemble_Quick_roc_curve.png" alt="Ensemble_Quick_roc_curve.png">
+        </div>
+
+        <div class="timestamp">
+            <p>Bu rapor otomatik olarak oluşturulmuştur.</p>
+            <p>Rapor Tarihi: 2025-05-24T16:40:46.896541</p>
+        </div>
+    </div>
+</body>
+</html>

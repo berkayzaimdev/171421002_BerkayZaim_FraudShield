@@ -1,0 +1,183 @@
+{
+  "timestamp": "2025-05-24T16:22:28.292026",
+  "models": {
+    "LightGBM_Quick": {
+      "training_result": {
+        "modelId": "2a6fb07f-f517-47a4-a792-95742abbf42d",
+        "modelName": "CreditCard_FraudDetection_LightGBM_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9994557775359011,
+          "precision": 0.845360824742268,
+          "recall": 0.8367346938775511,
+          "f1Score": 0.8410256410256411,
+          "auc": 0.9766523132888496,
+          "aucpr": 0.8704151858194851
+        },
+        "confusionMatrix": {
+          "truePositive": 82,
+          "trueNegative": 56849,
+          "falsePositive": 15,
+          "falseNegative": 16
+        },
+        "extendedMetrics": {
+          "specificity": 0.9997362127180641,
+          "sensitivity": 0.8367346938775511,
+          "balancedAccuracy": 0.9182354532978076,
+          "matthewsCorrCoef": 0.8407641638407611
+        },
+        "performanceSummary": {
+          "overallScore": 0.939044577283464,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.138503,
+        "recommendations": []
+      },
+      "metrics_error": "Model ismi bulunamadı",
+      "config": {
+        "type": "lightgbm",
+        "config": {
+          "numberOfLeaves": 64,
+          "minDataInLeaf": 20,
+          "learningRate": 0.01,
+          "numberOfTrees": 500,
+          "featureFraction": 0.9,
+          "baggingFraction": 0.9,
+          "baggingFrequency": 3,
+          "l1Regularization": 0.001,
+          "l2Regularization": 0.001,
+          "useClassWeights": true,
+          "classWeights": {
+            "0": 1.0,
+            "1": 50.0
+          }
+        }
+      }
+    },
+    "PCA_Quick": {
+      "training_result": {
+        "modelId": "a92108f0-8c04-42ff-a695-db965a4223b3",
+        "modelName": "CreditCard_AnomalyDetection_PCA_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9936624416277519,
+          "precision": 0.15844155844155844,
+          "recall": 0.6224489795918368,
+          "f1Score": 0.2525879917184265,
+          "auc": 0.948778969944759,
+          "aucpr": 0.2580769444322298
+        },
+        "confusionMatrix": {
+          "truePositive": 61,
+          "trueNegative": 56540,
+          "falsePositive": 324,
+          "falseNegative": 37
+        },
+        "extendedMetrics": {
+          "specificity": 0.9943021947101857,
+          "sensitivity": 0.6224489795918368,
+          "balancedAccuracy": 0.8083755871510112,
+          "matthewsCorrCoef": 0.3119546068946014
+        },
+        "performanceSummary": {
+          "overallScore": 0.7316764677636458,
+          "isGoodModel": false,
+          "primaryWeakness": "Yüksek False Positive oranı - Precision düşük",
+          "modelGrade": "B"
+        },
+        "trainingTime": 10800.142588,
+        "recommendations": [
+          "Class weights ayarlarını gözden geçirin",
+          "Fraud sınıfı için daha fazla özellik mühendisliği yapın"
+        ]
+      },
+      "metrics_error": "Model ismi bulunamadı",
+      "config": {
+        "type": "pca",
+        "config": {
+          "componentCount": 15,
+          "anomalyThreshold": 2.5,
+          "scaleFeatures": true,
+          "randomState": 42
+        }
+      }
+    },
+    "Ensemble_Quick": {
+      "training_result": {
+        "modelId": "5ae4a578-612d-4a53-ba22-1a3e46ae7d6c",
+        "modelName": "CreditCard_Ensemble_20250524",
+        "basicMetrics": {
+          "accuracy": 0.9995084442259752,
+          "precision": 0.9166666666666666,
+          "recall": 0.7857142857142857,
+          "f1Score": 0.8461538461538461,
+          "auc": 0.9608871650798755,
+          "aucpr": 0.8108563340893749
+        },
+        "confusionMatrix": {
+          "truePositive": 77,
+          "trueNegative": 56857,
+          "falsePositive": 7,
+          "falseNegative": 21
+        },
+        "extendedMetrics": {
+          "specificity": 0.9998768992684299,
+          "sensitivity": 0.7857142857142857,
+          "balancedAccuracy": 0.8927955924913578,
+          "matthewsCorrCoef": 0.848431024752505
+        },
+        "performanceSummary": {
+          "overallScore": 0.9355164851532324,
+          "isGoodModel": true,
+          "primaryWeakness": "Genel performans kabul edilebilir",
+          "modelGrade": "A+"
+        },
+        "trainingTime": 10800.135071,
+        "recommendations": []
+      },
+      "metrics_error": "Model ismi bulunamadı",
+      "config": {
+        "type": "ensemble",
+        "config": {
+          "lightgbmWeight": 0.7,
+          "pcaWeight": 0.3,
+          "threshold": 0.5,
+          "minConfidenceThreshold": 0.8,
+          "enableCrossValidation": true,
+          "crossValidationFolds": 5,
+          "combinationStrategy": "WeightedAverage",
+          "lightgbm": {
+            "numberOfLeaves": 128,
+            "minDataInLeaf": 10,
+            "learningRate": 0.005,
+            "numberOfTrees": 1000,
+            "featureFraction": 0.8,
+            "baggingFraction": 0.8,
+            "baggingFrequency": 5,
+            "l1Regularization": 0.01,
+            "l2Regularization": 0.01,
+            "earlyStoppingRound": 100,
+            "minGainToSplit": 0.0005,
+            "useClassWeights": true,
+            "classWeights": {
+              "0": 1.0,
+              "1": 75.0
+            },
+            "predictionThreshold": 0.5
+          },
+          "pca": {
+            "componentCount": 15,
+            "anomalyThreshold": 2.5,
+            "scaleFeatures": true,
+            "randomState": 42
+          }
+        }
+      }
+    }
+  },
+  "comparisons": {},
+  "recommendations": [
+    "Ensemble modelini production ortamında kullanmayı düşünün",
+    "Performans izleme sistemini kurun"
+  ]
+}

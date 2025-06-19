@@ -1,0 +1,6 @@
+@Analiz.API_HostAddress = http://localhost:5112
+
+GET {{Analiz.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
